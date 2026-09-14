@@ -25,7 +25,7 @@
 - [x] ตั้งค่า Next.js + TypeScript
 - [x] ตั้งค่า Tailwind CSS
 - [x] รัน build ของเว็บหน้าแรกในเครื่อง
-- [ ] สร้าง Git commit แรก
+- [x] สร้าง Git commit แรก
 
 ### ต้องเสร็จเมื่อ
 
