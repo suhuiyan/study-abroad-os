@@ -1,17 +1,15 @@
 # Study Abroad OS
 
-A self-service study-abroad platform for Thai students. The product helps users discover universities and scholarships, understand eligibility, manage applications, access trusted human help, connect with verified communities, and later find safer housing abroad.
+MVP สำหรับนักเรียนไทยที่ต้องการเรียนปริญญาตรีในประเทศจีน ผู้ใช้ค้นหาหลักสูตรและทุนจากมหาวิทยาลัยชุดแรก 10 แห่ง ตรวจคุณสมบัติเบื้องต้น บันทึกตัวเลือก และสร้างแผนสมัครได้ในที่เดียว
 
 ## Current phase
-Backend foundation planning. UX/UI is intentionally deferred.
+MVP implementation and source verification. The frontend, authentication, PostgreSQL schema, first catalog, eligibility checker, shortlist, and application planner are implemented.
 
 ## Core product pillars
 1. Discover — universities, programs, scholarships
 2. Decide — eligibility, matching, cost, trust
 3. Apply — journey, documents, deadlines
-4. Get Help — AI assistance and on-demand student mentors
-5. Connect — verified university/intake communities
-6. Live Abroad — visa, safer housing, arrival support
+4. Verify — official source links, review date, and source snapshots
 
 ## Start here
-Read `AGENTS.md`, `PROJECT_STATE.md`, then `docs/00-product-foundation.md` and `docs/03-prd.md`.
+Run the app from `web/` with `npm install` and `npm run dev`. Copy `.env.example` to `.env.local`, then configure `DATABASE_URL`, `BETTER_AUTH_SECRET`, and `BETTER_AUTH_URL`. Initialize the database with `npm run db:migrate`.

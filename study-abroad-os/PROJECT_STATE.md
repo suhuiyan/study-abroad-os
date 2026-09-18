@@ -1,9 +1,9 @@
 # Current Project State
 
-Updated: 2026-09-13
+Updated: 2026-09-19
 
 ## Project
-Study Abroad OS for Thai students.
+Study Abroad OS MVP for Thai students applying to undergraduate study in China.
 
 ## Vision
 Make studying abroad self-service: help Thai students go from uncertainty to a clear, trustworthy, actionable path from discovery through arrival.
@@ -30,25 +30,22 @@ Make studying abroad self-service: help Thai students go from uncertainty to a c
 - Flight booking, banking, insurance, loans
 
 ## Current phase
-Pre-build handoff and backend foundation.
+Deploying and validating the first usable MVP.
 
-## Next technical task
-Design Database Schema / ERD v0.1 for the core MVP.
+## Implemented MVP
+- Responsive Next.js application focused on China undergraduate study
+- Initial catalog covering 10 Chinese universities with official source links
+- Search and filters for city, language, and subject
+- Scholarship directory and preliminary HSK / IELTS / CSCA eligibility checks
+- Email/password authentication with Better Auth
+- PostgreSQL persistence for profiles, shortlists, and application plans
+- Application task tracker
+- Source provenance, version storage, and a daily refresh job
+- Domain tests, linting, and production build checks
 
-## Proposed build order
-1. Project setup
-2. Database schema
-3. Authentication
-4. Student profile
-5. University / Program / Intake
-6. Scholarship
-7. Requirement engine
-8. Eligibility engine
-9. Source / verification layer
-10. Application journey
-11. Documents / deadlines
-12. Community lite
-13. Mentor marketplace
-14. Housing
-15. AI enhancements
-16. UX/UI refinement
+## Next after MVP
+1. Verify each 2027 admission cycle when universities publish it
+2. Expand beyond the first 10 universities
+3. Add an admin review queue for detected source changes
+4. Add email deadline reminders
+5. Run usability testing with Thai high-school students

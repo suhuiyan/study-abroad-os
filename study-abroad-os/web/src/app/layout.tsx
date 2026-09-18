@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Study Abroad OS",
-  description: "ค้นหาหลักสูตรปริญญาตรีต่างประเทศสำหรับนักเรียนไทย",
+  title: "Study Abroad OS | ปริญญาตรีจีน",
+  description: "ค้นหาหลักสูตร ทุน และวางแผนสมัครปริญญาตรีประเทศจีนสำหรับนักเรียนไทย",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
