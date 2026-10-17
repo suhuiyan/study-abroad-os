@@ -20,6 +20,15 @@ function officialUrl(value: string) {
   }
   return url;
 }
+// Same allow-list the fetcher enforces, so importers can reject a source before registering it.
+export function isOfficialSourceUrl(value: string) {
+  try {
+    officialUrl(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
 export async function fetchSource(value: string) {
   let url = officialUrl(value);
   const signal = AbortSignal.timeout(20_000);

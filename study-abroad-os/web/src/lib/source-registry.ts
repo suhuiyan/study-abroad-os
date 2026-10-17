@@ -1,8 +1,7 @@
-import type { Program } from "./domain";
-import { officialLinksForProgram } from "./official-links";
+import { officialLinksForProgram, type LinkedProgram } from "./official-links";
 
 export type SourceRecord = { id: string; url: string; universityIds: string[] };
-export function buildSourceRegistry(programs: Program[]): SourceRecord[] {
+export function buildSourceRegistry(programs: LinkedProgram[]): SourceRecord[] {
   const records = new Map<string, SourceRecord>();
   for (const program of programs) {
     for (const link of officialLinksForProgram(program)) {

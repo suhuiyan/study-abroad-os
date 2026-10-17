@@ -25,6 +25,8 @@ export const factSchema = z
         "source_unreachable",
         "contradictory",
         "applicability_unclear",
+        // An automated import found the announcement but no person has read this value yet.
+        "not_reviewed",
       ])
       .optional(),
     verifiedAt: z.iso.datetime({ offset: true }).optional(),

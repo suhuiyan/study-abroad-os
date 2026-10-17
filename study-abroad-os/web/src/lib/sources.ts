@@ -1,19 +1,26 @@
 import { createHash } from "node:crypto";
 import type { Pool, PoolClient } from "pg";
-import { sourceRegistry } from "./catalog";
 import { db } from "./db";
 import { fetchSource, SourceFetchError } from "./source-fetch";
+import type { SourceRecord } from "./source-registry";
+
+// The database is the registry (bundled sources come from db:seed, imported ones from the importer).
+// Never-checked sources go first, then the stalest, so a run that hits its time budget cannot starve the tail of the list.
+export async function loadRegisteredSources(pool: Pool): Promise<SourceRecord[]> {
+  const { rows } = await pool.query("SELECT id,url,university_ids FROM source_document ORDER BY last_checked_at ASC NULLS FIRST, id");
+  return rows.map(row => ({ id: row.id, url: row.url, universityIds: row.university_ids }));
+}
 
 export async function syncSources(options: {
-  sources?: typeof sourceRegistry;
+  sources?: SourceRecord[];
   pool?: Pool;
   fetcher?: typeof fetchSource;
   useLock?: boolean;
   timeBudgetMs?: number;
   now?: () => number;
 } = {}) {
-  const sources = options.sources ?? sourceRegistry;
   const pool = options.pool ?? db();
+  const sources = options.sources ?? await loadRegisteredSources(pool);
   const fetcher = options.fetcher ?? fetchSource;
   const now = options.now ?? Date.now;
   const started = now();

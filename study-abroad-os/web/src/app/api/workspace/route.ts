@@ -2,13 +2,14 @@ import { db, databaseConfigured } from "@/lib/db";
 import { getAuth } from "@/lib/auth";
 import { catalog } from "@/lib/catalog";
 import { profileSchema, programSchema } from "@/lib/domain";
+import { PUBLISHED_ONLY } from "@/lib/publication";
 import { ApplicationConflictError, ApplicationNotFoundError, startApplication, updateApplication } from "@/lib/application-service";
 export const dynamic = "force-dynamic";
 const json = (data: unknown, status = 200) => Response.json(data, { status, headers: { "Cache-Control": "no-store" } });
 export async function GET(request: Request) {
   if (!databaseConfigured()) return json({ programs: catalog, user: null, profile: null, saved: [], applications: [], configured: false, catalogSource: "bundled" });
   try {
-    const storedPrograms = (await db().query("SELECT data FROM program ORDER BY id")).rows.map(r => r.data);
+    const storedPrograms = (await db().query(`SELECT data FROM program WHERE ${PUBLISHED_ONLY} ORDER BY id`)).rows.map(r => r.data);
     const programs = storedPrograms.length ? programSchema.array().parse(storedPrograms) : catalog;
     const catalogSource = storedPrograms.length ? "database" : "bundled";
     const session = await getAuth().api.getSession({ headers: request.headers });
@@ -57,14 +58,14 @@ export async function POST(request: Request) {
         }
         case "save": {
           if (typeof command.programId !== "string" || typeof command.saved !== "boolean") return json({error:"ข้อมูลไม่ถูกต้อง"},400);
-          if (!(await client.query("SELECT id FROM program WHERE id=$1",[command.programId])).rowCount) return json({error:"ไม่พบหลักสูตร"},404);
+          if (!(await client.query(`SELECT id FROM program WHERE id=$1 AND ${PUBLISHED_ONLY}`,[command.programId])).rowCount) return json({error:"ไม่พบหลักสูตร"},404);
           if (command.saved) await client.query("INSERT INTO shortlist(user_id,program_id) VALUES($1,$2) ON CONFLICT DO NOTHING", [id,command.programId]);
           else await client.query("DELETE FROM shortlist WHERE user_id=$1 AND program_id=$2", [id,command.programId]);
           break;
         }
         case "start": {
           if (typeof command.programId !== "string") return json({error:"ไม่พบหลักสูตร"},404);
-          const row = await client.query("SELECT data FROM program WHERE id=$1",[command.programId]);
+          const row = await client.query(`SELECT data FROM program WHERE id=$1 AND ${PUBLISHED_ONLY}`,[command.programId]);
           if (!row.rowCount) return json({error:"ไม่พบหลักสูตร"},404);
           let targetIntake = typeof command.targetIntake === "string" ? command.targetIntake.trim() : "";
           if (!targetIntake) targetIntake = (await client.query("SELECT data->>'intake' AS intake FROM student_profile WHERE user_id=$1",[id])).rows[0]?.intake ?? "";

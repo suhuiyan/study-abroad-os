@@ -1,6 +1,7 @@
 import type { Program } from "./domain";
 
-export function officialLinksForProgram(program: Program) {
+export type LinkedProgram = Pick<Program, "universityId" | "source" | "requirementsSource" | "facts" | "scholarships">;
+export function officialLinksForProgram(program: LinkedProgram) {
   const links = new Map<string, string>();
   const add = (url: string, label: string) => {
     if (/^https?:\/\//.test(url) && !links.has(url)) links.set(url, label);

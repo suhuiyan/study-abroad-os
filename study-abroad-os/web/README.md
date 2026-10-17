@@ -40,6 +40,12 @@ See [the feature map and verification guide](../docs/17-agent-verification.md). 
 
 `npm run test:e2e:account` does the same preparation, then a production build and the Playwright suite in `test/e2e-account/` (`playwright.account.config.ts`, port 3108): sign-up, shortlist, plan, sign-out/sign-in, wrong password and a stale-tab conflict on desktop and mobile. `npm run verify` stays database-free.
 
+## Source refresh and register import
+
+The database is the registry for the daily source check (`/api/cron/sources`, `vercel.json`). `npm run db:seed` fills `source_document` from the bundled catalog; without it the cron has nothing to check. Each run checks never-checked sources first, then the stalest, so a run that hits its time limit cannot starve the end of the list. The first fetch of a page is a baseline; a later change stores a new version and queues a `review_item` for that university's programs. Nothing proposes new values yet: a person must read the page.
+
+`npm run db:import -- <register.csv> [--dry-run]` imports university-register rows (columns as in `test/fixtures/register-v349-test5.csv`, exported from `university-register-v349-test5.xlsx`). A row is accepted only if stage C confirmed an announcement, the page shows 2026, and both URLs are official (`https`, `.edu.cn`/`.gov.cn`); other rows are listed with a reason. Accepted rows become programs marked `publication: "test-only"` with every value (language, fees, dates, requirements) stored as unknown with reason `not_reviewed`, and their pages are registered for the cron. Test-only programs are filtered out of `/api/workspace` and cannot be saved or planned, so students never see them. Existing rows are never overwritten. Promoting a row to published needs a reviewer to read the announcement and fill the facts.
+
 Before deploying, set `AUTH_IP_HEADERS` (and `AUTH_TRUSTED_PROXIES` behind a proxy chain) to a client-IP header the host overwrites. With plain `next start`, a client can send its own `x-forwarded-for` and bypass the sign-in rate limit.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.

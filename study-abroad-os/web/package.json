@@ -18,7 +18,8 @@
     "test:e2e:account": "tsx test/run-local-integration.ts --e2e",
     "db:local": "tsx --env-file=.env scripts/local-db.ts",
     "db:migrate": "tsx scripts/migrate.ts",
-    "db:seed": "tsx scripts/seed.ts"
+    "db:seed": "tsx scripts/seed.ts",
+    "db:import": "tsx scripts/import-register.ts"
   },
   "dependencies": {
     "better-auth": "^1.7.4",
