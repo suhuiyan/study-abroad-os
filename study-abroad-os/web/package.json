@@ -15,6 +15,8 @@
     "test": "tsx --test src/lib/*.test.ts test/support/*.test.ts",
     "test:integration": "tsx --test test/integration/*.test.ts",
     "test:integration:local": "tsx test/run-local-integration.ts",
+    "test:e2e:account": "tsx test/run-local-integration.ts --e2e",
+    "db:local": "tsx --env-file=.env scripts/local-db.ts",
     "db:migrate": "tsx scripts/migrate.ts",
     "db:seed": "tsx scripts/seed.ts"
   },
@@ -36,6 +38,7 @@
     "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "embedded-postgres": "17.10.0-beta.17",
     "eslint": "^9",
     "eslint-config-next": "^16.3.8",
     "tailwindcss": "^4",

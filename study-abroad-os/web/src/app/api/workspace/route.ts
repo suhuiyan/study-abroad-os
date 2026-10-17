@@ -23,9 +23,17 @@ export async function GET(request: Request) {
     return json({ programs, user: {name: session.user.name, email: session.user.email}, profile: profile.rows[0]?.data ?? null, saved: saved.rows.map(r => r.program_id), applications: apps.rows.map(r => ({...r.data,version:r.version})), admin: admin.rowCount === 1, configured: true, catalogSource });
   } catch { return json({ error: "เชื่อมต่อข้อมูลไม่ได้ กรุณาลองใหม่" }, 503); }
 }
-export async function POST(request: Request) {
+// request.url can carry an internal host (next start reports localhost for 127.0.0.1; proxies rewrite hosts),
+// so the configured public URL is also accepted as this app's origin.
+function sameOrigin(request: Request) {
   const origin = request.headers.get("origin");
-  if (!origin || origin !== new URL(request.url).origin) return json({error:"คำขอไม่ถูกต้อง"},403);
+  if (!origin) return false;
+  const allowed = [new URL(request.url).origin];
+  if (process.env.BETTER_AUTH_URL) allowed.push(new URL(process.env.BETTER_AUTH_URL).origin);
+  return allowed.includes(origin);
+}
+export async function POST(request: Request) {
+  if (!sameOrigin(request)) return json({error:"คำขอไม่ถูกต้อง"},403);
   try {
     const session = await getAuth().api.getSession({ headers: request.headers });
     if (!session) return json({ error: "กรุณาเข้าสู่ระบบ" }, 401);

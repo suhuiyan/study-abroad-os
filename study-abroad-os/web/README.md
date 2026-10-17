@@ -30,7 +30,17 @@ Run `npm run verify` for lint, domain/service tests, a production build and Play
 
 On Windows the config uses installed Google Chrome when available; otherwise install bundled Chromium with `npx playwright install chromium`. Set `PLAYWRIGHT_CHANNEL=chrome` to explicitly use installed Chrome on another supported platform. After building, `npm run test:e2e:headed` shows the test browser and `npm run test:e2e:report` opens the report. Screenshots/traces live in ignored `test-results/` and `playwright-report/`.
 
-See [the feature map and verification guide](../docs/17-agent-verification.md). Authenticated PostgreSQL integration and university-site availability are not certified by this public suite. The existing integration script names are reserved for the separate backend test workstream; their implementation is not present in this checkout.
+See [the feature map and verification guide](../docs/17-agent-verification.md). University-site availability is not certified by this public suite.
+
+## Local PostgreSQL and integration tests
+
+`npm run db:local -- start|stop|status` runs PostgreSQL 17 from the `embedded-postgres` dev dependency (no Windows service). Binaries are copied to `%LOCALAPPDATA%\study-abroad-os` because they cannot run from a non-ASCII path, and data lives there too, outside OneDrive. It creates `studyabroad_dev` and `studyabroad_test`; set `LOCAL_PG_PASSWORD` in `.env` and point `.env.test` at the `_test` database.
+
+`npm run test:integration:local` starts that server, migrates and seeds the test database, then runs `test/integration/` against the real route handlers (sign-up/in/out, shortlist, application plans, ownership). It refuses any database not named `*_test` because the tests truncate account tables.
+
+`npm run test:e2e:account` does the same preparation, then a production build and the Playwright suite in `test/e2e-account/` (`playwright.account.config.ts`, port 3108): sign-up, shortlist, plan, sign-out/sign-in, wrong password and a stale-tab conflict on desktop and mobile. `npm run verify` stays database-free.
+
+Before deploying, set `AUTH_IP_HEADERS` (and `AUTH_TRUSTED_PROXIES` behind a proxy chain) to a client-IP header the host overwrites. With plain `next start`, a client can send its own `x-forwarded-for` and bypass the sign-in rate limit.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
