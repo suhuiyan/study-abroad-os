@@ -1,25 +1,26 @@
 import { db, databaseConfigured } from "@/lib/db";
 import { getAuth } from "@/lib/auth";
 import { catalog } from "@/lib/catalog";
-import { applicationSchema, makeTasks, profileSchema, programSchema } from "@/lib/domain";
-import { randomUUID } from "node:crypto";
+import { profileSchema, programSchema } from "@/lib/domain";
+import { ApplicationConflictError, ApplicationNotFoundError, startApplication, updateApplication } from "@/lib/application-service";
 export const dynamic = "force-dynamic";
 const json = (data: unknown, status = 200) => Response.json(data, { status, headers: { "Cache-Control": "no-store" } });
 export async function GET(request: Request) {
-  if (!databaseConfigured()) return json({ programs: catalog, user: null, profile: null, saved: [], applications: [], configured: false });
+  if (!databaseConfigured()) return json({ programs: catalog, user: null, profile: null, saved: [], applications: [], configured: false, catalogSource: "bundled" });
   try {
     const storedPrograms = (await db().query("SELECT data FROM program ORDER BY id")).rows.map(r => r.data);
-    const programs = storedPrograms.length ? storedPrograms : catalog;
+    const programs = storedPrograms.length ? programSchema.array().parse(storedPrograms) : catalog;
+    const catalogSource = storedPrograms.length ? "database" : "bundled";
     const session = await getAuth().api.getSession({ headers: request.headers });
-    if (!session) return json({ programs, user: null, profile: null, saved: [], applications: [], configured: true });
+    if (!session) return json({ programs, user: null, profile: null, saved: [], applications: [], configured: true, catalogSource });
     const id = session.user.id;
     const [profile, saved, apps, admin] = await Promise.all([
       db().query("SELECT data FROM student_profile WHERE user_id=$1", [id]),
       db().query("SELECT program_id FROM shortlist WHERE user_id=$1 ORDER BY created_at DESC", [id]),
-      db().query("SELECT data FROM application WHERE user_id=$1 ORDER BY updated_at DESC", [id]),
+      db().query("SELECT data,version FROM application WHERE user_id=$1 ORDER BY updated_at DESC", [id]),
       db().query("SELECT user_id FROM admin_user WHERE user_id=$1", [id]),
     ]);
-    return json({ programs, user: {name: session.user.name, email: session.user.email}, profile: profile.rows[0]?.data ?? null, saved: saved.rows.map(r => r.program_id), applications: apps.rows.map(r => r.data), admin: admin.rowCount === 1, configured: true });
+    return json({ programs, user: {name: session.user.name, email: session.user.email}, profile: profile.rows[0]?.data ?? null, saved: saved.rows.map(r => r.program_id), applications: apps.rows.map(r => ({...r.data,version:r.version})), admin: admin.rowCount === 1, configured: true, catalogSource });
   } catch { return json({ error: "เชื่อมต่อข้อมูลไม่ได้ กรุณาลองใหม่" }, 503); }
 }
 export async function POST(request: Request) {
@@ -30,7 +31,9 @@ export async function POST(request: Request) {
     if (!session) return json({ error: "กรุณาเข้าสู่ระบบ" }, 401);
     const text = await request.text();
     if (text.length > 64000) return json({error:"ข้อมูลใหญ่เกินไป"},413);
-    const body: unknown = JSON.parse(text), id = session.user.id;
+    let body: unknown;
+    try { body = JSON.parse(text); } catch { return json({error:"JSON ไม่ถูกต้อง"},400); }
+    const id = session.user.id;
     if (!body || typeof body !== "object") return json({error:"ข้อมูลไม่ถูกต้อง"},400);
     const command = body as Record<string, unknown>;
     const client = await db().connect();
@@ -52,28 +55,33 @@ export async function POST(request: Request) {
           break;
         }
         case "start": {
-          if (typeof command.programId !== "string" || !(await client.query("SELECT id FROM program WHERE id=$1", [command.programId])).rowCount) return json({error:"ไม่พบหลักสูตร"},404);
-          const program = (await client.query("SELECT data FROM program WHERE id=$1",[command.programId])).rows[0]?.data;
-          const app = { id: randomUUID(), programId: command.programId, status: "preparing", tasks: makeTasks(program), notes: "", targetIntake: "2027" };
-          await client.query("INSERT INTO application(id,user_id,program_id,data) VALUES($1,$2,$3,$4) ON CONFLICT(user_id,program_id) DO NOTHING",[app.id,id,app.programId,JSON.stringify(app)]);
-          break;
+          if (typeof command.programId !== "string") return json({error:"ไม่พบหลักสูตร"},404);
+          const row = await client.query("SELECT data FROM program WHERE id=$1",[command.programId]);
+          if (!row.rowCount) return json({error:"ไม่พบหลักสูตร"},404);
+          let targetIntake = typeof command.targetIntake === "string" ? command.targetIntake.trim() : "";
+          if (!targetIntake) targetIntake = (await client.query("SELECT data->>'intake' AS intake FROM student_profile WHERE user_id=$1",[id])).rows[0]?.intake ?? "";
+          if (!/^20\d{2}(?:-(?:0[1-9]|1[0-2]))?$/.test(targetIntake)) return json({error:"กรุณาระบุปีเข้าเรียนเป็น YYYY หรือ YYYY-MM"},400);
+          const app = await startApplication(client,id,row.rows[0].data,targetIntake);
+          await client.query("INSERT INTO activity_event(user_id,event) VALUES($1,$2)",[id,command.action]);
+          await client.query("COMMIT"); committed = true;
+          return json({ok:true,application:app});
         }
         case "application": {
-          const parsed = applicationSchema.safeParse(command.data);
-          if (!parsed.success) return json({error:"ข้อมูลแผนสมัครไม่ถูกต้อง"},400);
-          const app = parsed.data;
-          const result = await client.query("UPDATE application SET data=$1, updated_at=now() WHERE id=$2 AND user_id=$3 AND program_id=$4",[JSON.stringify(app),app.id,id,app.programId]);
-          if (!result.rowCount) return json({error:"ไม่พบแผนสมัคร"},404);
-          break;
+          try {
+            const app = await updateApplication(client,id,command.data);
+            await client.query("INSERT INTO activity_event(user_id,event) VALUES($1,$2)",[id,command.action]);
+            await client.query("COMMIT"); committed = true;
+            return json({ok:true,application:app});
+          } catch (error) {
+            if (error instanceof ApplicationConflictError) return json({error:error.message,code:"APPLICATION_CONFLICT"},409);
+            if (error instanceof ApplicationNotFoundError) return json({error:error.message},404);
+            if (error instanceof TypeError || (error && typeof error === "object" && "issues" in error)) return json({error:"ข้อมูลแผนสมัครไม่ถูกต้อง ต้องส่ง expectedVersion และ field ที่แก้"},400);
+            throw error;
+          }
         }
         case "program": {
           if (!(await client.query("SELECT user_id FROM admin_user WHERE user_id=$1",[id])).rowCount) return json({error:"เฉพาะผู้ดูแลข้อมูล"},403);
-          const parsed = programSchema.safeParse(command.data);
-          if (!parsed.success) return json({error:"ข้อมูลหลักสูตรไม่ถูกต้อง"},400);
-          const p = parsed.data;
-          await client.query("INSERT INTO program(id,data) VALUES($1,$2) ON CONFLICT(id) DO UPDATE SET data=$2, updated_at=now()",[p.id,JSON.stringify(p)]);
-          await client.query("INSERT INTO program_revision(program_id,actor,data) VALUES($1,$2,$3)",[p.id,id,JSON.stringify(p)]);
-          break;
+          return json({error:"การแก้หลักสูตรต้องสร้าง draft และอนุมัติผ่านคิวผู้ดูแล"},409);
         }
         default: return json({error:"ไม่รู้จักคำสั่ง"},400);
       }
