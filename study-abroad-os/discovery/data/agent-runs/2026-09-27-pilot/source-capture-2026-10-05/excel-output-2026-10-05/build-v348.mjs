@@ -1,0 +1,17 @@
+import fs from 'node:fs/promises';
+import {FileBlob,SpreadsheetFile} from '@oai/artifact-tool';
+const src='china-university-directory-1412-official-links-2026-10-06-v347.xlsx';
+const out='china-university-directory-1412-official-links-2026-10-06-v348.xlsx';
+const evidence='official-source-evidence-2026-10-06.jsonl';
+const wb=await SpreadsheetFile.importXlsx(await FileBlob.load(src));
+const ws=wb.worksheets.getItem('รายชื่อ 1412');
+const r=1374,code='4133013285',name='浙江中医药大学滨江学院';
+if(String(ws.getRange(`C${r}`).values[0][0])!==code||String(ws.getRange(`D${r}`).values[0][0])!==name)throw Error('MOE identity mismatch');
+const candidate='http://bjxy.zcmu.edu.cn/';
+const previous=String(ws.getRange(`H${r}`).values[0][0]??'');
+ws.getRange(`H${r}`).values=[[Array.from(new Set([previous,candidate].filter(Boolean))).join('\n')]];
+ws.getRange(`K${r}:M${r}`).values=[[new Date('2026-10-07T00:00:00Z'),'发现历史官方候选域名；当前无法访问',`阳光高考平台历史院校页列出该子域名，但当前DNS查询显示域名无法解析；保留为候选证据，不写入Homepage/Admissions。需学校恢复域名或发布替代链接后再更新。`]];
+await(await SpreadsheetFile.exportXlsx(wb)).save(out);
+const record={source_workbook:src,source_sheet:'รายชื่อ 1412',checked_at:'2026-10-07',source_row:r,moe_code:code,name_zh:name,task_id:null,input_version:null,link_type:'homepage_candidate',candidate_url:candidate,final_url:null,officiality:'candidate_only',ownership_evidence_url:'https://13285.gaokao.haedu.cn/',publisher:'河南省阳光高考信息平台 (school profile)',published_at:null,cycle:'2021 historical admissions records',degree_level:'undergraduate',applicant_channel:'domestic admissions record only',evidence_locator:'School profile lists http://bjxy.zcmu.edu.cn/ as the institution homepage; direct DNS check on 2026-10-07 returned no such host.',original_excerpt:'浙江中医药大学滨江学院; http://bjxy.zcmu.edu.cn/',capture_path:null,content_sha256:null,decision:'not_verified',retrieval_status:'Candidate recorded; direct host currently does not resolve.',unresolved:'Current ownership and active replacement URL not confirmed.',next_action:'Recheck after university publishes an updated profile or the subdomain resolves.'};
+await fs.appendFile(evidence,JSON.stringify(record)+'\n');
+console.log(JSON.stringify({out,row:r,candidate,evidenceAdded:1}));

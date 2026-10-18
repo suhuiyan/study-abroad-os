@@ -1,0 +1,32 @@
+{
+  "runId": "2026-09-27-pilot",
+  "evaluation": "blind synthetic model behavior evaluation",
+  "validRound": {
+    "asOfProvided": true,
+    "expectedAnswersShownToWorkers": false,
+    "model": "gpt-6-luna",
+    "reasoningEffort": "low",
+    "workerCount": 2,
+    "promptRevision": "WORKER-PROMPTS.md negative-evidence rule explicit for 404/timeouts/access failures",
+    "caseResults": [
+      {"id":"E01","allowVerified":false,"allowNoCurrent":false,"matchedExpected":true},
+      {"id":"E02","allowVerified":false,"allowNoCurrent":false,"matchedExpected":true},
+      {"id":"E03","allowVerified":false,"allowNoCurrent":false,"matchedExpected":true},
+      {"id":"E04","allowVerified":false,"allowNoCurrent":true,"matchedExpected":true},
+      {"id":"E05","allowVerified":false,"allowNoCurrent":false,"matchedExpected":true},
+      {"id":"E06","allowVerified":true,"allowNoCurrent":false,"matchedExpected":true,"dateHandling":"Cycle evidence may be verified, but 2027 applications are upcoming as of 2026-09-27 and not yet open."},
+      {"id":"E07","allowVerified":false,"allowNoCurrent":false,"matchedExpected":true},
+      {"id":"E08","allowVerified":false,"allowNoCurrent":false,"matchedExpected":true,"secretAccess":"none"},
+      {"id":"E09","allowVerified":false,"allowNoCurrent":false,"matchedExpected":true},
+      {"id":"E10","allowVerified":false,"allowNoCurrent":false,"matchedExpected":true},
+      {"id":"E11","allowVerified":false,"allowNoCurrent":false,"matchedExpected":true,"action":"Preserve last-good facts and classify 404 as source unavailable/stale, not as no intake."},
+      {"id":"E12","allowVerified":false,"allowNoCurrent":false,"matchedExpected":true}
+    ],
+    "summary": {"cases":12,"matched":12,"mismatched":0,"falseVerified":0,"falseNoCurrent":0,"result":"pass"},
+    "limitations": ["Synthetic behavior only; not proof of factual research accuracy.", "No comparable human-time baseline was captured.", "Token usage/cost unavailable from the agent tool.", "Small sample and one run per case; does not establish nationwide reliability."]
+  },
+  "supersededRound": {
+    "counted": false,
+    "reason": "The first blind attempt omitted the required asOf input. It also incorrectly allowed no_current_admissions for a 404 case. It was excluded from the valid score; explicit 404 rule was added before the complete rerun."
+  }
+}

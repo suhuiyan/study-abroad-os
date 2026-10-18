@@ -1,0 +1,1 @@
+import{FileBlob,SpreadsheetFile}from'@oai/artifact-tool';const w=await SpreadsheetFile.importXlsx(await FileBlob.load('china-university-directory-1412-official-links-2026-10-06-v234.xlsx'));const s=w.worksheets.getItem('รายชื่อ 1412');for(let r of [829,830,831,832,834,835])console.log(r,JSON.stringify(s.getRange(`C${r}:D${r}`).values[0]));

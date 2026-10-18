@@ -1,0 +1,94 @@
+{
+  "runId": "2026-09-27-pilot",
+  "reviewedAt": "2026-09-27",
+  "reviewerType": "coordinator_source_recheck",
+  "importedToDiscoveryDatabase": false,
+  "records": [
+    {
+      "taskId": "R-4162010735",
+      "moeCode": "4162010735",
+      "nameZh": "甘肃中医药大学",
+      "decision": "mirror_leads_only_official_cycle_not_verified",
+      "candidateDiscoveryStatus": "not_verified",
+      "identityEvidence": {"url": "https://hudong.moe.gov.cn/srcsite/A03/s181/201504/t20150429_189519.html", "quote": "学校标识码为4162010735", "scope": "institution identity only"},
+      "homepageCandidate": "https://www.gszy.edu.cn/",
+      "internationalOfficeCandidate": "https://gjjy.gszy.edu.cn/channels/channel_1090_1.html",
+      "applicationPortalCandidate": "https://gszy.at0086.cn/StuApplication/Login.aspx",
+      "thirdPartyLeads": [
+        {"url": "https://wentchina.com/recruitment-brochure-for-international-students-of-gansu-university-of-chinese-medicine/", "claims": ["foreign bachelor applicants", "2025-01-01 to 2025-06-15 application period"]},
+        {"url": "https://wentchina.com/gansu-university-of-chinese-medicine-enrollment/", "claims": ["2026 scholarship dates", "bachelor programs including 中医学"]}
+      ],
+      "unresolved": ["Verify official homepage and international-office domain ownership", "Open the official foreign-student notice and reconcile the mirrored cycle/date inconsistency", "Confirm program-specific foreign bachelor and Thai applicant eligibility", "Confirm scholarships and deadlines from official sources"],
+      "noCurrentAdmissionsEvidence": false,
+      "rationale": "MOE verifies school identity, not homepage or admissions. Third-party brochures and a login portal title are leads only. The mirrored scholarship deadlines shown for April/June 2026 have passed by the review date but are not official evidence."
+    },
+    {
+      "taskId": "R-4162010736",
+      "moeCode": "4162010736",
+      "nameZh": "西北师范大学",
+      "decision": "partial_evidence_accepted_current_cycle_unresolved",
+      "candidateDiscoveryStatus": "source_found",
+      "homepage": "https://www.nwnu.edu.cn/",
+      "officialAdmissionsEvidence": [
+        {"url": "https://foreign.nwnu.edu.cn/_upload/article/files/66/4f/c8d47d9442ac899699e18a345813/7bddafdb-6a71-476e-adb7-8d12200bfb0c.pdf", "cycle": "2021", "quote": "本科 法学 ... 汉语 4.0 14000", "locator": "PDF page 1, lines 22-35"},
+        {"url": "https://www.nwnu.edu.cn/2026/0301/c8722a269172/page.htm", "cycle": "program history through 2026", "quote": "中华语言文化本科学历班（汉语言专业）连续招生13年", "locator": "page lines 40-42"}
+      ],
+      "unresolved": ["Current 2026/2027 guide and application dates", "Whether all programs accept Thai nationals", "Current entry scholarship and its eligibility"],
+      "rationale": "Primary university sources establish historical undergraduate international study/programs, but do not establish the current intake or Thai applicant eligibility. Do not claim application is open."
+    },
+    {
+      "taskId": "R-4162010738",
+      "moeCode": "4162010738",
+      "nameZh": "陇东学院",
+      "decision": "lead_only_primary_notice_not_independently_verified",
+      "candidateDiscoveryStatus": "not_verified",
+      "homepageCandidate": "https://www.ldxy.edu.cn/",
+      "identitySource": "https://10738.gaokao.haedu.cn/",
+      "secondaryLead": "https://www.chinaschool.com.cn/i_region/i_28_gansu/a_8/2023/jianzhang-2023.html",
+      "secondaryClaimsNotApproved": [
+        "A reproduced 2025 notice describes foreign degree students, primarily Chinese Language and Literature, Economics, and Information Engineering.",
+        "It lists an HSK 4 score of 180 and a 2025-06-30 deadline.",
+        "It describes a president's scholarship with undergraduate tuition and accommodation coverage and a first-year allowance."
+      ],
+      "evidenceNote": "The publisher attributes the brochure to the university website and links the school homepage, but an exact-title search on the official domain returned no result and the original notice could not be independently opened. Preserve as a lead only.",
+      "unresolved": ["Locate/open the original official 2025 notice or confirm it with the university", "Find any later foreign-undergraduate cycle", "Confirm current program and scholarship terms"],
+      "noCurrentAdmissionsEvidence": false
+    },
+    {
+      "taskId": "R-4162010742",
+      "moeCode": "4162010742",
+      "nameZh": "西北民族大学",
+      "decision": "official_general_foreign_student_form_degree_scope_unknown",
+      "candidateDiscoveryStatus": "needs_review",
+      "homepage": "https://www.xbmu.edu.cn/",
+      "officialInternationalOffice": "https://www.xbmu.edu.cn/gjc/",
+      "officialForeignStudentForm": {"url": "https://www.xbmu.edu.cn/gjc/info/1291/3441.htm", "publishedAt": "2024-04-11", "quote": "西北民族大学国际学生留学生入学申请表", "locator": "page title and attachments"},
+      "unresolved": ["Does this form cover bachelor-degree entrants", "Current cycle, programs, Thai applicant eligibility, and application dates", "Incoming foreign bachelor scholarship"],
+      "rationale": "Official university international office and general foreign-student application form are verified; neither proves a current bachelor intake. The 2026 ordinary admissions charter is for domestic applicants and is not used as negative evidence."
+    },
+    {
+      "taskId": "R-4162011406",
+      "moeCode": "4162011406",
+      "nameZh": "甘肃政法大学",
+      "decision": "identity_confirmed_admissions_unverified",
+      "candidateDiscoveryStatus": "not_verified",
+      "identityEvidence": {"url": "https://hudong.moe.gov.cn/srcsite/A03/s181/201906/t20190618_386321.html", "quote": "同意甘肃政法学院更名为甘肃政法大学，学校标识码为4162011406"},
+      "homepageCandidate": "https://www.gsupl.edu.cn/",
+      "unresolved": ["Official homepage ownership and direct access", "Foreign undergraduate notice or portal", "Programs and scholarships for international undergraduates"],
+      "noCurrentAdmissionsEvidence": false,
+      "rationale": "MOE source verifies the institution identity only. Search failure and domestic admissions material do not prove that foreign applicants are not accepted."
+    },
+    {
+      "taskId": "R-4162011561",
+      "moeCode": "4162011561",
+      "nameZh": "甘肃民族师范学院",
+      "decision": "secondary_identity_homepage_lead_admissions_unverified",
+      "candidateDiscoveryStatus": "not_verified",
+      "homepageCandidate": "https://www.gnun.edu.cn/",
+      "secondaryLead": "https://www.hzgrys.net/regulation/1/2026/2616.html",
+      "unresolved": ["Verify homepage through a primary government or university source", "Foreign undergraduate admissions for the latest cycle", "Eligible programs and international scholarships"],
+      "noCurrentAdmissionsEvidence": false,
+      "rationale": "The located ordinary 2026 admissions charter is hosted by a third party and covers domestic admissions; it is not official evidence for foreign-student admission."
+    }
+  ]
+}

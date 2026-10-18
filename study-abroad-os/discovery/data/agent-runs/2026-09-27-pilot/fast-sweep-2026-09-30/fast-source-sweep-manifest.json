@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "kind": "fast_source_sweep",
+  "generatedAt": "2026-09-30T18:49:18.198698+08:00",
+  "queuePath": "C:\\Users\\Asus\\OneDrive\\ドキュメント\\ChatGPT\\Bring me\\study-abroad-os\\discovery\\data\\agent-runs\\2026-09-27-pilot\\research-tasks.jsonl",
+  "queueRows": 1412,
+  "uniqueUrls": 534,
+  "fetchedUrls": 534,
+  "config": {
+    "workers": 8,
+    "timeoutSeconds": 15.0,
+    "maxBytes": 2000000,
+    "oneRequestAtATimePerHost": true
+  },
+  "byDiscoveryStatus": {
+    "candidate_relevant_source": 184,
+    "fetch_failed_or_blocked": 59,
+    "no_existing_source": 1067,
+    "source_reachable_needs_review": 93,
+    "source_reachable_unreadable": 9
+  },
+  "outputs": {
+    "observations": "fast-source-sweep.jsonl",
+    "followUp": "fast-follow-up-queue.jsonl",
+    "coverageCsv": "fast-source-sweep.csv"
+  },
+  "policy": "Coverage discovery only; no admissions verification, no SQLite writes, no production writes."
+}

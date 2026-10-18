@@ -1,0 +1,195 @@
+{
+  "runId": "2026-09-27-pilot",
+  "scope": "Existing MOE register pilot; mainland China undergraduate institutions only",
+  "databaseWrite": false,
+  "asOf": "2026-09-27",
+  "records": [
+    {
+      "moeCode": "4162010735",
+      "nameZh": "甘肃中医药大学",
+      "researchStatus": "needs_review",
+      "officialHomepage": null,
+      "officialInternationalSource": "https://www.cacms.ac.cn/wannengztctyyrcjl.html",
+      "candidateForeignApplicationPage": "https://gjjy.gszy.edu.cn/articles/2024/12/31/article_1154_39088_1.html",
+      "applicationPortal": "https://gszy.at0086.cn/StuApplication/Login.aspx",
+      "evidenceScope": "The Chinese Academy of Chinese Medical Sciences page associates the university with its international-education URL; the portal identifies itself as an international student application and inquiry system. Neither source was readable as a current undergraduate notice.",
+      "currentCycleVerified": false,
+      "thaiEligibilityVerified": false,
+      "scholarshipVerified": false,
+      "noCurrentAdmissionsEvidence": false,
+      "unresolved": [
+        "Verify university homepage ownership",
+        "Read official notice and portal scope",
+        "Verify named cycle, Thai applicant eligibility, programs and scholarship terms"
+      ],
+      "independentReview": "Official URL association confirmed; 2026 intake details not verified. Third-party mirrors excluded as proof."
+    },
+    {
+      "moeCode": "4162010736",
+      "nameZh": "西北师范大学",
+      "researchStatus": "source_found",
+      "officialHomepage": "https://www.nwnu.edu.cn/",
+      "officialForeignAdmissionsSource": "https://foreign.nwnu.edu.cn/_upload/article/files/66/4f/c8d47d9442ac899699e18a345813/7bddafdb-6a71-476e-adb7-8d12200bfb0c.pdf",
+      "additionalOfficialEvidence": "https://www.nwnu.edu.cn/2026/0301/c8722a269172/page.htm",
+      "evidenceScope": "Official 2021 international-student catalogue includes undergraduate programs; university page published in 2026 describes a Chinese-language undergraduate degree cohort with 13 years of recruitment history.",
+      "currentCycleVerified": false,
+      "thaiEligibilityVerified": false,
+      "scholarshipVerified": false,
+      "noCurrentAdmissionsEvidence": false,
+      "unresolved": [
+        "Find current admissions guide and dates",
+        "Verify Thai eligibility and current programs",
+        "Verify current scholarship terms"
+      ],
+      "independentReview": "Historical official foreign-undergraduate evidence accepted; do not represent as currently open."
+    },
+    {
+      "moeCode": "4162010738",
+      "nameZh": "陇东学院",
+      "researchStatus": "not_verified",
+      "officialHomepageCandidate": "https://www.ldxy.edu.cn/",
+      "secondaryLead": "https://www.chinaschool.com.cn/i_region/i_28_gansu/a_8/2023/jianzhang-2023.html",
+      "evidenceScope": "A third-party mirror reproduces a purported 2025 international-student notice, but the original university-domain notice or attachment was not located/read. Claims in the mirror are not approved as facts.",
+      "currentCycleVerified": false,
+      "thaiEligibilityVerified": false,
+      "scholarshipVerified": false,
+      "noCurrentAdmissionsEvidence": false,
+      "unresolved": [
+        "Locate original official notice",
+        "Confirm whether any later foreign undergraduate cycle exists",
+        "Verify all mirrored program, language, deadline and scholarship claims"
+      ],
+      "independentReview": "Partial; no official original found. Mirror is a lead only."
+    },
+    {
+      "moeCode": "4162010742",
+      "nameZh": "西北民族大学",
+      "researchStatus": "needs_review",
+      "officialHomepage": "https://www.xbmu.edu.cn/",
+      "officialInternationalOffice": "https://www.xbmu.edu.cn/gjc/",
+      "officialForeignStudentForm": "https://www.xbmu.edu.cn/gjc/info/1291/3441.htm",
+      "evidenceScope": "Official international office and a 2024 general international-student application form found; degree scope and cycle are unspecified.",
+      "currentCycleVerified": false,
+      "thaiEligibilityVerified": false,
+      "scholarshipVerified": false,
+      "noCurrentAdmissionsEvidence": false,
+      "unresolved": [
+        "Confirm form applies to bachelor degree entrants",
+        "Verify current cycle, programs, Thai eligibility and scholarship"
+      ],
+      "independentReview": "Domestic 2026 admissions charter excluded as foreign admissions evidence."
+    },
+    {
+      "moeCode": "4162011406",
+      "nameZh": "甘肃政法大学",
+      "researchStatus": "not_verified",
+      "officialHomepageCandidate": "https://www.gsupl.edu.cn/",
+      "identityEvidence": "https://hudong.moe.gov.cn/srcsite/A03/s181/201906/t20190618_386321.html",
+      "evidenceScope": "MOE source confirms institution identity/code only. Homepage ownership and international admissions remain unverified.",
+      "currentCycleVerified": false,
+      "thaiEligibilityVerified": false,
+      "scholarshipVerified": false,
+      "noCurrentAdmissionsEvidence": false,
+      "unresolved": [
+        "Confirm official homepage",
+        "Find official foreign-undergraduate notice or portal",
+        "Verify programs and scholarships"
+      ],
+      "independentReview": "Search absence and domestic admissions material are not negative evidence."
+    },
+    {
+      "moeCode": "4162011561",
+      "nameZh": "甘肃民族师范学院",
+      "researchStatus": "not_verified",
+      "officialHomepageCandidate": "https://www.gnun.edu.cn/",
+      "secondaryLead": "https://www.hzgrys.net/regulation/1/2026/2616.html",
+      "evidenceScope": "Only a third-party copy of a domestic 2026 admissions charter was found; it does not establish foreign-student admissions.",
+      "currentCycleVerified": false,
+      "thaiEligibilityVerified": false,
+      "scholarshipVerified": false,
+      "noCurrentAdmissionsEvidence": false,
+      "unresolved": [
+        "Verify homepage via official source",
+        "Find official international undergraduate admissions source",
+        "Verify programs and scholarships"
+      ],
+      "independentReview": "Third-party domestic charter is not accepted as foreign admissions evidence."
+    },
+    {
+      "moeCode": "4162011805",
+      "nameZh": "甘肃医学院",
+      "researchStatus": "not_verified",
+      "officialHomepage": "https://www.gsmc.edu.cn/",
+      "officialDomesticAdmissions": "https://www.gsmc.edu.cn/zsw/info/1083/1877.htm",
+      "officialInternationalRelations": "https://www.gsmc.edu.cn/hzjl/gjjl.htm",
+      "evidenceScope": "Official homepage and domestic 2026 admissions material verified; international-relations page covers cooperation/visits and does not evidence international undergraduate recruitment.",
+      "currentCycleVerified": false,
+      "thaiEligibilityVerified": false,
+      "scholarshipVerified": false,
+      "noCurrentAdmissionsEvidence": false,
+      "unresolved": [
+        "Find official international student admissions notice or obtain direct confirmation",
+        "Verify foreign programs, cycle, Thai eligibility and scholarships"
+      ],
+      "independentReview": "No foreign bachelor notice found in reviewed official pages; this is not proof of non-admission."
+    },
+    {
+      "moeCode": "4162011806",
+      "nameZh": "陇南师范学院",
+      "researchStatus": "not_verified",
+      "officialHomepage": "https://www.lntc.edu.cn/",
+      "officialAdmissionsOffice": "https://zsc.lntc.edu.cn/",
+      "officialForeignAffairsOffice": "https://kyan.lntc.edu.cn/",
+      "officialProfile": "https://www.lntc.edu.cn/xxgk.htm",
+      "evidenceScope": "Official homepage, domestic admissions office and foreign-affairs work area verified. The 2026 admissions guide found is domestic; no official foreign undergraduate notice or portal was found in the checked sources.",
+      "currentCycleVerified": false,
+      "thaiEligibilityVerified": false,
+      "scholarshipVerified": false,
+      "noCurrentAdmissionsEvidence": false,
+      "unresolved": [
+        "Verify foreign undergraduate admissions directly with university",
+        "Find current cycle, eligible programs, requirements and scholarships"
+      ],
+      "independentReview": "Search ran over the 8-query initial budget (11 queries); mark partial and use a bounded follow-up/contact task."
+    },
+    {
+      "moeCode": "4162012539",
+      "nameZh": "酒泉职业技术大学",
+      "researchStatus": "not_verified",
+      "officialHomepageCandidate": "https://www.jqzy.edu.cn/",
+      "officialInstitutionProfile": "https://www.jqzy.edu.cn/c/www/xygk2",
+      "officialForeignAdmissionsLead": "https://gjjl.jqtu.edu.cn/c/gjjlxy/jxj/40433",
+      "officialProgramNotice": "https://xxzx.jqzy.edu.cn/c/www/ywkd/59381",
+      "evidenceScope": "The official 2021 international-student notice is a historical junior-college pathway, not a bachelor program. Five vocational bachelor majors approved in 2025 are institution-wide; foreign access is not established.",
+      "currentCycleVerified": false,
+      "thaiEligibilityVerified": false,
+      "scholarshipVerified": false,
+      "noCurrentAdmissionsEvidence": false,
+      "unresolved": [
+        "Whether foreign students can enter any of the five vocational bachelor programs in a named current cycle",
+        "Thai eligibility, current application route and deadline",
+        "Current scholarship terms"
+      ],
+      "independentReview": "Official lead is relevant but insufficient to assert current foreign undergraduate intake.",
+      "historicalForeignRecruitmentDegree": "专科 (3-year junior-college course in the 2021 notice)"
+    },
+    {
+      "moeCode": "4162012834",
+      "nameZh": "甘肃警察学院",
+      "researchStatus": "not_verified",
+      "officialHomepage": "https://www.gsjcxy.edu.cn/",
+      "officialDomesticAdmissions2026": "https://www.gsjcxy.edu.cn/info/1016/37944.htm",
+      "additionalOfficialDomesticGuide": "https://www.gsjcxy.edu.cn/info/1016/6794.htm",
+      "evidenceScope": "Official homepage and domestic 2026 admissions sources verified. No foreign-undergraduate notice or portal was found in the checked sources; domestic police-college requirements do not establish foreign eligibility.",
+      "currentCycleVerified": false,
+      "thaiEligibilityVerified": false,
+      "scholarshipVerified": false,
+      "noCurrentAdmissionsEvidence": false,
+      "unresolved": [
+        "Confirm whether foreign applicants may apply directly with the institution",
+        "Find official foreign admissions portal, program scope and scholarships"
+      ],
+      "independentReview": "No current-cycle international admission verified; absence in searched sources is not an official negative."
+    }
+  ]
+}

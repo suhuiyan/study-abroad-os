@@ -1,0 +1,41 @@
+{
+  "taskId": "R-4111010003-83263499c342",
+  "moeCode": "4111010003",
+  "inputVersion": "83263499c34251faf9d6616a75b2938ee086e4e648a723b9d2d6f310ae3a0fb7",
+  "reviewer": "Tesla (independent model review)",
+  "reviewType": "independent",
+  "decision": "accepted",
+  "reviewedAt": "2026-09-27T04:59:30Z",
+  "claimDecisions": [
+    {"scopeId":"scope-institution","field":"official_homepage","decision":"accepted","evidenceIds":["ev-homepage"],"reason":"Official Tsinghua contact page and admissions site footer establish the institution homepage and admissions-office domain."},
+    {"scopeId":"scope-admission-2027-round1","field":"application_open","decision":"accepted","evidenceIds":["ev-round1"],"reason":"The official 2027 schedule gives the first-round opening date and time; it is future as of 2026-09-27."},
+    {"scopeId":"scope-admission-2027-round1","field":"application_deadline","decision":"accepted","evidenceIds":["ev-round1"],"reason":"The official schedule gives the first-round deadline in Beijing time."},
+    {"scopeId":"scope-admission-2027-round2","field":"application_open","decision":"accepted","evidenceIds":["ev-round2"],"reason":"The official schedule gives the second-round opening date and time."},
+    {"scopeId":"scope-admission-2027-round2","field":"application_deadline","decision":"accepted","evidenceIds":["ev-round2"],"reason":"The official schedule gives the second-round deadline in Beijing time."},
+    {"scopeId":"scope-admission-2027-round1","field":"foreign_applicant_eligibility","decision":"accepted","evidenceIds":["ev-foreign-applicant"],"reason":"The 2027 eligibility notice states foreign-nationality and full-time in-person high-school requirements."},
+    {"scopeId":"scope-admission-2027-round1","field":"thai_applicant_restrictions","decision":"accepted","evidenceIds":[],"reason":"No Thailand-specific term was established; general international-applicant rules are not treated as Thai-specific proof."},
+    {"scopeId":"scope-admission-2027-round1","field":"english_proficiency","decision":"accepted","evidenceIds":["ev-english"],"reason":"The official eligibility notice requires official English proficiency evidence for non-native speakers in English-taught programs; no minimum score is asserted."},
+    {"scopeId":"scope-chinese-english-2027","field":"hsk_requirement","decision":"accepted","evidenceIds":["ev-hsk"],"reason":"The 2027 eligibility notice states HSK 5 and component-score thresholds, with specified waiver provisions."},
+    {"scopeId":"scope-admission-2027-round1","field":"application_route","decision":"accepted","evidenceIds":["ev-application"],"reason":"Official 2027 procedures specify the online application route and non-refundable RMB 800 fee."},
+    {"scopeId":"scope-urban-2027","field":"teaching_language","decision":"accepted","evidenceIds":["ev-urban"],"reason":"The 2027 program guide explicitly identifies English instruction."},
+    {"scopeId":"scope-urban-2027","field":"tuition","decision":"accepted","evidenceIds":["ev-urban-fees"],"reason":"The 2027 guide lists annual tuition of RMB 100,000."},
+    {"scopeId":"scope-urban-2027","field":"mandatory_fees","decision":"accepted","evidenceIds":["ev-urban-fees"],"reason":"The guide lists the one-time application fee and annual insurance fee."},
+    {"scopeId":"scope-global-2027","field":"teaching_language","decision":"accepted","evidenceIds":["ev-global"],"reason":"The 2027 guide identifies the program as English-taught undergraduate study."},
+    {"scopeId":"scope-global-2027","field":"program_name","decision":"accepted","evidenceIds":["ev-global"],"reason":"The official 2027 guide names this undergraduate program; the review does not assert a complete major list."},
+    {"scopeId":"scope-zhishan-2027","field":"teaching_language","decision":"accepted","evidenceIds":["ev-zhishan"],"reason":"The 2027 guide identifies the program as English-taught undergraduate study."},
+    {"scopeId":"scope-zhishan-2027","field":"program_name","decision":"accepted","evidenceIds":["ev-zhishan"],"reason":"The official 2027 guide names this undergraduate program."},
+    {"scopeId":"scope-csc-2027","field":"scholarship_route","decision":"accepted","evidenceIds":["ev-csc"],"reason":"The university scholarship page states Type A submission through the local Chinese embassy or consulate."},
+    {"scopeId":"scope-csc-2027","field":"scholarship_deadline","decision":"accepted","evidenceIds":["ev-csc"],"reason":"The source describes November 2026-April 2027 as a usual range varying by country; Thailand-specific timing remains unknown."},
+    {"scopeId":"scope-institutional-scholarship-2027","field":"scholarship_coverage","decision":"accepted","evidenceIds":["ev-tsinghua-scholarship"],"reason":"The official page states first-year full, half, or partial tuition awards; it does not establish a 2027 award amount or Thai eligibility."},
+    {"scopeId":"scope-csca-2026","field":"csca_requirement","decision":"accepted","evidenceIds":["ev-csca-2026"],"reason":"The FAQ statement is explicitly limited to the 2026 intake and is retained as historical evidence only."},
+    {"scopeId":"scope-admission-2027-csca","field":"csca_requirement","decision":"accepted","evidenceIds":[],"reason":"The opened evidence does not establish a 2027 CSCA rule; the 2026 FAQ cannot be carried forward."}
+  ],
+  "recommendedStatus": "source_found",
+  "cycle": "2027",
+  "unresolved": [
+    {"question":"What nationality-status documents apply specifically to a Thai applicant?","reason":"The 2027 eligibility instructions and submission-document attachments were not fully reviewed.","nextAction":"Open the linked Tsinghua 2027 nationality-status and submission requirements and record any Thai-specific evidence."},
+    {"question":"Does CSCA apply to Tsinghua's 2027 international undergraduate intake?","reason":"The found FAQ statement is expressly for the 2026 intake and cannot be transferred.","nextAction":"Check 2027 program guides and the official admissions office for a cycle-specific statement."},
+    {"question":"What are the Thai CSC Type A deadline and full scholarship terms?","reason":"The university page says timing varies by country but does not state Thailand's deadline, coverage or quota.","nextAction":"Check the Chinese Embassy/CSC official Thailand announcement for the 2027 award cycle."},
+    {"question":"Are the three opened English-taught programs the complete 2027 international program list?","reason":"The guides prove those programs, but a complete per-major international intake list was not extracted.","nextAction":"Review the official 2027 divisions/program appendices and record each eligible major separately."}
+  ]
+}

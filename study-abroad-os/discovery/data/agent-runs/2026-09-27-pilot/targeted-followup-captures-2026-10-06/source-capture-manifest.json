@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "kind": "source_capture",
+  "generatedAt": "2026-10-06T03:59:25.460553+00:00",
+  "queueRows": 4,
+  "uniqueUrls": 7,
+  "capturedResponses": 7,
+  "observations": 7,
+  "config": {
+    "workers": 4,
+    "timeoutSeconds": 25.0,
+    "maxBytes": 5000000,
+    "oneRequestAtATimePerHost": true
+  },
+  "outputs": {
+    "manifest": "source-captures.jsonl",
+    "captureDirectory": "captures"
+  },
+  "policy": "Existing URLs only; no SQLite writes; no admissions verification; captured bytes are evidence for review."
+}

@@ -1,0 +1,107 @@
+{
+  "runId": "2026-09-27-pilot",
+  "reviewedAt": "2026-09-27",
+  "records": [
+    {
+      "moeCode": "4162010736",
+      "review": "Official university homepage ownership is supported. The university international-domain 2021 留学生招生专业目录 directly lists foreign-student undergraduate programs, Chinese-medium instruction, four-year duration and tuition. This is historical 2021 evidence only. The cited 2026 university page returned 412 and could not be independently read, so it does not prove a current intake. Thai-specific eligibility, current programs, dates and scholarships remain unknown.",
+      "sources": ["https://www.nwnu.edu.cn/", "https://foreign.nwnu.edu.cn/_upload/article/files/66/4f/c8d47d9442ac899699e18a345813/7bddafdb-6a71-476e-adb7-8d12200bfb0c.pdf", "https://www.nwnu.edu.cn/2026/0301/c8722a269172/page.htm"],
+      "status": "source_found",
+      "evidenceCycle": "2021 historical catalogue",
+      "currentCycleVerified": false,
+      "noCurrentAdmissions": false
+    },
+    {
+      "moeCode": "4162010735",
+      "review": "Official Chinese Academy of Chinese Medical Sciences page associates Gansu University of Chinese Medicine with an international-education URL. The university notice and provincial PDF could not be opened, while the portal title supports international application use but not a current bachelor's cycle. Keep current intake, Thai eligibility, programs, and scholarship unknown; do not use third-party mirrors or mark no-current.",
+      "sources": ["https://www.cacms.ac.cn/wannengztctyyrcjl.html", "https://gjjy.gszy.edu.cn/articles/2024/12/31/article_1154_39088_1.html", "https://gszy.at0086.cn/StuApplication/Login.aspx"],
+      "status": "needs_review",
+      "noCurrentAdmissions": false
+    },
+    {
+      "moeCode": "4162010738",
+      "review": "Independent review found no university-domain original for the mirrored 2025 international-student notice; the 2026/27 cycle is unconfirmed. Preserve the mirror as a lead only; do not accept its program, HSK, deadline, fee or scholarship details as verified.",
+      "sources": ["https://www.ldxy.edu.cn/", "https://www.chinaschool.com.cn/i_region/i_28_gansu/a_8/2023/jianzhang-2023.html"],
+      "status": "not_verified",
+      "noCurrentAdmissions": false
+    },
+    {
+      "moeCode": "4162010742",
+      "review": "The official international office page identifies a foreign-student enrollment application form published 2024-04-11, but the form attachment was not reviewed and no named current intake or bachelor's scope is established. Domestic 2026 admissions are separate. Thai eligibility, programs and scholarship unknown.",
+      "sources": ["https://www.xbmu.edu.cn/gjc/info/1291/3441.htm", "https://www.xbmu.edu.cn/gjc/", "https://www.xbmu.edu.cn/zsxx/info/1081/1491.htm"],
+      "status": "needs_review",
+      "noCurrentAdmissions": false
+    },
+    {
+      "moeCode": "4162011406",
+      "review": "A third-party reproduction of the 2026 domestic charter lists the candidate university and its homepage/admissions domains, but direct official-domain ownership was not verified. No official foreign-undergraduate source was found. The domestic Gaokao charter and awards are not international admissions evidence.",
+      "sources": ["https://www.hzgrys.net/regulation/1/2026/2615.html", "https://www.gsupl.edu.cn/", "https://bkzs.gsupl.edu.cn/", "https://hudong.moe.gov.cn/srcsite/A03/s181/201906/t20190618_386321.html"],
+      "status": "not_verified",
+      "noCurrentAdmissions": false
+    },
+    {
+      "moeCode": "4162011561",
+      "review": "The homepage candidate times out and is supported only by a third-party domestic admissions charter. A 2021 international-exchange visit is context only, not student recruitment. No primary evidence for foreign bachelor's admissions, portal, programs, scholarship or cycle. A provincial 2024 statistics search snippet reporting zero foreign-student receiving majors was not directly verified and cannot decide another cycle.",
+      "sources": ["https://www.gnun.edu.cn/", "https://www.hzgrys.net/regulation/1/2026/2616.html", "https://gansuesc.com/mobile/content-87e0fb059f31494bbd9285e2be8bde87.htm", "https://www.gszjxx.cn/Article.Action?ID=266515"],
+      "status": "not_verified",
+      "noCurrentAdmissions": false
+    },
+    {
+      "moeCode": "4162011805",
+      "review": "Official homepage, 2026 domestic admissions charter and international-relations pages were inspected. They establish identity and domestic admissions/exchange activity only; no foreign undergraduate intake, portal, program, Thai eligibility or scholarship was found. Contact the official office for written confirmation. Do not infer non-admission.",
+      "sources": ["https://www.gsmc.edu.cn/", "https://www.gsmc.edu.cn/zsw/info/1083/1877.htm", "https://www.gsmc.edu.cn/hzjl/gjjl.htm", "https://www.gsmc.edu.cn/info/1115/15214.htm", "https://www.gsmc.edu.cn/zsw/"],
+      "status": "not_verified",
+      "noCurrentAdmissions": false
+    },
+    {
+      "moeCode": "4162011806",
+      "review": "Official homepage ownership and the linked admissions and foreign-affairs subsites are verified. The university's 2026 admissions materials are domestic; foreign-affairs pages cover exchange/foreign-teacher activity, and image-only admissions files were not visually reviewed. No foreign bachelor's notice, current cycle, Thai eligibility, foreign program list or scholarship is established. Request written confirmation from the official offices.",
+      "sources": ["https://www.lntc.edu.cn/", "https://zsc.lntc.edu.cn/", "https://www.lntc.edu.cn/xxgk.htm", "https://kyan.lntc.edu.cn/", "https://kyan.lntc.edu.cn/wsgz.htm", "https://kyan.lntc.edu.cn/wsgz/wszc.htm", "https://kyan.lntc.edu.cn/wsgz/wsxw.htm", "https://zsc.lntc.edu.cn/info/1023/2049.htm", "https://zsc.lntc.edu.cn/info/1023/2056.htm"],
+      "status": "not_verified",
+      "queriesUsed": 12,
+      "reviewLimitNote": "The follow-up exceeded the 8-query pilot allowance; treat as partial, not an exhaustive absence finding.",
+      "noCurrentAdmissions": false
+    },
+    {
+      "moeCode": "4162012539",
+      "review": "The official 2021 international-student recruitment notice is historical and expressly describes a three-year junior-college (专科) course, not bachelor's admission. Its 2021 HSK, deadline, route and scholarship claims must not be carried forward. The five 2025 vocational bachelor programs are institution-wide programs and do not establish foreign access. No current foreign bachelor's intake, Thai eligibility, application portal or scholarship is verified.",
+      "sources": ["https://gjjl.jqtu.edu.cn/c/gjjlxy/jxj/40433", "https://www.jqzy.edu.cn/c/www/xygk2", "https://xxzx.jqzy.edu.cn/c/www/ywkd/59381"],
+      "status": "not_verified",
+      "historicalForeignNoticeDegree": "专科",
+      "currentCycleVerified": false,
+      "noCurrentAdmissions": false
+    },
+    {
+      "moeCode": "4162012834",
+      "review": "Official homepage and 2026 admissions pages were inspected and establish domestic provincial routes only. Police-major eligibility expressly requires PRC nationality and the Gansu Gaokao; the separate comprehensive evaluation is also provincial domestic recruitment. These do not answer whether a separate foreign undergraduate path exists. No foreign portal, cycle, Thai eligibility, foreign program list or scholarship is verified.",
+      "sources": ["https://www.gsjcxy.edu.cn/", "https://www.gsjcxy.edu.cn/info/1016/37944.htm", "https://www.gsjcxy.edu.cn/info/1016/6794.htm", "https://www.gsjcxy.edu.cn/zsjy.htm", "https://www.gsjcxy.edu.cn/zsjy/8.htm", "https://www.gsjcxy.edu.cn/xkzy.htm"],
+      "status": "not_verified",
+      "noCurrentAdmissions": false
+    },
+    {
+      "moeCode": "4162011806",
+      "review": "Official homepage ownership and the linked admissions and foreign-affairs subsites are verified. The university's 2026 admissions materials are domestic; foreign-affairs pages cover exchange/foreign-teacher activity, and image-only admissions files were not visually reviewed. No foreign bachelor's notice, current cycle, Thai eligibility, foreign program list or scholarship is established. Request written confirmation from the official offices.",
+      "sources": ["https://www.lntc.edu.cn/", "https://zsc.lntc.edu.cn/", "https://www.lntc.edu.cn/xxgk.htm", "https://kyan.lntc.edu.cn/", "https://kyan.lntc.edu.cn/wsgz.htm", "https://kyan.lntc.edu.cn/wsgz/wszc.htm", "https://kyan.lntc.edu.cn/wsgz/wsxw.htm", "https://zsc.lntc.edu.cn/info/1023/2049.htm", "https://zsc.lntc.edu.cn/info/1023/2056.htm"],
+      "status": "not_verified",
+      "queriesUsed": 12,
+      "reviewLimitNote": "The follow-up exceeded the 8-query pilot allowance; treat as partial, not an exhaustive absence finding.",
+      "noCurrentAdmissions": false
+    },
+    {
+      "moeCode": "4162012539",
+      "review": "The official 2021 international-student recruitment notice is historical and expressly describes a three-year junior-college (专科) course, not bachelor's admission. Its 2021 HSK, deadline, route and scholarship claims must not be carried forward. The five 2025 vocational bachelor programs are institution-wide; foreign access is not established. No current foreign bachelor's intake, Thai eligibility, application portal or scholarship is verified.",
+      "sources": ["https://gjjl.jqtu.edu.cn/c/gjjlxy/jxj/40433", "https://www.jqzy.edu.cn/c/www/xygk2", "https://xxzx.jqzy.edu.cn/c/www/ywkd/59381"],
+      "status": "not_verified",
+      "historicalForeignNoticeDegree": "专科",
+      "currentCycleVerified": false,
+      "noCurrentAdmissions": false
+    },
+    {
+      "moeCode": "4162012834",
+      "review": "Official homepage and 2026 admissions pages establish domestic provincial routes only. Police-major eligibility expressly requires PRC nationality and the Gansu Gaokao; the separate comprehensive-evaluation route is also provincial domestic recruitment. These do not answer whether a separate foreign undergraduate path exists. No foreign portal, cycle, Thai eligibility, foreign program list or scholarship is verified.",
+      "sources": ["https://www.gsjcxy.edu.cn/", "https://www.gsjcxy.edu.cn/info/1016/37944.htm", "https://www.gsjcxy.edu.cn/info/1016/6794.htm", "https://www.gsjcxy.edu.cn/zsjy.htm", "https://www.gsjcxy.edu.cn/zsjy/8.htm", "https://www.gsjcxy.edu.cn/xkzy.htm"],
+      "status": "not_verified",
+      "noCurrentAdmissions": false
+    }
+  ]
+}

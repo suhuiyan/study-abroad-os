@@ -1,0 +1,18 @@
+{
+  "byStatus": {
+    "no_current_admissions": 1,
+    "not_checked": 1060,
+    "not_verified": 159,
+    "source_found": 192
+  },
+  "databaseMode": "read-only",
+  "datasetAsOf": "2026-06-17",
+  "datasetId": "moe-ordinary-higher-education-2026",
+  "datasetSourceSha256": "29c40f083b639888e429cf40b68f9a75782d1ce81131c99aabca65b65b36eaea",
+  "file": "research-tasks.jsonl",
+  "generatedAt": "2026-09-27T04:45:16.334590+00:00",
+  "rowCount": 1412,
+  "selection": "Existing universities rows where level=本科; identities are neither discovered nor modified.",
+  "sourceDatabase": "C:\\Users\\Asus\\OneDrive\\ドキュメント\\ChatGPT\\Bring me\\study-abroad-os\\discovery\\data\\discovery.sqlite3",
+  "taskSetSha256": "34a4ddd35519beb1e9b984b83c44a92436ecff68e20189f63095cbd14d1ce3fa"
+}

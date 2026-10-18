@@ -1,0 +1,2 @@
+import fs from 'node:fs/promises'; import {FileBlob,SpreadsheetFile} from '@oai/artifact-tool';
+const w=await SpreadsheetFile.importXlsx(await FileBlob.load('china-university-directory-1412-official-links-2026-10-06-v147.xlsx'));const s=w.worksheets.getItem('รายชื่อ 1412');let n=0;for(let i=5;i<=1416;i++)if(s.getRange(`F${i}`).values[0][0])n++;const e=(await fs.readFile('official-source-evidence-2026-10-06.jsonl','utf8')).split(/\r?\n/).filter(Boolean).length;console.log(JSON.stringify({linked:n,blank:1412-n,evidence_records:e}));

@@ -1,0 +1,17 @@
+import fs from'node:fs/promises';import{FileBlob,SpreadsheetFile}from'@oai/artifact-tool';const src='china-university-directory-1412-official-links-2026-10-06-v214.xlsx',out='china-university-directory-1412-official-links-2026-10-06-v215.xlsx',ep='official-source-evidence-2026-10-06.jsonl';const w=await SpreadsheetFile.importXlsx(await FileBlob.load(src)),s=w.worksheets.getItem('รายชื่อ 1412'),old=(await fs.readFile(ep,'utf8')).split(/\r?\n/).filter(Boolean).map(JSON.parse),fresh=[];const rows=[
+{row:694,code:'4122010206',name:'白城师范学院',F:'https://www.bcnu.edu.cn/',G:'https://zsb.bcnu.edu.cn/',H:['https://www.bcnu.edu.cn/','https://zsb.bcnu.edu.cn/','https://fjnews.fjsen.com/Attachment/2024-06/26/1dfce494-161d-4f99-a70d-d33fa0bb7d49.pdf'],note:'学校主页使用bcnu.edu.cn；招生网zsb.bcnu.edu.cn列为校方本科招生网址，亦见于省级招生计划所刊学校章程地址。需以学校当年招生章程为最新规则。'},
+{row:698,code:'4122011439',name:'吉林农业科技学院',F:'https://www.jlnku.edu.cn/',G:'https://zs.jlnku.edu.cn/',H:['https://zs.jlnku.edu.cn/','https://zs.jlnku.edu.cn/info/1023/1171.htm','https://www.jlnku.edu.cn/xxgk/dxzc.htm'],note:'学校章程列示官方主页jlnku.edu.cn；招生网发布2026年招生章程、专升本及第二学士学位信息。'},
+{row:699,code:'4122013706',name:'吉林医药学院',F:'https://www.jlmu.edu.cn/',G:'https://xzs.jlmu.cn/',H:['https://xzs.jlmu.cn/info/1111/3889.htm','https://www.jlmu.edu.cn/info/1041/79571.htm'],note:'学校2026招生章程列明学校网址jlmu.edu.cn；招生信息网xzs.jlmu.cn更新招生章程、录取进度和专业信息。'},
+{row:700,code:'4122014052',name:'吉林铁道职业技术大学',F:'https://www.jty.edu.cn/',G:'https://zsw.jty.edu.cn/',H:['https://www.moe.gov.cn/srcsite/A03/s181/202503/t20250314_1182894.html','https://zsw.jty.edu.cn/','https://www.jty.edu.cn/xxgk/xxjj.htm'],note:'教育部批复确认学校标识码4122014052；学校主页导航明确链接招生信息网zsw.jty.edu.cn，招生网公布2026计划和录取进度。2026招生页面仍需区分专科与本科计划。'}
+];for(const x of rows){if(String(s.getRange(`C${x.row}`).values[0][0])!==x.code||String(s.getRange(`D${x.row}`).values[0][0])!==x.name)throw Error('identity mismatch '+x.row);const ph=String(s.getRange(`H${x.row}`).values[0][0]??'');s.getRange(`F${x.row}:H${x.row}`).values=[[x.F,x.G||String(s.getRange(`G${x.row}`).values[0][0]??''),[ph,...x.H].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join('\n')]];s.getRange(`K${x.row}:M${x.row}`).values=[[new Date('2026-10-06T00:00:00Z'),'已核验官网与学校/招生信息；范围见备注',x.note]];const b={source_workbook:src,source_sheet:'รายชื่อ 1412',checked_at:'2026-10-06',region:'湖南省',source_row:x.row,moe_code:x.code,name_zh:x.name,officiality:'confirmed'};for(const[type,url,title]of [['homepage',x.F,'Official institutional homepage'],...(x.G?[['admissions',x.G,'Official admissions website']]:[]),...x.H.map(u=>['reference',u,'Official institutional or admissions evidence'])])if(!old.some(y=>y.source_row===x.row&&y.moe_code===x.code&&y.link_type===type&&y.final_url===url))fresh.push({...b,link_type:type,candidate_url:url,final_url:url,publisher:'University',page_title:title,evidence_locator:'See workbook notes for identity and admissions-page resolution.',applicant_channel:type==='admissions'?'domestic undergraduate admissions':'official institutional or admissions evidence',unresolved:'Current international student recruitment and scholarship eligibility require separate confirmation.',decision:type==='admissions'?'accepted_official_link':'source_found',retrieval_status:'Official institution identity and accessible university pages verified.'});}await(await SpreadsheetFile.exportXlsx(w)).save(out);if(fresh.length)await fs.appendFile(ep,fresh.map(JSON.stringify).join('\n')+'\n');console.log(JSON.stringify({out,rows:rows.map(x=>x.row),evidenceAdded:fresh.length}));
+
+
+
+
+
+
+
+
+
+
+

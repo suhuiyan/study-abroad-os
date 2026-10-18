@@ -31,7 +31,7 @@ The product should turn fragmented study-abroad information into a personalized,
 - Prefer vertical slices over building every frontend or backend layer separately.
 
 ## Current build direction
-Backend foundation first. UX/UI is deferred.
+Current work: finish the minimal public web experience in `docs/16-web-experience-handoff.md` and verify it with the feature map in `docs/17-agent-verification.md`. University database research remains a separate workstream.
 
 Initial core domain:
 `StudentProfile -> University -> Program -> Intake -> Requirements -> Eligibility -> Application -> Tasks/Documents/Deadlines`
@@ -45,3 +45,4 @@ Then add:
 - Add tests for domain rules and eligibility logic.
 - Instrument meaningful analytics events.
 - Avoid irreversible architectural complexity before the MVP proves demand.
+- Public UI changes must be verified through the real local app using the feature map. `npm run verify` in `web` uses no production database; fix failures caused by the change and report actual results. Account/database integration is a separate verification stage.

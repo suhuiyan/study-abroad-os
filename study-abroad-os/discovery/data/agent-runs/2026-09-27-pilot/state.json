@@ -1,0 +1,815 @@
+{
+  "runId": "2026-09-27-pilot",
+  "startedAt": "2026-09-27",
+  "stage": "S5-D-importer-implemented-review-pending",
+  "database": "discovery/data/discovery.sqlite3",
+  "baseline": {
+    "institutions": 2952,
+    "bachelor": 1412,
+    "bachelorNotChecked": 1060,
+    "bachelorVerifiedAdmissions": 0,
+    "pilotPending": 10,
+    "pilotRecordsHaveHomepage": 0,
+    "pilotRecordsHaveAdmissionsUrl": 0
+  },
+  "policy": "read-only research; no database writes; every claim must cite official evidence; all records require later review",
+  "tasks": [
+    {
+      "taskId": "R-4162010735",
+      "moeCode": "4162010735",
+      "nameZh": "甘肃中医药大学",
+      "runState": "independent_review_complete",
+      "output": "reviews/pilot-research-results.json#records/R-4162010735"
+    },
+    {
+      "taskId": "R-4162010736",
+      "moeCode": "4162010736",
+      "nameZh": "西北师范大学",
+      "runState": "independent_review_complete",
+      "output": "reviews/pilot-research-results.json#records/R-4162010736"
+    },
+    {
+      "taskId": "R-4162010738",
+      "moeCode": "4162010738",
+      "nameZh": "陇东学院",
+      "runState": "independent_review_complete",
+      "output": "reviews/pilot-research-results.json#records/R-4162010738"
+    },
+    {
+      "taskId": "R-4162010742",
+      "moeCode": "4162010742",
+      "nameZh": "西北民族大学",
+      "runState": "independent_review_complete",
+      "output": "reviews/pilot-research-results.json#records/R-4162010742"
+    },
+    {
+      "taskId": "R-4162011406",
+      "moeCode": "4162011406",
+      "nameZh": "甘肃政法大学",
+      "runState": "independent_review_complete",
+      "output": "reviews/pilot-research-results.json#records/R-4162011406"
+    },
+    {
+      "taskId": "R-4162011561",
+      "moeCode": "4162011561",
+      "nameZh": "甘肃民族师范学院",
+      "runState": "independent_review_complete",
+      "output": "reviews/pilot-research-results.json#records/R-4162011561"
+    },
+    {
+      "taskId": "R-4162011805",
+      "moeCode": "4162011805",
+      "nameZh": "甘肃医学院",
+      "runState": "independent_review_complete",
+      "output": "reviews/pilot-research-results.json#records/R-4162011805"
+    },
+    {
+      "taskId": "R-4162011806",
+      "moeCode": "4162011806",
+      "nameZh": "陇南师范学院",
+      "runState": "independent_review_complete",
+      "output": "reviews/pilot-research-results.json#records/R-4162011806"
+    },
+    {
+      "taskId": "R-4162012539",
+      "moeCode": "4162012539",
+      "nameZh": "酒泉职业技术大学",
+      "runState": "independent_review_complete",
+      "output": "reviews/pilot-research-results.json#records/R-4162012539"
+    },
+    {
+      "taskId": "R-4162012834",
+      "moeCode": "4162012834",
+      "nameZh": "甘肃警察学院",
+      "runState": "independent_review_complete",
+      "output": "reviews/pilot-research-results.json#records/R-4162012834"
+    }
+  ],
+  "progress": {
+    "pilotResearchReceived": 10,
+    "pilotIndependentReviewReceived": 10,
+    "pilotIndependentReviewPending": 0,
+    "importedToDiscoveryDatabase": false,
+    "currentCycleAdmissionsVerifiedInPilot": 0,
+    "noCurrentAdmissionsOfficialEvidenceInPilot": 0,
+    "nextGate": "Complete coordinator review of S5-D and prepare import-ready pilot evidence packages. No writes to the real discovery DB until S6 pilot import gates pass.",
+    "pilotIndependentReviewRunning": 0,
+    "pilotSyntheticEvalCases": 12,
+    "pilotSyntheticEvalMatched": 12,
+    "pilotCoverageQueue": 1412,
+    "pilotCoverageQueueMatchesRegister": true,
+    "pilotNationwideGatePassed": false,
+    "pilotTimeSavingsMeasured": false,
+    "pilotTokenCostAvailable": false,
+    "coverageQueueScript": "discovery/build_coverage_queue.py",
+    "coverageQueueScriptTestsPassed": 4,
+    "s4IndependentReview": "no critical blockers for S5-A and S5-C; numbering mismatch reconciled"
+  },
+  "nationwideResearchBatch01": {
+    "source": "existing input-versioned 1,412-row bachelor queue; no new university identities",
+    "asOf": "2026-09-27",
+    "researchMemosReceived": 6,
+    "researchMemos": [
+      "R-4111010002-759430729fbb",
+      "R-4111010004-bc95595a83bf",
+      "R-4111010005-6068c23dfd72",
+      "R-4111010006-d49508459276",
+      "R-4111010007-39f9cdc336d9",
+      "R-4111010008-bd8de624d516"
+    ],
+    "batchMemo": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-01.md",
+    "independentReview": "6 of 6 memo-level reviews complete; some individual claims remain not verifiable; none imported",
+    "independentReviewComplete": [
+      "R-4111010002-759430729fbb",
+      "R-4111010004-bc95595a83bf",
+      "R-4111010005-6068c23dfd72",
+      "R-4111010006-d49508459276",
+      "R-4111010007-39f9cdc336d9",
+      "R-4111010008-bd8de624d516"
+    ],
+    "independentReviewPending": [],
+    "currentCycleVerified": 0,
+    "historicalCyclesDocumented": 6,
+    "noCurrentAdmissionsClaims": 0,
+    "importedToDiscoveryDatabase": false,
+    "nextGate": "Independent review, create hash-bound evidence packages, then pass capture and import gates"
+  },
+  "tsinghuaPackageReview": {
+    "taskId": "R-4111010003-83263499c342",
+    "package": "discovery/data/agent-runs/2026-09-27-pilot/results/R-4111010003-83263499c342.json",
+    "review": "discovery/data/agent-runs/2026-09-27-pilot/reviews/R-4111010003-83263499c342-review.json",
+    "reviewType": "independent",
+    "decision": "accepted",
+    "recommendedStatus": "source_found",
+    "runState": "partial",
+    "importedToDiscoveryDatabase": false,
+    "httpStatusAndCaptureMetadataMissing": true
+  },
+  "nationwideResearchBatch02": {
+    "source": "existing input-versioned 1,412-row bachelor queue",
+    "asOf": "2026-09-27",
+    "runState": "research_memos_received_review_in_progress",
+    "researchMemosReceived": 5,
+    "researchMemos": [
+      "R-4111010009-23c8660bffb4",
+      "R-4111010010-af1953313b1e",
+      "R-4111010011-5a2254af5b2e",
+      "R-4111010012-ad9c9505b8ff",
+      "R-4111010013-f0c07ee66817"
+    ],
+    "independentReview": "5 of 5 memo-level reviews complete; some claims remain unverified; none imported",
+    "independentReviewTasks": [
+      "R-4111010009-23c8660bffb4",
+      "R-4111010010-af1953313b1e",
+      "R-4111010011-5a2254af5b2e",
+      "R-4111010012-ad9c9505b8ff",
+      "R-4111010013-f0c07ee66817"
+    ],
+    "independentReviewPending": [],
+    "tasks": [
+      {"taskId":"R-4111010009-23c8660bffb4","moeCode":"4111010009","nameZh":"北方工业大学","inputVersion":"23c8660bffb4471e868292662bfdc6b8e14d1ce4affde3cc7aed9fd92c7dbea2"},
+      {"taskId":"R-4111010010-af1953313b1e","moeCode":"4111010010","nameZh":"北京化工大学","inputVersion":"af1953313b1ef53b875ac3b13b943662deaaae2d0c682ce69579c62598cc6a0c"},
+      {"taskId":"R-4111010011-5a2254af5b2e","moeCode":"4111010011","nameZh":"北京工商大学","inputVersion":"5a2254af5b2e6b67b07f57dd90a911b5e28a60ff49beecace10d2f05468466cb"},
+      {"taskId":"R-4111010012-ad9c9505b8ff","moeCode":"4111010012","nameZh":"北京服装学院","inputVersion":"ad9c9505b8ff64fb743cba978ca85089af7a6edfb40cf5b83b03ca1cf392af06"},
+      {"taskId":"R-4111010013-f0c07ee66817","moeCode":"4111010013","nameZh":"北京邮电大学","inputVersion":"f0c07ee668174760e7a5405cc5c1339a2bb986b7f1d2a242a78d9600d38a14df"}
+    ],
+    "nextGate": "All five memos reviewed; create source-captured, claim-level evidence packages before any import"
+  },
+  "nationwideResearchBatch03": {
+    "source": "existing input-versioned 1,412-row bachelor queue",
+    "asOf": "2026-09-27",
+    "runState": "memos_received_independent_review_complete",
+    "researchMemosReceived": 5,
+    "researchMemos": [
+      "R-4111010015-72c71e1e7896",
+      "R-4111010016-b545b9283cef",
+      "R-4111010017-385248fe2762",
+      "R-4111010018-453a96756fa3",
+      "R-4111010019-9c2ac5d6f4ee"
+    ],
+    "independentReview": "5 of 5 memo-level reviews complete; no packages imported",
+    "independentReviewComplete": [
+      "R-4111010015-72c71e1e7896",
+      "R-4111010016-b545b9283cef",
+      "R-4111010017-385248fe2762",
+      "R-4111010018-453a96756fa3",
+      "R-4111010019-9c2ac5d6f4ee"
+    ],
+    "independentReviewPending": [],
+    "tasks": [
+      {"taskId":"R-4111010015-72c71e1e7896","moeCode":"4111010015","nameZh":"北京印刷学院","inputVersion":"72c71e1e7896429c6511ca560c31d3b16a90b0597c4bc6fd6969049b2c2f42cb"},
+      {"taskId":"R-4111010016-b545b9283cef","moeCode":"4111010016","nameZh":"北京建筑大学","inputVersion":"b545b9283cef09b19da343efec634d80b6db0d8d26fde8f1b96adde283c71301"},
+      {"taskId":"R-4111010017-385248fe2762","moeCode":"4111010017","nameZh":"北京石油化工学院","inputVersion":"385248fe27629b6c14e1efeaf3ca2e0e873a246524e00a207db607b41a935784"},
+      {"taskId":"R-4111010018-453a96756fa3","moeCode":"4111010018","nameZh":"北京电子科技学院","inputVersion":"453a96756fa300ff44cd73b8c588afc93c29df080ddf4192d48ae8057401a2ee"},
+      {"taskId":"R-4111010019-9c2ac5d6f4ee","moeCode":"4111010019","nameZh":"中国农业大学","inputVersion":"9c2ac5d6f4eeb4c2577401741b230e7831a7e78b2216a442e51eff09ec10c7e4"}
+    ],
+    "independentReview": "pending for all five memo-level records; no imports",
+    "independentReviewPending": [
+      "R-4111010015-72c71e1e7896",
+      "R-4111010016-b545b9283cef",
+      "R-4111010017-385248fe2762",
+      "R-4111010018-453a96756fa3",
+      "R-4111010019-9c2ac5d6f4ee"
+    ],
+    "nextGate": "Independent review, source capture, then claim-level package preparation"
+  },
+  "nationwideResearchBatch04": {
+    "source": "existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "memos_received_independent_review_complete",
+    "researchMemosReceived": 5,
+    "researchMemos": [
+      "R-4111010020-af449909142a",
+      "R-4111010023-a01f94c6aef7",
+      "R-4111010022-3efe1391e774",
+      "R-4111010025-53ce9c085887",
+      "R-4111010026-2b77bc361a5a"
+    ],
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-04.md",
+    "researchPending": [],
+    "independentReview": "5 of 5 memo-level reviews complete; no packages imported",
+    "independentReviewComplete": [
+      "R-4111010020-af449909142a",
+      "R-4111010022-3efe1391e774",
+      "R-4111010023-a01f94c6aef7",
+      "R-4111010025-53ce9c085887",
+      "R-4111010026-2b77bc361a5a"
+    ],
+    "independentReviewPending": [],
+    "tasks": [
+      {"taskId":"R-4111010020-af449909142a","moeCode":"4111010020","nameZh":"北京农学院","inputVersion":"af449909142a0dbedd5ace682edb3d1c3355c565be43015282cf5c68c47ea662"},
+      {"taskId":"R-4111010022-3efe1391e774","moeCode":"4111010022","nameZh":"北京林业大学","inputVersion":"3efe1391e774ed67229eb5eee7ac80041deb19e6bb5577a7778bac2611dbdfb1"},
+      {"taskId":"R-4111010023-a01f94c6aef7","moeCode":"4111010023","nameZh":"北京协和医学院","inputVersion":"a01f94c6aef764c1b6cf9ef523f14fedd829e82efe41f8f9460b174802e93649"},
+      {"taskId":"R-4111010025-53ce9c085887","moeCode":"4111010025","nameZh":"首都医科大学","inputVersion":"53ce9c0858870bb07dc3e8ffa71b60367e73bbc756151c082d4ab5131a0b2c7f"},
+      {"taskId":"R-4111010026-2b77bc361a5a","moeCode":"4111010026","nameZh":"北京中医药大学","inputVersion":"2b77bc361a5a28fffdf971345b0d2c9c9b645e4880d2912dbe1e124ee875ad15"}
+    ],
+    "nextGate": "Source capture, claim-level evidence packages, and package-bound review before any import"
+  },
+  "nationwideResearchBatch05": {
+    "source": "existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "memos_received_independent_review_complete",
+    "researchMemosReceived": 5,
+    "researchMemos": [
+      "R-4111010027-ed1fdf382f43",
+      "R-4111010028-04a4eada122e",
+      "R-4111010029-929d258b2e3d",
+      "R-4111010030-5855529bda33",
+      "R-4111010031-542d26c9686b"
+    ],
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-05.md",
+    "researchPending": [],
+    "independentReview": "5 of 5 memo-level reviews complete; no packages imported",
+    "independentReviewComplete": [
+      "R-4111010027-ed1fdf382f43",
+      "R-4111010028-04a4eada122e",
+      "R-4111010029-929d258b2e3d",
+      "R-4111010030-5855529bda33",
+      "R-4111010031-542d26c9686b"
+    ],
+    "independentReviewPending": [],
+    "researchAgentIds": [
+      "01a0e157-0029-7172-b315-89feb1e7b4a8",
+      "01a0e157-02a0-7330-a5e5-41b44b18c983",
+      "01a0e157-0598-70a1-b54d-5782e5ba129a",
+      "01a0e157-08dc-74e2-aa1f-8dc5c83cc3d6",
+      "01a0e157-0c01-7301-ac65-d3d4cda8c28e"
+    ],
+    "tasks": [
+      {"taskId":"R-4111010027-ed1fdf382f43","moeCode":"4111010027","nameZh":"北京师范大学","inputVersion":"ed1fdf382f43c188cfb445ac588bc46c4056b85238470b1e929eb121bd310a23"},
+      {"taskId":"R-4111010028-04a4eada122e","moeCode":"4111010028","nameZh":"首都师范大学","inputVersion":"04a4eada122e9cccca4bc6876f7a9a7e03d96cdc50ea85db68cdb89254edd335"},
+      {"taskId":"R-4111010029-929d258b2e3d","moeCode":"4111010029","nameZh":"首都体育学院","inputVersion":"929d258b2e3ddeb381f3a1158ad9c4fd15fd1e5504b24faeacf2f2dadda9521b"},
+      {"taskId":"R-4111010030-5855529bda33","moeCode":"4111010030","nameZh":"北京外国语大学","inputVersion":"5855529bda33bbbbf9f9705a5d502b1e90930685e543b05868098ae943b65848"},
+      {"taskId":"R-4111010031-542d26c9686b","moeCode":"4111010031","nameZh":"北京第二外国语学院","inputVersion":"542d26c9686b12fc8b3f4709735599d8484912211a415b92b521efa1f9bce051"}
+    ],
+    "nextGate": "Receive five research memos; verify exact row versions; then independent review"
+  },
+  "nationwideResearchBatch06": {
+    "source": "existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "memos_received_independent_review_complete",
+    "researchMemosReceived": 5,
+    "researchMemos": [
+      "R-4111010032-5e46d2c8bafd",
+      "R-4111010033-8fd8a660bba0",
+      "R-4111010034-9026d82ae9d3",
+      "R-4111010036-7abaff088779",
+      "R-4111010037-814eb0587974"
+    ],
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-06.md",
+    "researchPending": [],
+    "independentReview": "5 of 5 memo-level reviews complete; no packages imported",
+    "independentReviewComplete": [
+      "R-4111010032-5e46d2c8bafd",
+      "R-4111010033-8fd8a660bba0",
+      "R-4111010034-9026d82ae9d3",
+      "R-4111010036-7abaff088779",
+      "R-4111010037-814eb0587974"
+    ],
+    "independentReviewPending": [],
+    "researchAgentIds": [
+      "01a0e159-b9ba-7b80-9cca-8ab90244e13a",
+      "01a0e159-bcaa-7fb1-9b90-79e20f85a1f7",
+      "01a0e159-bf91-7df0-af83-2ed7458830e0",
+      "01a0e159-c27a-7a40-b02f-dc0b4276f73e",
+      "01a0e159-c5fe-7413-8b9e-12d519197631"
+    ],
+    "tasks": [
+      {"taskId":"R-4111010032-5e46d2c8bafd","moeCode":"4111010032","nameZh":"北京语言大学","inputVersion":"5e46d2c8bafd1e97a6ddc5c8b6ba483adbab6757c15bab8a7e6291963301951b"},
+      {"taskId":"R-4111010033-8fd8a660bba0","moeCode":"4111010033","nameZh":"中国传媒大学","inputVersion":"8fd8a660bba0109f2e254388ba3796dc225f05829d887a9d576b3e5025221226"},
+      {"taskId":"R-4111010034-9026d82ae9d3","moeCode":"4111010034","nameZh":"中央财经大学","inputVersion":"9026d82ae9d3ff1b99508bfd5fbcec27c0ca0eee76700d9b922c627dd07e4917"},
+      {"taskId":"R-4111010036-7abaff088779","moeCode":"4111010036","nameZh":"对外经济贸易大学","inputVersion":"7abaff088779cd4a5dec1860121aa650493fa48002bb006b0e52a321161ba79d"},
+      {"taskId":"R-4111010037-814eb0587974","moeCode":"4111010037","nameZh":"北京物资学院","inputVersion":"814eb0587974221197ba31426467b742cf3c4bf7c217985bf5c64b0a55081a14"}
+    ],
+    "nextGate": "Receive five research memos; verify exact row versions; then independent review"
+  },
+  "nationwideResearchBatch07": {
+    "source": "existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "memos_received_independent_review_complete",
+    "researchMemosReceived": 5,
+    "researchMemos": [
+      "R-4111010038-71c6a02b4604",
+      "R-4111010039-76bf2267c640",
+      "R-4111010040-9c26a1421c77",
+      "R-4111010041-68b4ca104759",
+      "R-4111010042-fb570d497376"
+    ],
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-07.md",
+    "researchPending": [],
+    "independentReview": "5 of 5 memo-level reviews complete; no packages imported",
+    "independentReviewComplete": [
+      "R-4111010038-71c6a02b4604",
+      "R-4111010039-76bf2267c640",
+      "R-4111010040-9c26a1421c77",
+      "R-4111010041-68b4ca104759",
+      "R-4111010042-fb570d497376"
+    ],
+    "independentReviewPending": [],
+    "researchAgentIds": [
+      "01a0e15c-15cc-7b20-ad3b-569ce12ffd6f",
+      "01a0e15c-18a8-7f02-b081-c73d5e43fc83",
+      "01a0e15c-1bc3-75d1-95df-068acf7abad7",
+      "01a0e15c-1fdd-7a50-a2f8-2fcf1e07df42",
+      "01a0e15c-23cf-79b0-9543-463bfb01a9a5"
+    ],
+    "tasks": [
+      {"taskId":"R-4111010038-71c6a02b4604","moeCode":"4111010038","nameZh":"首都经济贸易大学","inputVersion":"71c6a02b460458ba123d046cb1f2d1eb337626a4ec662d4d6d251fab9772bac3"},
+      {"taskId":"R-4111010039-76bf2267c640","moeCode":"4111010039","nameZh":"中国消防救援学院","inputVersion":"76bf2267c6407446e3c1e84234e9dbb11c4c68ad9a641ae53e284fead3703665"},
+      {"taskId":"R-4111010040-9c26a1421c77","moeCode":"4111010040","nameZh":"外交学院","inputVersion":"9c26a1421c77a1de71bccfb2b4169c2e2856ede6ddb61cb71798cfd0b39a4c43"},
+      {"taskId":"R-4111010041-68b4ca104759","moeCode":"4111010041","nameZh":"中国人民公安大学","inputVersion":"68b4ca104759653feb4b93246d24da2433df7732aea8c75cd02038c200e4b5b3"},
+      {"taskId":"R-4111010042-fb570d497376","moeCode":"4111010042","nameZh":"国际关系学院","inputVersion":"fb570d4973769b16d1ba6d41f11d630cec1f3c63989199d78a6ff643f5b4b54a"}
+    ],
+    "nextGate": "Receive five research memos; verify exact row versions; then independent review"
+  },
+  "nationwideResearchBatch08": {
+    "source": "existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "memos_received_independent_review_complete",
+    "researchMemosReceived": 5,
+    "researchMemos": [
+      "R-4111010043-a2f1d7542f8c",
+      "R-4111010045-c8c245547021",
+      "R-4111010046-b7dd14cd45f3",
+      "R-4111010047-bdd7ab81b17f",
+      "R-4111010048-dc6f5aba72e0"
+    ],
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-08.md",
+    "researchPending": [],
+    "independentReview": "5 of 5 memo-level reviews complete; four accepted as written, BSU accepted after scholarship-scope clarification; no packages imported",
+    "independentReviewAgentId": "01a0e161-c944-7013-9158-92541e761f64",
+    "independentReviewComplete": [
+      "R-4111010043-a2f1d7542f8c",
+      "R-4111010045-c8c245547021",
+      "R-4111010046-b7dd14cd45f3",
+      "R-4111010047-bdd7ab81b17f",
+      "R-4111010048-dc6f5aba72e0"
+    ],
+    "independentReviewPending": [],
+    "researchAgentIds": [
+      "01a0e15e-98a6-7962-8092-6b03de374794",
+      "01a0e15e-9c14-7612-b9cf-ad03b42772ee",
+      "01a0e15e-a021-7483-bbb1-10ed01391e15",
+      "01a0e15e-a3ed-7581-a550-aa0742f9ac9f",
+      "01a0e15e-a7d4-7d32-b8e8-827812e2ae29"
+    ],
+    "tasks": [
+      {"taskId":"R-4111010043-a2f1d7542f8c","moeCode":"4111010043","nameZh":"北京体育大学","inputVersion":"a2f1d7542f8c3ce16d35ab967d73d6581e7ac0551868eaf908d5a879bef23117"},
+      {"taskId":"R-4111010045-c8c245547021","moeCode":"4111010045","nameZh":"中央音乐学院","inputVersion":"c8c2455470218b280241be6de7aae3d96566cf664dce31eb43170d181d294a7e"},
+      {"taskId":"R-4111010046-b7dd14cd45f3","moeCode":"4111010046","nameZh":"中国音乐学院","inputVersion":"b7dd14cd45f3314ab1887b7fa6764ec67e99382805d21d1e790c8568b45eab47"},
+      {"taskId":"R-4111010047-bdd7ab81b17f","moeCode":"4111010047","nameZh":"中央美术学院","inputVersion":"bdd7ab81b17f9d07cce83c8a8f3fc23d8dc8bd441a0d4ae8b117f3293752b4a4"},
+      {"taskId":"R-4111010048-dc6f5aba72e0","moeCode":"4111010048","nameZh":"中央戏剧学院","inputVersion":"dc6f5aba72e00a53de34d21ee4a2fff8813286b0ea7786a355f13323a9dc3c04"}
+    ],
+    "nextGate": "Source capture, claim-level packages, package-bound review and import gates"
+  },
+  "nationwideResearchBatch09": {
+    "source": "existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "memos_received_independent_review_complete",
+    "researchMemosReceived": 5,
+    "researchMemos": [
+      "R-4111010049-1f89200b0ccf",
+      "R-4111010050-3be798366092",
+      "R-4111010051-c9b16ad53a94",
+      "R-4111010052-2d0c32e6b0d9",
+      "R-4111010053-a6065269f440"
+    ],
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-09.md",
+    "researchPending": [],
+    "independentReview": "5 of 5 memo-level reviews complete; MUC scholarship-source discrepancy recorded; BFA and CUPL verification caveats retained; no packages imported",
+    "independentReviewAgentId": "01a0e167-03f2-7082-98e2-2f2d2cc29e2a",
+    "independentReviewComplete": [
+      "R-4111010049-1f89200b0ccf",
+      "R-4111010050-3be798366092",
+      "R-4111010051-c9b16ad53a94",
+      "R-4111010052-2d0c32e6b0d9",
+      "R-4111010053-a6065269f440"
+    ],
+    "independentReviewPending": [],
+    "researchAgentIds": [
+      "01a0e163-c1d9-7e32-8425-8086146aa5b2",
+      "01a0e163-c550-7852-95e9-f3c75135fc4d",
+      "01a0e163-c8be-7b13-a199-7e6f5062be9f",
+      "01a0e163-cc8d-75a1-bab7-df2b08183ac7",
+      "01a0e163-cf9c-7c92-b05a-34a54e6695de"
+    ],
+    "tasks": [
+      {"taskId":"R-4111010049-1f89200b0ccf","moeCode":"4111010049","nameZh":"中国戏曲学院","inputVersion":"1f89200b0ccf211fab1fe42f7313330569d413a59759d68188a8536c5cf0afba"},
+      {"taskId":"R-4111010050-3be798366092","moeCode":"4111010050","nameZh":"北京电影学院","inputVersion":"3be798366092466ecfe0e77cd54e6c7fb11bd3434e62a3eb5a277593ea4e0344"},
+      {"taskId":"R-4111010051-c9b16ad53a94","moeCode":"4111010051","nameZh":"北京舞蹈学院","inputVersion":"c9b16ad53a94b0453e6ffe9530d98e46d08190be069b17317eea2aad417e22ff"},
+      {"taskId":"R-4111010052-2d0c32e6b0d9","moeCode":"4111010052","nameZh":"中央民族大学","inputVersion":"2d0c32e6b0d9b97120a05c1e1e6fba24e1cd0202c5475caf9cccc724abf4accc"},
+      {"taskId":"R-4111010053-a6065269f440","moeCode":"4111010053","nameZh":"中国政法大学","inputVersion":"a6065269f4402ba6a36d3b88d32a35a72d28518a16ce0b9d9a672dc09ecd4d8a"}
+    ],
+    "nextGate": "Source capture, claim-level packages, package-bound review and import gates"
+  },
+  "nationwideResearchBatch10": {
+    "source": "existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "memos_received_independent_review_complete",
+    "researchMemosReceived": 5,
+    "researchMemos": [
+      "R-4111010054-88af2f038057",
+      "R-4111010858-9985e5050c44",
+      "R-4111011149-8eae64c04d1f",
+      "R-4111011232-f14cf0e5b945",
+      "R-4111011413-b4ba809731e7"
+    ],
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-10.md",
+    "researchPending": [],
+    "independentReview": "5 of 5 memo-level reviews complete; CWU undated externally credited page caveat added; no packages imported",
+    "independentReviewAgentId": "01a0e16b-5710-7d00-93d3-3938628de39d",
+    "independentReviewComplete": [
+      "R-4111010054-88af2f038057",
+      "R-4111010858-9985e5050c44",
+      "R-4111011149-8eae64c04d1f",
+      "R-4111011232-f14cf0e5b945",
+      "R-4111011413-b4ba809731e7"
+    ],
+    "independentReviewPending": [],
+    "researchAgentIds": [
+      "01a0e168-d314-7a23-9e83-53f357691cf1",
+      "01a0e168-d5e6-70d0-8827-613bdf4da822",
+      "01a0e168-d8e8-7cc0-80cd-520243cee264",
+      "01a0e168-dbe4-7aa0-9391-bf338d7193cc",
+      "01a0e168-de9e-7342-8b5c-cca41e830027"
+    ],
+    "tasks": [
+      {"taskId":"R-4111010054-88af2f038057","moeCode":"4111010054","nameZh":"华北电力大学","inputVersion":"88af2f038057003b9378ca26bb66e584d031fd490d0ce7388f3eae7d85cf7778"},
+      {"taskId":"R-4111010858-9985e5050c44","moeCode":"4111010858","nameZh":"北京科技职业大学","inputVersion":"9985e5050c441b1f022d18811c2128a0bbf3f80344b159e644539bc5853a9809"},
+      {"taskId":"R-4111011149-8eae64c04d1f","moeCode":"4111011149","nameZh":"中华女子学院","inputVersion":"8eae64c04d1f3dcf5c64499600eef318797c7b4083da3437a9ebb8a6ebd54ded"},
+      {"taskId":"R-4111011232-f14cf0e5b945","moeCode":"4111011232","nameZh":"北京信息科技大学","inputVersion":"f14cf0e5b945482aad9af4b3d5f1c518c2a9cd62b8d66d54ce05da77eba4afa6"},
+      {"taskId":"R-4111011413-b4ba809731e7","moeCode":"4111011413","nameZh":"中国矿业大学（北京）","inputVersion":"b4ba809731e7a7575fdb953f3e06d82edd329220480c840a3d391a85f456f89b"}
+    ],
+    "nextGate": "Source capture, claim-level packages, package-bound review and import gates"
+  },
+  "nationwideResearchBatch11": {
+    "source": "existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "memos_received_independent_review_complete",
+    "researchMemosReceived": 5,
+    "researchMemos": [
+      "R-4111011414-394b85e88a58",
+      "R-4111011415-30cec63dd6ba",
+      "R-4111011417-51b3611a8fe8",
+      "R-4111011418-50e681a56418",
+      "R-4111011625-173e0d81de2b"
+    ],
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-11.md",
+    "researchPending": [],
+    "independentReview": "5 of 5 memo-level reviews complete; CUP guide capture/access caveat retained; no packages imported",
+    "independentReviewAgentId": "01a0e16e-b2a6-76b3-ac0a-2df8b48119ad",
+    "independentReviewComplete": [
+      "R-4111011414-394b85e88a58",
+      "R-4111011415-30cec63dd6ba",
+      "R-4111011417-51b3611a8fe8",
+      "R-4111011418-50e681a56418",
+      "R-4111011625-173e0d81de2b"
+    ],
+    "independentReviewPending": [],
+    "researchAgentIds": [
+      "01a0e16b-b8ff-7b41-97f3-506748c48634",
+      "01a0e16b-bb7a-7f92-9419-fa82caa10129",
+      "01a0e16b-be9c-7f42-bfb8-287bc09f4cfd",
+      "01a0e16b-c1c0-75c0-b118-c8b95340ac4b",
+      "01a0e16b-c494-77b1-9da3-92878bb82dc8"
+    ],
+    "tasks": [
+      {"taskId":"R-4111011414-394b85e88a58","moeCode":"4111011414","nameZh":"中国石油大学（北京）","inputVersion":"394b85e88a580177a78cc961d3b1e567707162d1f22de6e4281d36b3219c1797"},
+      {"taskId":"R-4111011415-30cec63dd6ba","moeCode":"4111011415","nameZh":"中国地质大学（北京）","inputVersion":"30cec63dd6ba1f697b660faea47f993865b6509542c00ff2fda34f63ca1d047f"},
+      {"taskId":"R-4111011417-51b3611a8fe8","moeCode":"4111011417","nameZh":"北京联合大学","inputVersion":"51b3611a8fe8c29a7c5029dc6b4af6a83213e5cc8675574576442963e0125a5a"},
+      {"taskId":"R-4111011418-50e681a56418","moeCode":"4111011418","nameZh":"北京城市学院","inputVersion":"50e681a56418d20271ad7f53cd94ca94e6328587d62fbda83032d7b7fa257a8a"},
+      {"taskId":"R-4111011625-173e0d81de2b","moeCode":"4111011625","nameZh":"中国青年政治学院","inputVersion":"173e0d81de2b37eea8ee3daab0bd32181e4c797542b58e9ee5f2967e6b13d762"}
+    ],
+    "nextGate": "Source capture, claim-level packages, package-bound review and import gates"
+  },
+  "nationwideResearchBatch12": {
+    "source": "existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "memos_received_independent_review_complete",
+    "researchMemosReceived": 5,
+    "researchMemos": [
+      "R-4111011831-16358428cdc9",
+      "R-4111012453-ebc32fa23aea",
+      "R-4111012802-136bbdfa4ebe",
+      "R-4111013629-ac2bb768f971",
+      "R-4111013630-5e879e2b99da"
+    ],
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-12.md",
+    "researchPending": [],
+    "independentReview": "5 of 5 memo-level reviews complete; added CULR international enrollment context and Kede 2024-25 enrollment disclosure; current bachelor's intake remains unknown; no packages imported",
+    "independentReviewAgentId": "01a0e171-f8b6-7361-91d7-cb5b6c17ccb8",
+    "independentReviewComplete": [
+      "R-4111011831-16358428cdc9",
+      "R-4111012453-ebc32fa23aea",
+      "R-4111012802-136bbdfa4ebe",
+      "R-4111013629-ac2bb768f971",
+      "R-4111013630-5e879e2b99da"
+    ],
+    "independentReviewPending": [],
+    "researchAgentIds": [
+      "01a0e16f-525c-7731-bacb-f7cb6f8f6fba",
+      "01a0e16f-4fd2-7fc1-8102-6dd57a12124f",
+      "01a0e16f-5c76-7941-8702-00a7e190fe85",
+      "01a0e16f-5f89-7de0-965c-2703ed89e39b",
+      "01a0e16f-6260-7b42-b4e4-800c9885b7d0"
+    ],
+    "tasks": [
+      {"taskId":"R-4111011831-16358428cdc9","moeCode":"4111011831","nameZh":"首钢工学院","inputVersion":"16358428cdc97866e91c56e0673e47c7cb4b2705ba5c47f55e027c5d82edad5f"},
+      {"taskId":"R-4111012453-ebc32fa23aea","moeCode":"4111012453","nameZh":"中国劳动关系学院","inputVersion":"ebc32fa23aea762f1cd26a670c052c540f8a84c4ff9d0f24a036d71fad3aafb5"},
+      {"taskId":"R-4111012802-136bbdfa4ebe","moeCode":"4111012802","nameZh":"吉利学院","inputVersion":"136bbdfa4ebeb3dcb8a6436ad3f160ab9f2bc62e59df5381a58b4639dce915bf"},
+      {"taskId":"R-4111013629-ac2bb768f971","moeCode":"4111013629","nameZh":"首都师范大学科德学院","inputVersion":"ac2bb768f97121f317391975696309468b0f880ccadd3ca13cc3a8c6e7b68d69"},
+      {"taskId":"R-4111013630-5e879e2b99da","moeCode":"4111013630","nameZh":"北京金融科技学院","inputVersion":"5e879e2b99daadbbc40bf4981f2b4f2152b368fc8a2e55150224bb6cb9bc258a"}
+    ],
+    "nextGate": "Source capture, claim-level packages, package-bound review and import gates"
+  },
+  "nationwideResearchBatch13": {
+    "source": "existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "memos_received_independent_review_complete",
+    "researchMemosReceived": 5,
+    "researchMemos": [
+      "R-4111013901-ab688f79bf38",
+      "R-4111013904-5a5aa31657c6",
+      "R-4111014019-0dbd91e1e50b",
+      "R-4111014139-8de2a05c3597",
+      "R-4111014201-bb714216cf97"
+    ],
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-13.md",
+    "researchPending": [],
+    "independentReview": "5 of 5 memo-level reviews complete; corrections integrated; no packages imported",
+    "independentReviewAgentId": "01a0e22e-46a3-7260-b2dd-88cb86edd851",
+    "independentReviewComplete": [
+      "R-4111013901-ab688f79bf38",
+      "R-4111013904-5a5aa31657c6",
+      "R-4111014019-0dbd91e1e50b",
+      "R-4111014139-8de2a05c3597",
+      "R-4111014201-bb714216cf97"
+    ],
+    "researchAgentIds": [
+      "01a0e172-7177-79b2-8c31-48b0dbbec09b",
+      "01a0e172-73fd-7c51-8395-7d214ce91ebe",
+      "01a0e172-76c0-75e1-a4bd-5c3c23a92a2b",
+      "01a0e172-79be-7493-b347-92e6f8b97868",
+      "01a0e172-7cc7-74d0-9c20-c54297ec0e28"
+    ],
+    "tasks": [
+      {"taskId":"R-4111013901-ab688f79bf38","moeCode":"4111013901","nameZh":"北京邮电大学世纪学院","inputVersion":"ab688f79bf387c86b982b544f98bb50f6f9eb9fd3d95704e3cb892f390837e51"},
+      {"taskId":"R-4111013904-5a5aa31657c6","moeCode":"4111013904","nameZh":"北京工业大学耿丹学院","inputVersion":"5a5aa31657c65fc2ca6ec4c9f76297d074dffbef6cc5fd53fa799cdc38249f7d"},
+      {"taskId":"R-4111014019-0dbd91e1e50b","moeCode":"4111014019","nameZh":"北京警察学院","inputVersion":"0dbd91e1e50be45a5bcba59c6d926ff7ddf508f2c459449752393bdabc4e96a5"},
+      {"taskId":"R-4111014139-8de2a05c3597","moeCode":"4111014139","nameZh":"民政职业大学","inputVersion":"8de2a05c3597524d5a99803a50ad9e78c06f0651ac000584e933c0547076393e"},
+      {"taskId":"R-4111014201-bb714216cf97","moeCode":"4111014201","nameZh":"北京第二外国语学院中瑞酒店管理学院","inputVersion":"bb714216cf972d82b8fdf21ef664f1587a9f3a8cc9a4f4c6c82613bcd54f2cc1"}
+    ],
+    "nextGate": "Source capture, claim-level packages, package-bound review and import validation remain required"
+  },
+  "nationwideResearchBatch14": {
+    "source": "existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "coordinator_memo_received_independent_review_complete",
+    "researchMemosReceived": 5,
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-14.md",
+    "researchMethod": "Coordinator researched official sources after delegated agents errored due usage limit; not agent-authored",
+    "independentReview": "5 of 5 coordinator-researched memos received independent memo-level review; Nankai CSCA wording corrected; no packages imported",
+    "independentReviewAgentId": "01a0e22e-4c25-7100-ba1c-d244af71e9fc",
+    "independentReviewComplete": [
+      "R-4111014430-6c02b2015140",
+      "R-4111014596-003ab275145f",
+      "R-4112010055-911d7688aaa0",
+      "R-4112010056-41b3c22737b8",
+      "R-4112010057-9e10e7f9bb57"
+    ],
+    "nextGate": "Source capture, claim-level packages, package-bound review and import validation remain required",
+    "researchAgentIds": [
+      "01a0e175-c35d-7f43-b128-2f8d4922ed93",
+      "01a0e175-c641-7d43-b9ff-e6cea589c100",
+      "01a0e175-c9cc-7432-9f36-d94471877aac",
+      "01a0e175-cde8-7e20-ac7a-641204f77d03",
+      "01a0e175-d0d8-7040-bcb7-bf8b28900deb"
+    ],
+    "tasks": [
+      {"taskId":"R-4111014430-6c02b2015140","moeCode":"4111014430","nameZh":"中国科学院大学","inputVersion":"6c02b20151400ce0f8bcb79ef223744e4e88c8a461700625fe08b58ce99925e5"},
+      {"taskId":"R-4111014596-003ab275145f","moeCode":"4111014596","nameZh":"中国社会科学院大学","inputVersion":"003ab275145f0d13b20ae0340013a1c265df3910e0b373a15863310a7a2516ff"},
+      {"taskId":"R-4112010055-911d7688aaa0","moeCode":"4112010055","nameZh":"南开大学","inputVersion":"911d7688aaa0898af13897d94c0d373680a4721bc430fbf7a590e51493601b41"},
+      {"taskId":"R-4112010056-41b3c22737b8","moeCode":"4112010056","nameZh":"天津大学","inputVersion":"41b3c22737b8ac9bcca75fd1bc6d9d099cf6fc502f611ee44b23b0d30733dba3"},
+      {"taskId":"R-4112010057-9e10e7f9bb57","moeCode":"4112010057","nameZh":"天津科技大学","inputVersion":"9e10e7f9bb57013eb4288b1f58ca1784d99d96a6dcb936b45030b077ced63b1c"}
+    ],
+    "nextGate": "Source capture, claim-level packages, independent package-bound review and import validation remain required"
+  },
+  "nationwideResearchBatch15": {
+    "source": "next five exact rows from existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "coordinator_memo_received_independent_review_pending",
+    "researchMemosReceived": 5,
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-15.md",
+    "researchMethod": "Four bounded agent memos plus coordinator source verification; CAUC and TMU details remain explicitly unverified where official evidence was inaccessible or absent",
+    "independentReview": "5 memo-level results pending independent review; no packages imported",
+    "independentReviewPending": [
+      "R-4112010058-895a387f6c08",
+      "R-4112010059-e8af2d7eab8f",
+      "R-4112010060-33141e5bde19",
+      "R-4112010061-28ed80082cb1",
+      "R-4112010062-5aca47c012b0"
+    ],
+    "researchAgentIds": [
+      "01a0e22e-5192-7f22-9a66-7fb422e2bec0",
+      "01a0e22e-57c1-7f30-bff8-36c95b331ee2",
+      "01a0e22e-5e77-7fc1-907f-f69fbc942099",
+      "01a0e22e-6399-7103-8527-15edd09ca736"
+    ],
+    "tasks": [
+      {"taskId":"R-4112010058-895a387f6c08","moeCode":"4112010058","nameZh":"天津工业大学","inputVersion":"895a387f6c08de399407ac3a9d9223a15052e9b2bcd1c14086f6e0441ff6c0d1"},
+      {"taskId":"R-4112010059-e8af2d7eab8f","moeCode":"4112010059","nameZh":"中国民航大学","inputVersion":"e8af2d7eab8f42a85c111e70a26a73a79f51fa3ee03d975fb7a8212a38bfef0e"},
+      {"taskId":"R-4112010060-33141e5bde19","moeCode":"4112010060","nameZh":"天津理工大学","inputVersion":"33141e5bde1953753459a6436d17d6b7b606b975098040bb5bf0b97f11b1d4d5"},
+      {"taskId":"R-4112010061-28ed80082cb1","moeCode":"4112010061","nameZh":"天津农学院","inputVersion":"28ed80082cb168fb20e6b4369e92e3b3134aa4f3df55685060988d696564112a"},
+      {"taskId":"R-4112010062-5aca47c012b0","moeCode":"4112010062","nameZh":"天津医科大学","inputVersion":"5aca47c012b04eccb7e6e7b83e159ea85b00d156088ca3cb09e3988f58d93885"}
+    ],
+    "nextGate": "Independent memo review; capture official sources; create claim-level packages only after capture and review"
+  },
+  "nationwideResearchBatch16": {
+    "source": "next five exact rows from existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "coordinator_memo_received_independent_review_pending",
+    "researchMemosReceived": 5,
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-16.md",
+    "researchMethod": "Coordinator review of official international admissions pages and guides; TUTE substantive guide attachment remains inaccessible; no database writes",
+    "independentReview": "5 memo-level results pending independent review; no packages imported",
+    "independentReviewPending": [
+      "R-4112010063-a381e7ae70cc",
+      "R-4112010065-b1545d64e146",
+      "R-4112010066-11f5c1ddd1ed",
+      "R-4112010068-04c2cbb194b9",
+      "R-4112010069-1d5243b97169"
+    ],
+    "tasks": [
+      {"taskId":"R-4112010063-a381e7ae70cc","moeCode":"4112010063","nameZh":"天津中医药大学","inputVersion":"a381e7ae70cc2eced74d61ec9b0e3587dc5f5bcf3cfb8a39aa09a1839577b1b2"},
+      {"taskId":"R-4112010065-b1545d64e146","moeCode":"4112010065","nameZh":"天津师范大学","inputVersion":"b1545d64e146a50751a6e3ae6e87029977313af4217d6e2e49ed8ffe8d8f948d"},
+      {"taskId":"R-4112010066-11f5c1ddd1ed","moeCode":"4112010066","nameZh":"天津职业技术师范大学","inputVersion":"11f5c1ddd1ed19765288712538417bdea19fd9c88d94b90f81f08875991f1c13"},
+      {"taskId":"R-4112010068-04c2cbb194b9","moeCode":"4112010068","nameZh":"天津外国语大学","inputVersion":"04c2cbb194b9773747a27abd14feed5276274d5372a979445c21b3cd9829119c"},
+      {"taskId":"R-4112010069-1d5243b97169","moeCode":"4112010069","nameZh":"天津商业大学","inputVersion":"1d5243b97169166f6e442d4be6a993573188c883c07e714360be387705abed76"}
+    ],
+    "nextGate": "Independent memo review; capture official sources; create claim-level packages only after capture and review"
+  },
+  "nationwideResearchBatch17": {
+    "source": "next five exact rows from existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-27",
+    "runState": "coordinator_memo_received_independent_review_pending",
+    "researchMemosReceived": 5,
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-17.md",
+    "researchMethod": "Coordinator review of official international admissions pages/guides; several attachment details remain unverified; no database writes",
+    "independentReview": "5 memo-level results pending independent review; no packages imported",
+    "independentReviewPending": [
+      "R-4112010070-8f8925d4c772",
+      "R-4112010071-98fd5325beb2",
+      "R-4112010072-247aa5e2cd7c",
+      "R-4112010073-b9a7248a25bf",
+      "R-4112010792-c9a9d53a4319"
+    ],
+    "tasks": [
+      {"taskId":"R-4112010070-8f8925d4c772","moeCode":"4112010070","nameZh":"天津财经大学","inputVersion":"8f8925d4c772e5ba2b7aa48a0d053709d35c6ac7fa57966d564f8da64215a08c"},
+      {"taskId":"R-4112010071-98fd5325beb2","moeCode":"4112010071","nameZh":"天津体育学院","inputVersion":"98fd5325beb223e451b573009a93826201440009e234c221f634e28f5700619b"},
+      {"taskId":"R-4112010072-247aa5e2cd7c","moeCode":"4112010072","nameZh":"天津音乐学院","inputVersion":"247aa5e2cd7cc0b2eecfe082d0023bfedd7470670cf4accd3764b1898dd0a069"},
+      {"taskId":"R-4112010073-b9a7248a25bf","moeCode":"4112010073","nameZh":"天津美术学院","inputVersion":"b9a7248a25bff74c508bb9335980dd55193d1840b7f360d16f009296fa7fe88a"},
+      {"taskId":"R-4112010792-c9a9d53a4319","moeCode":"4112010792","nameZh":"天津城建大学","inputVersion":"c9a9d53a4319763f404041e3f5767949d5c6d70a93c9c6d4478db184b87f5b20"}
+    ],
+    "nextGate": "Independent memo review; capture official sources; create claim-level packages only after capture and review"
+  },
+  "nationwideResearchBatch18": {
+    "source": "next five exact rows from existing input-versioned 1,412-row bachelor queue; no new institution identities",
+    "asOf": "2026-09-30",
+    "runState": "coordinator_memo_received_independent_review_pending",
+    "researchMemosReceived": 5,
+    "researchMemoFile": "discovery/data/agent-runs/2026-09-27-pilot/BEIJING-RESEARCH-BATCH-18.md",
+    "researchMethod": "Fast source sweep follow-up plus bounded official-source search using FAST-RESEARCH-PROMPTS.md; source capture exists for some rows, but current-cycle claims remain review-bound",
+    "independentReview": "5 memo-level results pending independent review; no packages imported",
+    "independentReviewPending": [
+      "R-4112010859-0c4e885fe7f0",
+      "R-4112011032-195b8c3ac25e",
+      "R-4112012105-0fd7fa10f13c",
+      "R-4112012723-91636a6f8ab3",
+      "R-4112013658-8ddaedbff32c"
+    ],
+    "tasks": [
+      {"taskId":"R-4112010859-0c4e885fe7f0","moeCode":"4112010859","nameZh":"天津天狮学院","inputVersion":"0c4e885fe7f02114bd7fe7d074b464c914a018ea5dbd85a5172ffe23a5c7e0bd"},
+      {"taskId":"R-4112011032-195b8c3ac25e","moeCode":"4112011032","nameZh":"天津职业大学","inputVersion":"195b8c3ac25e134859493b876af6f45d59a315057b762a2fcc53cde2b8a1d7c6"},
+      {"taskId":"R-4112012105-0fd7fa10f13c","moeCode":"4112012105","nameZh":"天津中德应用技术大学","inputVersion":"0fd7fa10f13c36bcaf7c892391e199d61ccb19baab1efd7f2df2ec519a61dc61"},
+      {"taskId":"R-4112012723-91636a6f8ab3","moeCode":"4112012723","nameZh":"天津警察学院","inputVersion":"91636a6f8ab3443088311b3166a6fa6331f502d5afe07bf99f315f80338526d2"},
+      {"taskId":"R-4112013658-8ddaedbff32c","moeCode":"4112013658","nameZh":"天津外国语大学滨海外事学院","inputVersion":"8ddaedbff32c7d341765d8f2d9f0ac6ea8f1bad0bb1b342738e74f0deca0529e"}
+    ],
+    "nextGate": "Independent memo review; retry/capture blocked official pages; refresh current-cycle international guides; create claim-level packages only after capture and review"
+  },
+  "fastSourceSweep20260930": {
+    "runState": "complete_coverage_discovery_follow_up_pending",
+    "asOf": "2026-09-30",
+    "script": "discovery/fast_source_sweep.py",
+    "queue": "discovery/data/agent-runs/2026-09-27-pilot/research-tasks.jsonl",
+    "outputDir": "discovery/data/agent-runs/2026-09-27-pilot/fast-sweep-2026-09-30",
+    "outputs": ["fast-source-sweep.jsonl", "fast-source-sweep.csv", "fast-follow-up-queue.jsonl", "fast-source-sweep-manifest.json"],
+    "queueRows": 1412,
+    "uniqueUrls": 534,
+    "fetchedUrls": 534,
+    "config": {"workers": 8, "timeoutSeconds": 15, "maxBytes": 2000000, "oneRequestAtATimePerHost": true},
+    "byDiscoveryStatus": {
+      "candidate_relevant_source": 184,
+      "source_reachable_needs_review": 93,
+      "source_reachable_unreadable": 9,
+      "fetch_failed_or_blocked": 59,
+      "no_existing_source": 1067
+    },
+    "importedToDiscoveryDatabase": false,
+    "productionTouched": false,
+    "nextGate": "Run extraction/review prompts for candidate and reachable sources; run discovery prompt for 1,135 rows without readable qualifying evidence"
+  },
+  "implementationTasks": [
+    {
+      "taskId": "S5-A",
+      "name": "Additive Evidence Schema",
+      "runState": "implemented_coordinator_reviewed",
+      "writeSet": [
+        "discovery/migrations/001_research_evidence.sql",
+        "discovery/migrate_evidence.py",
+        "discovery/test_migrate_evidence.py"
+      ]
+    },
+    {
+      "taskId": "S5-C",
+      "name": "v1 Package Validator",
+      "runState": "implemented_coordinator_reviewed",
+      "writeSet": [
+        "discovery/package_validator.py",
+        "discovery/test_package_validator.py",
+        "discovery/tests/fixtures/package-validator/**"
+      ]
+    },
+    {
+      "taskId": "S5-B",
+      "name": "Backup and Restore Audit Helper",
+      "runState": "implemented_coordinator_tested",
+      "writeSet": [
+        "discovery/backup_restore.py",
+        "discovery/test_backup_restore.py"
+      ],
+      "testsPassed": 5
+    },
+    {
+      "taskId": "S5-D",
+      "name": "Transactional Package Importer",
+      "runState": "implemented_independently_reviewed",
+      "writeSet": [
+        "discovery/import_package.py",
+        "discovery/test_import_package.py",
+        "discovery/migrations/001_research_evidence.sql"
+      ],
+      "testsPassed": 9
+    },
+    {
+      "taskId": "S5-QUEUE",
+      "name": "Input-versioned Existing-Register Task Export",
+      "runState": "implemented_tested",
+      "writeSet": [
+        "discovery/build_research_tasks.py",
+        "discovery/test_build_research_tasks.py"
+      ],
+      "outputRows": 1412,
+      "taskSetSha256": "34a4ddd35519beb1e9b984b83c44a92436ecff68e20189f63095cbd14d1ce3fa"
+    }
+  ]
+}

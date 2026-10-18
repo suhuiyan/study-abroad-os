@@ -1,0 +1,21 @@
+# The repository is public. Version only material we wrote (notes, scripts, structured results);
+# everything below stays on disk/OneDrive and is never deleted by being ignored.
+
+# Python build output and the vendored xlrd copy
+__pycache__/
+.vendor/
+*.log
+
+# Inspection dumps written next to every workbook build (~7 MB each, regenerable from the workbook)
+*.xlsx.inspect.ndjson
+
+# Superseded workbook builds: only the latest numbered build is versioned
+*-v[0-9]*.xlsx
+!china-university-directory-1412-official-links-2026-10-06-v348.xlsx
+
+# Copies of university web pages and PDFs: third-party content kept locally as evidence, not republished.
+# The structured results reference them by content_sha256 and capture_path.
+*.html
+*.htm
+*.pdf
+*.png
