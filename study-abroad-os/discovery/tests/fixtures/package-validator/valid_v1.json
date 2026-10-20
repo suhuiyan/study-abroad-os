@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "packageId": "0000000000000000000000000000000000000000000000000000000000000000",
+  "packageSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "taskId": "R-4162010001",
+  "role": "research",
+  "runState": "complete",
+  "inputVersion": "1111111111111111111111111111111111111111111111111111111111111111",
+  "moeCode": "4162010001",
+  "nameZh": "测试大学",
+  "asOf": "2026-09-27",
+  "officialHomepage": {
+    "url": "https://university.example.cn/",
+    "ownershipEvidenceIds": ["ev-owner"]
+  },
+  "recommendedStatus": "source_found",
+  "sources": [
+    {
+      "id": "src-registry",
+      "url": "https://moe.example.cn/universities/4162010001",
+      "finalUrl": "https://moe.example.cn/universities/4162010001",
+      "title": "University register entry",
+      "publisher": "Education authority",
+      "officiality": "confirmed",
+      "ownershipEvidenceIds": [],
+      "publishedAt": null,
+      "fetchedAt": "2026-09-27T10:00:00+08:00",
+      "httpStatus": 200,
+      "retrievalMethod": "html",
+      "capturePath": "fixture/register.html",
+      "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "error": null
+    },
+    {
+      "id": "src-official",
+      "url": "https://university.example.cn/admission",
+      "finalUrl": "https://university.example.cn/admission",
+      "title": "International admissions",
+      "publisher": "Test University",
+      "officiality": "confirmed",
+      "ownershipEvidenceIds": ["ev-owner"],
+      "publishedAt": "2026-03-01",
+      "fetchedAt": "2026-09-27T10:00:00+08:00",
+      "httpStatus": 200,
+      "retrievalMethod": "html",
+      "capturePath": "fixture/admission.html",
+      "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "error": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-owner",
+      "sourceId": "src-registry",
+      "originalExcerpt": "Official page identifies Test University.",
+      "locator": "About page, paragraph 1",
+      "language": "en"
+    },
+    {
+      "id": "ev-cycle",
+      "sourceId": "src-official",
+      "originalExcerpt": "International bachelor's applications for 2027 open on 1 October 2026.",
+      "locator": "Admissions, paragraph 3",
+      "language": "en"
+    }
+  ],
+  "scopes": [
+    {
+      "id": "scope-university",
+      "kind": "institution",
+      "label": "University identity",
+      "cycle": null,
+      "degreeLevel": null,
+      "applicantChannel": null,
+      "programScope": null,
+      "evidenceIds": ["ev-owner"]
+    },
+    {
+      "id": "scope-admission-2027",
+      "kind": "admission",
+      "label": "International bachelor admission 2027",
+      "cycle": "2027",
+      "degreeLevel": "bachelor",
+      "applicantChannel": "international",
+      "programScope": null,
+      "evidenceIds": ["ev-cycle"]
+    }
+  ],
+  "claims": [
+    {
+      "scopeId": "scope-admission-2027",
+      "field": "application_open",
+      "value": "2026-10-01",
+      "unit": null,
+      "state": "supported",
+      "evidenceIds": ["ev-cycle"],
+      "notes": null
+    },
+    {
+      "scopeId": "scope-admission-2027",
+      "field": "thai_applicant_restrictions",
+      "value": null,
+      "unit": null,
+      "state": "unknown",
+      "evidenceIds": [],
+      "notes": null
+    }
+  ],
+  "searchLog": [
+    {
+      "query": "site:university.example.cn international bachelor admissions",
+      "url": "https://university.example.cn/admission",
+      "action": "open",
+      "result": "Official admissions page opened and read."
+    }
+  ],
+  "outputPaths": [],
+  "checks": [
+    {"command": "manual source read", "result": "complete", "limitations": "Fixture only"}
+  ],
+  "unresolved": [],
+  "nextAction": "Verify Thai-specific requirements from the next cycle notice."
+}

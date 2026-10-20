@@ -1,0 +1,2 @@
+import urllib.request,urllib.parse,re,html
+u='https://zh.wikipedia.org/api/rest_v1/page/html/'+urllib.parse.quote('北京大学'); t=urllib.request.urlopen(urllib.request.Request(u,headers={'User-Agent':'Study-Abroad-OS-research/1.0'}),timeout=20).read().decode('utf8','ignore'); i=t.find('官方网站'); sec=t[i:i+5000]; print([(html.unescape(u),re.sub('<.*?>','',lab)) for u,lab in re.findall(r'<a[^>]+href="(https?://[^" ]+)"[^>]*>(.*?)</a>',sec,re.S)][:10])

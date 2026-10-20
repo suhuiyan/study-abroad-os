@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "kind": "stage_dependencies_not_dispatched_worker_tasks",
+  "stages": [
+    {"id": "S0", "dependencies": []},
+    {"id": "S1", "dependencies": ["S0"]},
+    {"id": "S2", "dependencies": ["S1"]},
+    {"id": "S3", "dependencies": ["S2"]},
+    {"id": "S4", "dependencies": ["S3"]},
+    {"id": "S5", "dependencies": ["S4"]},
+    {"id": "S6", "dependencies": ["S5"]},
+    {"id": "S7", "dependencies": ["S6"]},
+    {"id": "S8", "dependencies": ["S4"]},
+    {"id": "S9", "dependencies": ["S8", "S6"]},
+    {"id": "S10", "dependencies": ["S7", "S9"]},
+    {"id": "S11", "dependencies": ["S10"]},
+    {"id": "S12", "dependencies": ["S11"]}
+  ]
+}

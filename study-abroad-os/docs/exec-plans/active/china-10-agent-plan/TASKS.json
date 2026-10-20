@@ -1,0 +1,3431 @@
+{
+  "version": 1,
+  "createdOn": "2026-09-22",
+  "baselineCommit": "630a2b1995f207d3cc96621d7618336d5741adda",
+  "repoRoot": "C:/Users/Asus/OneDrive/ドキュメント/ChatGPT/Bring me",
+  "appRoot": "study-abroad-os/web",
+  "scope": "Thai students, China undergraduate, ten existing program/admission-route records",
+  "state": "IN_PROGRESS",
+  "count": 52,
+  "tasks": [
+    {
+      "id": "B01",
+      "title": "ล็อกข้อกำหนดข้อมูลและขอบเขตรอบส่งมอบ",
+      "type": "planning",
+      "deps": [],
+      "read": [
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/web/db/schema.sql",
+        "study-abroad-os/web/src/lib/catalog.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/CURRENT-STATE.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/B01.md"
+      ],
+      "steps": [
+        "ตรวจ baseline commit และอ่าน proposed contract; บันทึกสิ่งที่ยืนยันจากโค้ดแยกจากนโยบายที่เสนอ",
+        "กำหนด field provenance, intake year/month/round, scholarship scope, unknown reasons และ rule applicability แบบ backward compatible",
+        "กำหนดค่า default: คิวให้ผู้ดูแลอ่านต้นฉบับและแก้ draft เอง; source changed ห้ามเผยแพร่อัตโนมัติ; ไม่เพิ่ม AI provider",
+        "กำหนด stale policy เป็น configuration ที่เสนอพร้อมเหตุผล และบันทึกชื่อผู้ที่จะตรวจรับข้อมูล/ทำ release ว่ายังต้องระบุ"
+      ],
+      "criteria": [
+        "มี JSON examples ของข้อมูลเก่า/ใหม่/ไม่ทราบ/ขัดแย้ง พร้อม mapping ทุก field ที่เพิ่ม",
+        "มี API error/status contracts และ state transition ของ draft/review/publish",
+        "กำหนด release scope: 10 เส้นทางเดิม ไม่กล่าวว่าครบทุกสาขาของ 10 มหาวิทยาลัย",
+        "ไม่มี schema rewrite หรือการเลือกบริการใหม่; ประเด็นต้องตัดสินใจมี default สำหรับ local work"
+      ],
+      "risk": "ข้อกำหนดคลุมเครือทำให้หลาย Agent ตีความต่างกัน; reviewer ตรวจตัวอย่าง unknown และหลายรอบสมัครก่อนรับงาน",
+      "checks": [
+        "git diff --check"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "parallel": [],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/B01.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/B01.md"
+    },
+    {
+      "id": "B02",
+      "title": "เตรียม test harness บนฐานข้อมูลทิ้งได้",
+      "type": "testing",
+      "deps": [
+        "B01"
+      ],
+      "read": [
+        "study-abroad-os/web/package.json",
+        "study-abroad-os/web/src/lib/db.ts",
+        "study-abroad-os/web/db/schema.sql",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md"
+      ],
+      "write": [
+        "study-abroad-os/web/package.json",
+        "study-abroad-os/web/package-lock.json",
+        "study-abroad-os/web/test/support/database.ts",
+        "study-abroad-os/web/test/support/database.test.ts",
+        "study-abroad-os/web/test/README.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/B02.md"
+      ],
+      "steps": [
+        "ขยาย npm test ให้ค้นพบ src/lib/*.test.ts ทั้งหมดโดยคง 5 tests เดิม; เพิ่ม test:integration สำหรับ test/integration/*.test.ts เมื่อมี",
+        "สร้าง helper ใช้ TEST_DATABASE_URL ที่ชี้เฉพาะ local disposable PostgreSQL และ fixture users สองรายกับ admin หนึ่งราย",
+        "ปฏิเสธ DATABASE_URL/production host; ใช้ namespace/schema ชื่อเฉพาะงานและ cleanup เฉพาะ namespace ที่ helper สร้าง",
+        "ทดสอบ transaction isolation และ failure cleanup; ระบุขั้นตอน provisioning local DB หากเครื่องไม่มี"
+      ],
+      "criteria": [
+        "test เดิมยังถูกเรียกครบและ test ใหม่ถูก discover",
+        "มี self-test พิสูจน์ว่าปฏิเสธ connection ของ production โดยไม่เชื่อมต่อจริง",
+        "test fixture ไม่ต้องอ่าน secret production; cleanup ไม่แตะ schema อื่น",
+        "หาก local PostgreSQL ไม่พร้อม รายงาน BLOCKED เฉพาะ integration ไม่อ้างว่าผ่าน"
+      ],
+      "risk": "test harness ชี้ผิดฐานข้อมูล; บังคับ local host + explicit test namespace ก่อนทุก write",
+      "checks": [
+        "npm test",
+        "npx tsx --test test/support/database.test.ts",
+        "npm run lint"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "parallel": [
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/B02.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/B02.md"
+    },
+    {
+      "id": "B03",
+      "title": "แยก seed ออกจาก build และป้องกันทับข้อมูลที่ตรวจแล้ว",
+      "type": "coding",
+      "deps": [
+        "B02"
+      ],
+      "read": [
+        "study-abroad-os/web/scripts/migrate.ts",
+        "study-abroad-os/web/package.json",
+        "study-abroad-os/web/db/schema.sql",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/web/scripts/migrate.ts",
+        "study-abroad-os/web/scripts/seed.ts",
+        "study-abroad-os/web/src/lib/seed.ts",
+        "study-abroad-os/web/src/lib/seed.test.ts",
+        "study-abroad-os/web/test/integration/seed.test.ts",
+        "study-abroad-os/web/package.json",
+        "study-abroad-os/web/README.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/B03.md"
+      ],
+      "steps": [
+        "แยก additive schema migration และ seed เป็นคำสั่งชัดเจน; build ปกติไม่เขียน DB",
+        "bootstrap program เฉพาะ ID ใหม่ด้วย ON CONFLICT DO NOTHING; การแก้รายการที่มีแล้วต้องผ่าน review/publish",
+        "ทดสอบ deploy/seed ซ้ำหลัง admin แก้ข้อมูล รวมกรณี checkedAt เท่ากัน/ต่างกัน",
+        "เขียนลำดับ migration-before-deploy และ rollback แบบคงข้อมูลสำหรับ L01; อย่าไปเปลี่ยน Vercel settings ในงานนี้"
+      ],
+      "criteria": [
+        "seed ซ้ำไม่เปลี่ยน row หรือ revision ของ program ที่มีแล้ว",
+        "npm run build และ vercel-build ไม่ต้องเข้าฐานข้อมูล",
+        "ฐานข้อมูลใหม่ได้ 10 records แต่ฐานข้อมูลเดิมคง admin updates",
+        "ไม่มี DROP/TRUNCATE หรือแก้ secret"
+      ],
+      "risk": "seed เดิมใช้ checkedAt เป็นเงื่อนไข update จึงอาจข้ามการแก้หรือทับ admin; แยก bootstrap กับ publication ให้ตรวจได้",
+      "checks": [
+        "npm test",
+        "npm run test:integration",
+        "npm run lint",
+        "npm run build"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "parallel": [
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/B03.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/B03.md"
+    },
+    {
+      "id": "R01A",
+      "title": "ตรวจการรับสมัคร: Peking University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/pku/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R01A.md"
+      ],
+      "context": "programId=pku-undergraduate; universityId=pku; seed URL=https://www.isd.pku.edu.cn/en/detail.php?id=818; ประเด็นเฉพาะ: เส้นทางสอบเข้า; ห้ามปนเส้นทางยกเว้นสอบ; CSCA ของทุนแยกจากสอบเข้าปกติ; ขอบเขตทุน: PKU / Beijing Government Scholarship. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านเฉพาะ record pku-undergraduate; เปิด https://www.isd.pku.edu.cn/en/detail.php?id=818 และตามประกาศปริญญาตรีสำหรับชาวต่างชาติของสาขาหรือเส้นทางเดียวกัน",
+        "ตรวจรอบ 2027 จากหลักฐานจริง; ถ้ายังไม่พบให้เก็บหลักฐาน 2026 แยกและทำ 2027=not_announced หรือ not_found ตามสิ่งที่ยืนยันได้",
+        "ทำ evidence ledger ของชื่อ/เมือง/ภาษา/ระยะเวลา/วุฒิ/สัญชาติ/อายุ/เกณฑ์ภาษา/CSCA/ค่าใช้จ่าย/วันสมัคร/เอกสาร/ช่องทางสมัครตาม DATA-CONTRACT",
+        "ทุกค่ามี URL, หัวข้อหรือหน้า PDF, วันที่เข้าถึง, รอบที่ใช้ และสรุปข้อกำหนด; บันทึก conflicts กับ unknown แยกต่างหาก",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/pku/admission.md พร้อมรายการค่าที่ควรเปลี่ยนจาก catalog; ไม่แก้ไฟล์ catalog หรือฐานข้อมูล"
+      ],
+      "criteria": [
+        "ครบ field checklist ทุกช่องด้วย verified/unknown/conflict/not_applicable; ห้ามเว้นโดยไม่อธิบาย",
+        "deadline/ภาษา/ค่าใช้จ่ายแต่ละค่ามีหลักฐานตรงปีและตรงเส้นทาง; ไม่แปลงปีเก่าเป็นปีใหม่",
+        "โปรแกรมหลายสาขาไม่มีการเหมาค่า HSK/GPA/tuition เป็นเกณฑ์เดียว",
+        "ชื่อไทยเป็นคำแปลได้แต่แยกจาก official title; ไม่มีข้อมูลสมมติและไม่แก้ product"
+      ],
+      "risk": "ข้อมูลปีหรือสาขาผิดทำให้นักเรียนสมัครผิด; จำกัดหนึ่งเส้นทางและให้ Vxx ตรวจหลักฐานซ้ำ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R01A.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R01A.md"
+    },
+    {
+      "id": "R01B",
+      "title": "ตรวจทุน: Peking University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "เล็ก",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/pku/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R01B.md"
+      ],
+      "context": "programId=pku-undergraduate; universityId=pku; seed URL=https://www.isd.pku.edu.cn/en/detail.php?id=818; ประเด็นเฉพาะ: เส้นทางสอบเข้า; ห้ามปนเส้นทางยกเว้นสอบ; CSCA ของทุนแยกจากสอบเข้าปกติ; ขอบเขตทุน: PKU / Beijing Government Scholarship. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านทุนใน record pku-undergraduate; ใช้ seed URL และ source ของทุนใน catalog เป็นจุดเริ่ม ตรวจ PKU / Beijing Government Scholarship",
+        "ตรวจว่าทุนใช้กับปริญญาตรีชาวไทยและภาษา/เส้นทางนี้จริง; แยกเงื่อนไขรับเข้าเรียนกับเงื่อนไขให้ทุน",
+        "บันทึก coverage/จำนวน/หน่วย/ระยะสนับสนุน/ต่ออายุ/อายุ/วุฒิ/ผลสอบ/การถือทุนซ้อน/ช่องทาง/วันปิดแต่ละปี",
+        "ถ้าไม่มีทุนยืนยัน ให้ส่งบันทึกหน้าทางการที่ค้นแล้วและ not_found_in_checked_sources; ไม่อ้างว่าไม่มีทุนใดในมหาวิทยาลัย",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/pku/scholarships.md ตาม DATA-CONTRACT พร้อมข้อขัดแย้งและค่าที่เสนอแก้"
+      ],
+      "criteria": [
+        "ทุนเดิมทุกรายการมี confirmed/needs_review/not_applicable พร้อมเหตุผลและ URL",
+        "เงินรายเดือน/ปี/รวมโครงการและสกุลเงินชัดเจน; ไม่บอกว่าทุนรับประกันได้รับ",
+        "วันปิดทุนแยกจาก admission และมีปี/เขตเวลาหรือระบุ unknown",
+        "กรณีไม่พบมี search trail และผู้ตรวจรับสามารถทำซ้ำได้"
+      ],
+      "risk": "ทุนใช้ไม่ได้กับโปรแกรม/คนไทยทำให้เข้าใจค่าใช้จ่ายผิด; ส่งหลักฐาน applicability ไม่อาศัยชื่อทุนอย่างเดียว",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R01B.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R01B.md"
+    },
+    {
+      "id": "R02A",
+      "title": "ตรวจการรับสมัคร: Fudan University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/fudan/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R02A.md"
+      ],
+      "context": "programId=fudan-data-science; universityId=fudan; seed URL=https://iso.fudan.edu.cn/_upload/article/files/bc/ed/37f712cb4e3f8316f4ec2ebc4ba2/6c9fce5d-d137-4934-b484-1c4630f18aa5.pdf; ประเด็นเฉพาะ: UIPDB ภาษาอังกฤษ; แยกรอบแรก/รอบสองและ CSCA รายวิชา; ตรวจปีบน PDF; ขอบเขตทุน: ยังไม่มีทุนยืนยันสำหรับ UIPDB: ตรวจเฉพาะทุนที่ระบุว่าใช้กับโปรแกรมนี้. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านเฉพาะ record fudan-data-science; เปิด https://iso.fudan.edu.cn/_upload/article/files/bc/ed/37f712cb4e3f8316f4ec2ebc4ba2/6c9fce5d-d137-4934-b484-1c4630f18aa5.pdf และตามประกาศปริญญาตรีสำหรับชาวต่างชาติของสาขาหรือเส้นทางเดียวกัน",
+        "ตรวจรอบ 2027 จากหลักฐานจริง; ถ้ายังไม่พบให้เก็บหลักฐาน 2026 แยกและทำ 2027=not_announced หรือ not_found ตามสิ่งที่ยืนยันได้",
+        "ทำ evidence ledger ของชื่อ/เมือง/ภาษา/ระยะเวลา/วุฒิ/สัญชาติ/อายุ/เกณฑ์ภาษา/CSCA/ค่าใช้จ่าย/วันสมัคร/เอกสาร/ช่องทางสมัครตาม DATA-CONTRACT",
+        "ทุกค่ามี URL, หัวข้อหรือหน้า PDF, วันที่เข้าถึง, รอบที่ใช้ และสรุปข้อกำหนด; บันทึก conflicts กับ unknown แยกต่างหาก",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/fudan/admission.md พร้อมรายการค่าที่ควรเปลี่ยนจาก catalog; ไม่แก้ไฟล์ catalog หรือฐานข้อมูล"
+      ],
+      "criteria": [
+        "ครบ field checklist ทุกช่องด้วย verified/unknown/conflict/not_applicable; ห้ามเว้นโดยไม่อธิบาย",
+        "deadline/ภาษา/ค่าใช้จ่ายแต่ละค่ามีหลักฐานตรงปีและตรงเส้นทาง; ไม่แปลงปีเก่าเป็นปีใหม่",
+        "โปรแกรมหลายสาขาไม่มีการเหมาค่า HSK/GPA/tuition เป็นเกณฑ์เดียว",
+        "ชื่อไทยเป็นคำแปลได้แต่แยกจาก official title; ไม่มีข้อมูลสมมติและไม่แก้ product"
+      ],
+      "risk": "ข้อมูลปีหรือสาขาผิดทำให้นักเรียนสมัครผิด; จำกัดหนึ่งเส้นทางและให้ Vxx ตรวจหลักฐานซ้ำ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R02A.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R02A.md"
+    },
+    {
+      "id": "R02B",
+      "title": "ตรวจทุน: Fudan University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "เล็ก",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/fudan/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R02B.md"
+      ],
+      "context": "programId=fudan-data-science; universityId=fudan; seed URL=https://iso.fudan.edu.cn/_upload/article/files/bc/ed/37f712cb4e3f8316f4ec2ebc4ba2/6c9fce5d-d137-4934-b484-1c4630f18aa5.pdf; ประเด็นเฉพาะ: UIPDB ภาษาอังกฤษ; แยกรอบแรก/รอบสองและ CSCA รายวิชา; ตรวจปีบน PDF; ขอบเขตทุน: ยังไม่มีทุนยืนยันสำหรับ UIPDB: ตรวจเฉพาะทุนที่ระบุว่าใช้กับโปรแกรมนี้. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านทุนใน record fudan-data-science; ใช้ seed URL และ source ของทุนใน catalog เป็นจุดเริ่ม ตรวจ ยังไม่มีทุนยืนยันสำหรับ UIPDB: ตรวจเฉพาะทุนที่ระบุว่าใช้กับโปรแกรมนี้",
+        "ตรวจว่าทุนใช้กับปริญญาตรีชาวไทยและภาษา/เส้นทางนี้จริง; แยกเงื่อนไขรับเข้าเรียนกับเงื่อนไขให้ทุน",
+        "บันทึก coverage/จำนวน/หน่วย/ระยะสนับสนุน/ต่ออายุ/อายุ/วุฒิ/ผลสอบ/การถือทุนซ้อน/ช่องทาง/วันปิดแต่ละปี",
+        "ถ้าไม่มีทุนยืนยัน ให้ส่งบันทึกหน้าทางการที่ค้นแล้วและ not_found_in_checked_sources; ไม่อ้างว่าไม่มีทุนใดในมหาวิทยาลัย",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/fudan/scholarships.md ตาม DATA-CONTRACT พร้อมข้อขัดแย้งและค่าที่เสนอแก้"
+      ],
+      "criteria": [
+        "ทุนเดิมทุกรายการมี confirmed/needs_review/not_applicable พร้อมเหตุผลและ URL",
+        "เงินรายเดือน/ปี/รวมโครงการและสกุลเงินชัดเจน; ไม่บอกว่าทุนรับประกันได้รับ",
+        "วันปิดทุนแยกจาก admission และมีปี/เขตเวลาหรือระบุ unknown",
+        "กรณีไม่พบมี search trail และผู้ตรวจรับสามารถทำซ้ำได้"
+      ],
+      "risk": "ทุนใช้ไม่ได้กับโปรแกรม/คนไทยทำให้เข้าใจค่าใช้จ่ายผิด; ส่งหลักฐาน applicability ไม่อาศัยชื่อทุนอย่างเดียว",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R02B.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R02B.md"
+    },
+    {
+      "id": "R03A",
+      "title": "ตรวจการรับสมัคร: Shanghai Jiao Tong University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/sjtu/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R03A.md"
+      ],
+      "context": "programId=sjtu-engineering; universityId=sjtu; seed URL=https://gc.sjtu.edu.cn/admission/international-undergraduate-admission/application-requirements/; ประเด็นเฉพาะ: Global College; ไม่เหมารวมทุกคณะ SJTU; ค่าเรียนกับค่าครองชีพคนละรายการ; ขอบเขตทุน: SJTU First / Second / Third-Class Scholarship ที่ใช้กับ Global College. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านเฉพาะ record sjtu-engineering; เปิด https://gc.sjtu.edu.cn/admission/international-undergraduate-admission/application-requirements/ และตามประกาศปริญญาตรีสำหรับชาวต่างชาติของสาขาหรือเส้นทางเดียวกัน",
+        "ตรวจรอบ 2027 จากหลักฐานจริง; ถ้ายังไม่พบให้เก็บหลักฐาน 2026 แยกและทำ 2027=not_announced หรือ not_found ตามสิ่งที่ยืนยันได้",
+        "ทำ evidence ledger ของชื่อ/เมือง/ภาษา/ระยะเวลา/วุฒิ/สัญชาติ/อายุ/เกณฑ์ภาษา/CSCA/ค่าใช้จ่าย/วันสมัคร/เอกสาร/ช่องทางสมัครตาม DATA-CONTRACT",
+        "ทุกค่ามี URL, หัวข้อหรือหน้า PDF, วันที่เข้าถึง, รอบที่ใช้ และสรุปข้อกำหนด; บันทึก conflicts กับ unknown แยกต่างหาก",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/sjtu/admission.md พร้อมรายการค่าที่ควรเปลี่ยนจาก catalog; ไม่แก้ไฟล์ catalog หรือฐานข้อมูล"
+      ],
+      "criteria": [
+        "ครบ field checklist ทุกช่องด้วย verified/unknown/conflict/not_applicable; ห้ามเว้นโดยไม่อธิบาย",
+        "deadline/ภาษา/ค่าใช้จ่ายแต่ละค่ามีหลักฐานตรงปีและตรงเส้นทาง; ไม่แปลงปีเก่าเป็นปีใหม่",
+        "โปรแกรมหลายสาขาไม่มีการเหมาค่า HSK/GPA/tuition เป็นเกณฑ์เดียว",
+        "ชื่อไทยเป็นคำแปลได้แต่แยกจาก official title; ไม่มีข้อมูลสมมติและไม่แก้ product"
+      ],
+      "risk": "ข้อมูลปีหรือสาขาผิดทำให้นักเรียนสมัครผิด; จำกัดหนึ่งเส้นทางและให้ Vxx ตรวจหลักฐานซ้ำ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R03A.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R03A.md"
+    },
+    {
+      "id": "R03B",
+      "title": "ตรวจทุน: Shanghai Jiao Tong University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "เล็ก",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/sjtu/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R03B.md"
+      ],
+      "context": "programId=sjtu-engineering; universityId=sjtu; seed URL=https://gc.sjtu.edu.cn/admission/international-undergraduate-admission/application-requirements/; ประเด็นเฉพาะ: Global College; ไม่เหมารวมทุกคณะ SJTU; ค่าเรียนกับค่าครองชีพคนละรายการ; ขอบเขตทุน: SJTU First / Second / Third-Class Scholarship ที่ใช้กับ Global College. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านทุนใน record sjtu-engineering; ใช้ seed URL และ source ของทุนใน catalog เป็นจุดเริ่ม ตรวจ SJTU First / Second / Third-Class Scholarship ที่ใช้กับ Global College",
+        "ตรวจว่าทุนใช้กับปริญญาตรีชาวไทยและภาษา/เส้นทางนี้จริง; แยกเงื่อนไขรับเข้าเรียนกับเงื่อนไขให้ทุน",
+        "บันทึก coverage/จำนวน/หน่วย/ระยะสนับสนุน/ต่ออายุ/อายุ/วุฒิ/ผลสอบ/การถือทุนซ้อน/ช่องทาง/วันปิดแต่ละปี",
+        "ถ้าไม่มีทุนยืนยัน ให้ส่งบันทึกหน้าทางการที่ค้นแล้วและ not_found_in_checked_sources; ไม่อ้างว่าไม่มีทุนใดในมหาวิทยาลัย",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/sjtu/scholarships.md ตาม DATA-CONTRACT พร้อมข้อขัดแย้งและค่าที่เสนอแก้"
+      ],
+      "criteria": [
+        "ทุนเดิมทุกรายการมี confirmed/needs_review/not_applicable พร้อมเหตุผลและ URL",
+        "เงินรายเดือน/ปี/รวมโครงการและสกุลเงินชัดเจน; ไม่บอกว่าทุนรับประกันได้รับ",
+        "วันปิดทุนแยกจาก admission และมีปี/เขตเวลาหรือระบุ unknown",
+        "กรณีไม่พบมี search trail และผู้ตรวจรับสามารถทำซ้ำได้"
+      ],
+      "risk": "ทุนใช้ไม่ได้กับโปรแกรม/คนไทยทำให้เข้าใจค่าใช้จ่ายผิด; ส่งหลักฐาน applicability ไม่อาศัยชื่อทุนอย่างเดียว",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R03B.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R03B.md"
+    },
+    {
+      "id": "R04A",
+      "title": "ตรวจการรับสมัคร: Zhejiang University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/zju/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R04A.md"
+      ],
+      "context": "programId=zju-chinese-undergraduate; universityId=zju; seed URL=https://iczu.zju.edu.cn/admissionsen/2024/1030/c68988a2981659/page.htm; ประเด็นเฉพาะ: เส้นทางหลายสาขา; HSK/CSCA รายสาขาห้ามใช้ตัวเลขกลาง; ปีใน URL ไม่เท่ากับปีประกาศเสมอ; ขอบเขตทุน: Zhejiang Government Scholarship; มีข้อสงสัยปีของวันสมัครในข้อมูลเดิม. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านเฉพาะ record zju-chinese-undergraduate; เปิด https://iczu.zju.edu.cn/admissionsen/2024/1030/c68988a2981659/page.htm และตามประกาศปริญญาตรีสำหรับชาวต่างชาติของสาขาหรือเส้นทางเดียวกัน",
+        "ตรวจรอบ 2027 จากหลักฐานจริง; ถ้ายังไม่พบให้เก็บหลักฐาน 2026 แยกและทำ 2027=not_announced หรือ not_found ตามสิ่งที่ยืนยันได้",
+        "ทำ evidence ledger ของชื่อ/เมือง/ภาษา/ระยะเวลา/วุฒิ/สัญชาติ/อายุ/เกณฑ์ภาษา/CSCA/ค่าใช้จ่าย/วันสมัคร/เอกสาร/ช่องทางสมัครตาม DATA-CONTRACT",
+        "ทุกค่ามี URL, หัวข้อหรือหน้า PDF, วันที่เข้าถึง, รอบที่ใช้ และสรุปข้อกำหนด; บันทึก conflicts กับ unknown แยกต่างหาก",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/zju/admission.md พร้อมรายการค่าที่ควรเปลี่ยนจาก catalog; ไม่แก้ไฟล์ catalog หรือฐานข้อมูล"
+      ],
+      "criteria": [
+        "ครบ field checklist ทุกช่องด้วย verified/unknown/conflict/not_applicable; ห้ามเว้นโดยไม่อธิบาย",
+        "deadline/ภาษา/ค่าใช้จ่ายแต่ละค่ามีหลักฐานตรงปีและตรงเส้นทาง; ไม่แปลงปีเก่าเป็นปีใหม่",
+        "โปรแกรมหลายสาขาไม่มีการเหมาค่า HSK/GPA/tuition เป็นเกณฑ์เดียว",
+        "ชื่อไทยเป็นคำแปลได้แต่แยกจาก official title; ไม่มีข้อมูลสมมติและไม่แก้ product"
+      ],
+      "risk": "ข้อมูลปีหรือสาขาผิดทำให้นักเรียนสมัครผิด; จำกัดหนึ่งเส้นทางและให้ Vxx ตรวจหลักฐานซ้ำ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R04A.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R04A.md"
+    },
+    {
+      "id": "R04B",
+      "title": "ตรวจทุน: Zhejiang University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "เล็ก",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/zju/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R04B.md"
+      ],
+      "context": "programId=zju-chinese-undergraduate; universityId=zju; seed URL=https://iczu.zju.edu.cn/admissionsen/2024/1030/c68988a2981659/page.htm; ประเด็นเฉพาะ: เส้นทางหลายสาขา; HSK/CSCA รายสาขาห้ามใช้ตัวเลขกลาง; ปีใน URL ไม่เท่ากับปีประกาศเสมอ; ขอบเขตทุน: Zhejiang Government Scholarship; มีข้อสงสัยปีของวันสมัครในข้อมูลเดิม. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านทุนใน record zju-chinese-undergraduate; ใช้ seed URL และ source ของทุนใน catalog เป็นจุดเริ่ม ตรวจ Zhejiang Government Scholarship; มีข้อสงสัยปีของวันสมัครในข้อมูลเดิม",
+        "ตรวจว่าทุนใช้กับปริญญาตรีชาวไทยและภาษา/เส้นทางนี้จริง; แยกเงื่อนไขรับเข้าเรียนกับเงื่อนไขให้ทุน",
+        "บันทึก coverage/จำนวน/หน่วย/ระยะสนับสนุน/ต่ออายุ/อายุ/วุฒิ/ผลสอบ/การถือทุนซ้อน/ช่องทาง/วันปิดแต่ละปี",
+        "ถ้าไม่มีทุนยืนยัน ให้ส่งบันทึกหน้าทางการที่ค้นแล้วและ not_found_in_checked_sources; ไม่อ้างว่าไม่มีทุนใดในมหาวิทยาลัย",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/zju/scholarships.md ตาม DATA-CONTRACT พร้อมข้อขัดแย้งและค่าที่เสนอแก้"
+      ],
+      "criteria": [
+        "ทุนเดิมทุกรายการมี confirmed/needs_review/not_applicable พร้อมเหตุผลและ URL",
+        "เงินรายเดือน/ปี/รวมโครงการและสกุลเงินชัดเจน; ไม่บอกว่าทุนรับประกันได้รับ",
+        "วันปิดทุนแยกจาก admission และมีปี/เขตเวลาหรือระบุ unknown",
+        "กรณีไม่พบมี search trail และผู้ตรวจรับสามารถทำซ้ำได้"
+      ],
+      "risk": "ทุนใช้ไม่ได้กับโปรแกรม/คนไทยทำให้เข้าใจค่าใช้จ่ายผิด; ส่งหลักฐาน applicability ไม่อาศัยชื่อทุนอย่างเดียว",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R04B.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R04B.md"
+    },
+    {
+      "id": "R05A",
+      "title": "ตรวจการรับสมัคร: Xiamen University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/xmu/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R05A.md"
+      ],
+      "context": "programId=xmu-chinese-humanities; universityId=xmu; seed URL=https://admissions.xmu.edu.cn/Admissions/Undergraduate_Students.htm; ประเด็นเฉพาะ: มนุษยศาสตร์/ธุรกิจภาษาจีน; แยกวันปิดทุนส่วนตัวกับทุนมหาวิทยาลัย; ขอบเขตทุน: XMU New International Students Scholarship; โควตาและเงื่อนไขรายปี. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านเฉพาะ record xmu-chinese-humanities; เปิด https://admissions.xmu.edu.cn/Admissions/Undergraduate_Students.htm และตามประกาศปริญญาตรีสำหรับชาวต่างชาติของสาขาหรือเส้นทางเดียวกัน",
+        "ตรวจรอบ 2027 จากหลักฐานจริง; ถ้ายังไม่พบให้เก็บหลักฐาน 2026 แยกและทำ 2027=not_announced หรือ not_found ตามสิ่งที่ยืนยันได้",
+        "ทำ evidence ledger ของชื่อ/เมือง/ภาษา/ระยะเวลา/วุฒิ/สัญชาติ/อายุ/เกณฑ์ภาษา/CSCA/ค่าใช้จ่าย/วันสมัคร/เอกสาร/ช่องทางสมัครตาม DATA-CONTRACT",
+        "ทุกค่ามี URL, หัวข้อหรือหน้า PDF, วันที่เข้าถึง, รอบที่ใช้ และสรุปข้อกำหนด; บันทึก conflicts กับ unknown แยกต่างหาก",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/xmu/admission.md พร้อมรายการค่าที่ควรเปลี่ยนจาก catalog; ไม่แก้ไฟล์ catalog หรือฐานข้อมูล"
+      ],
+      "criteria": [
+        "ครบ field checklist ทุกช่องด้วย verified/unknown/conflict/not_applicable; ห้ามเว้นโดยไม่อธิบาย",
+        "deadline/ภาษา/ค่าใช้จ่ายแต่ละค่ามีหลักฐานตรงปีและตรงเส้นทาง; ไม่แปลงปีเก่าเป็นปีใหม่",
+        "โปรแกรมหลายสาขาไม่มีการเหมาค่า HSK/GPA/tuition เป็นเกณฑ์เดียว",
+        "ชื่อไทยเป็นคำแปลได้แต่แยกจาก official title; ไม่มีข้อมูลสมมติและไม่แก้ product"
+      ],
+      "risk": "ข้อมูลปีหรือสาขาผิดทำให้นักเรียนสมัครผิด; จำกัดหนึ่งเส้นทางและให้ Vxx ตรวจหลักฐานซ้ำ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R05A.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R05A.md"
+    },
+    {
+      "id": "R05B",
+      "title": "ตรวจทุน: Xiamen University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "เล็ก",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/xmu/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R05B.md"
+      ],
+      "context": "programId=xmu-chinese-humanities; universityId=xmu; seed URL=https://admissions.xmu.edu.cn/Admissions/Undergraduate_Students.htm; ประเด็นเฉพาะ: มนุษยศาสตร์/ธุรกิจภาษาจีน; แยกวันปิดทุนส่วนตัวกับทุนมหาวิทยาลัย; ขอบเขตทุน: XMU New International Students Scholarship; โควตาและเงื่อนไขรายปี. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านทุนใน record xmu-chinese-humanities; ใช้ seed URL และ source ของทุนใน catalog เป็นจุดเริ่ม ตรวจ XMU New International Students Scholarship; โควตาและเงื่อนไขรายปี",
+        "ตรวจว่าทุนใช้กับปริญญาตรีชาวไทยและภาษา/เส้นทางนี้จริง; แยกเงื่อนไขรับเข้าเรียนกับเงื่อนไขให้ทุน",
+        "บันทึก coverage/จำนวน/หน่วย/ระยะสนับสนุน/ต่ออายุ/อายุ/วุฒิ/ผลสอบ/การถือทุนซ้อน/ช่องทาง/วันปิดแต่ละปี",
+        "ถ้าไม่มีทุนยืนยัน ให้ส่งบันทึกหน้าทางการที่ค้นแล้วและ not_found_in_checked_sources; ไม่อ้างว่าไม่มีทุนใดในมหาวิทยาลัย",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/xmu/scholarships.md ตาม DATA-CONTRACT พร้อมข้อขัดแย้งและค่าที่เสนอแก้"
+      ],
+      "criteria": [
+        "ทุนเดิมทุกรายการมี confirmed/needs_review/not_applicable พร้อมเหตุผลและ URL",
+        "เงินรายเดือน/ปี/รวมโครงการและสกุลเงินชัดเจน; ไม่บอกว่าทุนรับประกันได้รับ",
+        "วันปิดทุนแยกจาก admission และมีปี/เขตเวลาหรือระบุ unknown",
+        "กรณีไม่พบมี search trail และผู้ตรวจรับสามารถทำซ้ำได้"
+      ],
+      "risk": "ทุนใช้ไม่ได้กับโปรแกรม/คนไทยทำให้เข้าใจค่าใช้จ่ายผิด; ส่งหลักฐาน applicability ไม่อาศัยชื่อทุนอย่างเดียว",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R05B.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R05B.md"
+    },
+    {
+      "id": "R06A",
+      "title": "ตรวจการรับสมัคร: Tongji University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/tongji/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R06A.md"
+      ],
+      "context": "programId=tongji-chinese-language; universityId=tongji; seed URL=https://study.tongji.edu.cn/__local/6/AE/A6/66E0A7D71A250672DFF40ED4048_3682FBF2_3762E.pdf; ประเด็นเฉพาะ: เข้าปีหนึ่ง Chinese Language; วุฒิเต็มเวลาและข้อยกเว้นต้องมีหลักฐานตรงสาขา; ขอบเขตทุน: Shanghai Government Scholarship และ CSC Type A; ช่องทางสมัครและผู้กำหนด deadline แยกกัน. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านเฉพาะ record tongji-chinese-language; เปิด https://study.tongji.edu.cn/__local/6/AE/A6/66E0A7D71A250672DFF40ED4048_3682FBF2_3762E.pdf และตามประกาศปริญญาตรีสำหรับชาวต่างชาติของสาขาหรือเส้นทางเดียวกัน",
+        "ตรวจรอบ 2027 จากหลักฐานจริง; ถ้ายังไม่พบให้เก็บหลักฐาน 2026 แยกและทำ 2027=not_announced หรือ not_found ตามสิ่งที่ยืนยันได้",
+        "ทำ evidence ledger ของชื่อ/เมือง/ภาษา/ระยะเวลา/วุฒิ/สัญชาติ/อายุ/เกณฑ์ภาษา/CSCA/ค่าใช้จ่าย/วันสมัคร/เอกสาร/ช่องทางสมัครตาม DATA-CONTRACT",
+        "ทุกค่ามี URL, หัวข้อหรือหน้า PDF, วันที่เข้าถึง, รอบที่ใช้ และสรุปข้อกำหนด; บันทึก conflicts กับ unknown แยกต่างหาก",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/tongji/admission.md พร้อมรายการค่าที่ควรเปลี่ยนจาก catalog; ไม่แก้ไฟล์ catalog หรือฐานข้อมูล"
+      ],
+      "criteria": [
+        "ครบ field checklist ทุกช่องด้วย verified/unknown/conflict/not_applicable; ห้ามเว้นโดยไม่อธิบาย",
+        "deadline/ภาษา/ค่าใช้จ่ายแต่ละค่ามีหลักฐานตรงปีและตรงเส้นทาง; ไม่แปลงปีเก่าเป็นปีใหม่",
+        "โปรแกรมหลายสาขาไม่มีการเหมาค่า HSK/GPA/tuition เป็นเกณฑ์เดียว",
+        "ชื่อไทยเป็นคำแปลได้แต่แยกจาก official title; ไม่มีข้อมูลสมมติและไม่แก้ product"
+      ],
+      "risk": "ข้อมูลปีหรือสาขาผิดทำให้นักเรียนสมัครผิด; จำกัดหนึ่งเส้นทางและให้ Vxx ตรวจหลักฐานซ้ำ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R06A.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R06A.md"
+    },
+    {
+      "id": "R06B",
+      "title": "ตรวจทุน: Tongji University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "เล็ก",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/tongji/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R06B.md"
+      ],
+      "context": "programId=tongji-chinese-language; universityId=tongji; seed URL=https://study.tongji.edu.cn/__local/6/AE/A6/66E0A7D71A250672DFF40ED4048_3682FBF2_3762E.pdf; ประเด็นเฉพาะ: เข้าปีหนึ่ง Chinese Language; วุฒิเต็มเวลาและข้อยกเว้นต้องมีหลักฐานตรงสาขา; ขอบเขตทุน: Shanghai Government Scholarship และ CSC Type A; ช่องทางสมัครและผู้กำหนด deadline แยกกัน. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านทุนใน record tongji-chinese-language; ใช้ seed URL และ source ของทุนใน catalog เป็นจุดเริ่ม ตรวจ Shanghai Government Scholarship และ CSC Type A; ช่องทางสมัครและผู้กำหนด deadline แยกกัน",
+        "ตรวจว่าทุนใช้กับปริญญาตรีชาวไทยและภาษา/เส้นทางนี้จริง; แยกเงื่อนไขรับเข้าเรียนกับเงื่อนไขให้ทุน",
+        "บันทึก coverage/จำนวน/หน่วย/ระยะสนับสนุน/ต่ออายุ/อายุ/วุฒิ/ผลสอบ/การถือทุนซ้อน/ช่องทาง/วันปิดแต่ละปี",
+        "ถ้าไม่มีทุนยืนยัน ให้ส่งบันทึกหน้าทางการที่ค้นแล้วและ not_found_in_checked_sources; ไม่อ้างว่าไม่มีทุนใดในมหาวิทยาลัย",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/tongji/scholarships.md ตาม DATA-CONTRACT พร้อมข้อขัดแย้งและค่าที่เสนอแก้"
+      ],
+      "criteria": [
+        "ทุนเดิมทุกรายการมี confirmed/needs_review/not_applicable พร้อมเหตุผลและ URL",
+        "เงินรายเดือน/ปี/รวมโครงการและสกุลเงินชัดเจน; ไม่บอกว่าทุนรับประกันได้รับ",
+        "วันปิดทุนแยกจาก admission และมีปี/เขตเวลาหรือระบุ unknown",
+        "กรณีไม่พบมี search trail และผู้ตรวจรับสามารถทำซ้ำได้"
+      ],
+      "risk": "ทุนใช้ไม่ได้กับโปรแกรม/คนไทยทำให้เข้าใจค่าใช้จ่ายผิด; ส่งหลักฐาน applicability ไม่อาศัยชื่อทุนอย่างเดียว",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R06B.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R06B.md"
+    },
+    {
+      "id": "R07A",
+      "title": "ตรวจการรับสมัคร: East China Normal University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/ecnu/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R07A.md"
+      ],
+      "context": "programId=ecnu-chinese-undergraduate; universityId=ecnu; seed URL=https://lxs.ecnu.edu.cn/en_admission_degree_programs_undergraduate_program/; ประเด็นเฉพาะ: เกณฑ์ HSK ของทุนไม่ใช่เกณฑ์ทุกหลักสูตร; ใช้โปรแกรมภาษาจีนเท่านั้น; ขอบเขตทุน: ECNU Excellent Freshmen Scholarship; แยก stipend กับ tuition waiver. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านเฉพาะ record ecnu-chinese-undergraduate; เปิด https://lxs.ecnu.edu.cn/en_admission_degree_programs_undergraduate_program/ และตามประกาศปริญญาตรีสำหรับชาวต่างชาติของสาขาหรือเส้นทางเดียวกัน",
+        "ตรวจรอบ 2027 จากหลักฐานจริง; ถ้ายังไม่พบให้เก็บหลักฐาน 2026 แยกและทำ 2027=not_announced หรือ not_found ตามสิ่งที่ยืนยันได้",
+        "ทำ evidence ledger ของชื่อ/เมือง/ภาษา/ระยะเวลา/วุฒิ/สัญชาติ/อายุ/เกณฑ์ภาษา/CSCA/ค่าใช้จ่าย/วันสมัคร/เอกสาร/ช่องทางสมัครตาม DATA-CONTRACT",
+        "ทุกค่ามี URL, หัวข้อหรือหน้า PDF, วันที่เข้าถึง, รอบที่ใช้ และสรุปข้อกำหนด; บันทึก conflicts กับ unknown แยกต่างหาก",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/ecnu/admission.md พร้อมรายการค่าที่ควรเปลี่ยนจาก catalog; ไม่แก้ไฟล์ catalog หรือฐานข้อมูล"
+      ],
+      "criteria": [
+        "ครบ field checklist ทุกช่องด้วย verified/unknown/conflict/not_applicable; ห้ามเว้นโดยไม่อธิบาย",
+        "deadline/ภาษา/ค่าใช้จ่ายแต่ละค่ามีหลักฐานตรงปีและตรงเส้นทาง; ไม่แปลงปีเก่าเป็นปีใหม่",
+        "โปรแกรมหลายสาขาไม่มีการเหมาค่า HSK/GPA/tuition เป็นเกณฑ์เดียว",
+        "ชื่อไทยเป็นคำแปลได้แต่แยกจาก official title; ไม่มีข้อมูลสมมติและไม่แก้ product"
+      ],
+      "risk": "ข้อมูลปีหรือสาขาผิดทำให้นักเรียนสมัครผิด; จำกัดหนึ่งเส้นทางและให้ Vxx ตรวจหลักฐานซ้ำ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R07A.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R07A.md"
+    },
+    {
+      "id": "R07B",
+      "title": "ตรวจทุน: East China Normal University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "เล็ก",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/ecnu/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R07B.md"
+      ],
+      "context": "programId=ecnu-chinese-undergraduate; universityId=ecnu; seed URL=https://lxs.ecnu.edu.cn/en_admission_degree_programs_undergraduate_program/; ประเด็นเฉพาะ: เกณฑ์ HSK ของทุนไม่ใช่เกณฑ์ทุกหลักสูตร; ใช้โปรแกรมภาษาจีนเท่านั้น; ขอบเขตทุน: ECNU Excellent Freshmen Scholarship; แยก stipend กับ tuition waiver. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านทุนใน record ecnu-chinese-undergraduate; ใช้ seed URL และ source ของทุนใน catalog เป็นจุดเริ่ม ตรวจ ECNU Excellent Freshmen Scholarship; แยก stipend กับ tuition waiver",
+        "ตรวจว่าทุนใช้กับปริญญาตรีชาวไทยและภาษา/เส้นทางนี้จริง; แยกเงื่อนไขรับเข้าเรียนกับเงื่อนไขให้ทุน",
+        "บันทึก coverage/จำนวน/หน่วย/ระยะสนับสนุน/ต่ออายุ/อายุ/วุฒิ/ผลสอบ/การถือทุนซ้อน/ช่องทาง/วันปิดแต่ละปี",
+        "ถ้าไม่มีทุนยืนยัน ให้ส่งบันทึกหน้าทางการที่ค้นแล้วและ not_found_in_checked_sources; ไม่อ้างว่าไม่มีทุนใดในมหาวิทยาลัย",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/ecnu/scholarships.md ตาม DATA-CONTRACT พร้อมข้อขัดแย้งและค่าที่เสนอแก้"
+      ],
+      "criteria": [
+        "ทุนเดิมทุกรายการมี confirmed/needs_review/not_applicable พร้อมเหตุผลและ URL",
+        "เงินรายเดือน/ปี/รวมโครงการและสกุลเงินชัดเจน; ไม่บอกว่าทุนรับประกันได้รับ",
+        "วันปิดทุนแยกจาก admission และมีปี/เขตเวลาหรือระบุ unknown",
+        "กรณีไม่พบมี search trail และผู้ตรวจรับสามารถทำซ้ำได้"
+      ],
+      "risk": "ทุนใช้ไม่ได้กับโปรแกรม/คนไทยทำให้เข้าใจค่าใช้จ่ายผิด; ส่งหลักฐาน applicability ไม่อาศัยชื่อทุนอย่างเดียว",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R07B.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R07B.md"
+    },
+    {
+      "id": "R08A",
+      "title": "ตรวจการรับสมัคร: Beijing Language and Culture University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/blcu/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R08A.md"
+      ],
+      "context": "programId=blcu-chinese-language; universityId=blcu; seed URL=https://admission.blcu.edu.cn/en/384/list.htm; ประเด็นเฉพาะ: รอบมีนาคม 2027; ตรวจว่าเป็น degree route จริง; ปีขัดแย้งห้ามเลือกตามเดา; ขอบเขตทุน: Beijing International Students Scholarship; วันปิดทุนไม่ใช่วันปิดสมัครเรียน. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านเฉพาะ record blcu-chinese-language; เปิด https://admission.blcu.edu.cn/en/384/list.htm และตามประกาศปริญญาตรีสำหรับชาวต่างชาติของสาขาหรือเส้นทางเดียวกัน",
+        "ตรวจรอบ 2027 จากหลักฐานจริง; ถ้ายังไม่พบให้เก็บหลักฐาน 2026 แยกและทำ 2027=not_announced หรือ not_found ตามสิ่งที่ยืนยันได้",
+        "ทำ evidence ledger ของชื่อ/เมือง/ภาษา/ระยะเวลา/วุฒิ/สัญชาติ/อายุ/เกณฑ์ภาษา/CSCA/ค่าใช้จ่าย/วันสมัคร/เอกสาร/ช่องทางสมัครตาม DATA-CONTRACT",
+        "ทุกค่ามี URL, หัวข้อหรือหน้า PDF, วันที่เข้าถึง, รอบที่ใช้ และสรุปข้อกำหนด; บันทึก conflicts กับ unknown แยกต่างหาก",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/blcu/admission.md พร้อมรายการค่าที่ควรเปลี่ยนจาก catalog; ไม่แก้ไฟล์ catalog หรือฐานข้อมูล"
+      ],
+      "criteria": [
+        "ครบ field checklist ทุกช่องด้วย verified/unknown/conflict/not_applicable; ห้ามเว้นโดยไม่อธิบาย",
+        "deadline/ภาษา/ค่าใช้จ่ายแต่ละค่ามีหลักฐานตรงปีและตรงเส้นทาง; ไม่แปลงปีเก่าเป็นปีใหม่",
+        "โปรแกรมหลายสาขาไม่มีการเหมาค่า HSK/GPA/tuition เป็นเกณฑ์เดียว",
+        "ชื่อไทยเป็นคำแปลได้แต่แยกจาก official title; ไม่มีข้อมูลสมมติและไม่แก้ product"
+      ],
+      "risk": "ข้อมูลปีหรือสาขาผิดทำให้นักเรียนสมัครผิด; จำกัดหนึ่งเส้นทางและให้ Vxx ตรวจหลักฐานซ้ำ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R08A.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R08A.md"
+    },
+    {
+      "id": "R08B",
+      "title": "ตรวจทุน: Beijing Language and Culture University",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "เล็ก",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/blcu/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R08B.md"
+      ],
+      "context": "programId=blcu-chinese-language; universityId=blcu; seed URL=https://admission.blcu.edu.cn/en/384/list.htm; ประเด็นเฉพาะ: รอบมีนาคม 2027; ตรวจว่าเป็น degree route จริง; ปีขัดแย้งห้ามเลือกตามเดา; ขอบเขตทุน: Beijing International Students Scholarship; วันปิดทุนไม่ใช่วันปิดสมัครเรียน. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านทุนใน record blcu-chinese-language; ใช้ seed URL และ source ของทุนใน catalog เป็นจุดเริ่ม ตรวจ Beijing International Students Scholarship; วันปิดทุนไม่ใช่วันปิดสมัครเรียน",
+        "ตรวจว่าทุนใช้กับปริญญาตรีชาวไทยและภาษา/เส้นทางนี้จริง; แยกเงื่อนไขรับเข้าเรียนกับเงื่อนไขให้ทุน",
+        "บันทึก coverage/จำนวน/หน่วย/ระยะสนับสนุน/ต่ออายุ/อายุ/วุฒิ/ผลสอบ/การถือทุนซ้อน/ช่องทาง/วันปิดแต่ละปี",
+        "ถ้าไม่มีทุนยืนยัน ให้ส่งบันทึกหน้าทางการที่ค้นแล้วและ not_found_in_checked_sources; ไม่อ้างว่าไม่มีทุนใดในมหาวิทยาลัย",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/blcu/scholarships.md ตาม DATA-CONTRACT พร้อมข้อขัดแย้งและค่าที่เสนอแก้"
+      ],
+      "criteria": [
+        "ทุนเดิมทุกรายการมี confirmed/needs_review/not_applicable พร้อมเหตุผลและ URL",
+        "เงินรายเดือน/ปี/รวมโครงการและสกุลเงินชัดเจน; ไม่บอกว่าทุนรับประกันได้รับ",
+        "วันปิดทุนแยกจาก admission และมีปี/เขตเวลาหรือระบุ unknown",
+        "กรณีไม่พบมี search trail และผู้ตรวจรับสามารถทำซ้ำได้"
+      ],
+      "risk": "ทุนใช้ไม่ได้กับโปรแกรม/คนไทยทำให้เข้าใจค่าใช้จ่ายผิด; ส่งหลักฐาน applicability ไม่อาศัยชื่อทุนอย่างเดียว",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R08B.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R08B.md"
+    },
+    {
+      "id": "R09A",
+      "title": "ตรวจการรับสมัคร: University of International Business and Economics",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/uibe/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R09A.md"
+      ],
+      "context": "programId=uibe-international-business; universityId=uibe; seed URL=https://sie.uibe.edu.cn/en/Prgr/BacDegPro/OfEn/d56a3c4fd73446e9803fb0e0b1345f4a.htm; ประเด็นเฉพาะ: International Business ภาษาอังกฤษ; หน้าทั่วไปไม่ยืนยันรอบปี 2027; ขอบเขตทุน: ยังไม่มีทุนยืนยันสำหรับ International Business ภาษาอังกฤษ: ตรวจ eligibility ของโปรแกรมก่อนบันทึก. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านเฉพาะ record uibe-international-business; เปิด https://sie.uibe.edu.cn/en/Prgr/BacDegPro/OfEn/d56a3c4fd73446e9803fb0e0b1345f4a.htm และตามประกาศปริญญาตรีสำหรับชาวต่างชาติของสาขาหรือเส้นทางเดียวกัน",
+        "ตรวจรอบ 2027 จากหลักฐานจริง; ถ้ายังไม่พบให้เก็บหลักฐาน 2026 แยกและทำ 2027=not_announced หรือ not_found ตามสิ่งที่ยืนยันได้",
+        "ทำ evidence ledger ของชื่อ/เมือง/ภาษา/ระยะเวลา/วุฒิ/สัญชาติ/อายุ/เกณฑ์ภาษา/CSCA/ค่าใช้จ่าย/วันสมัคร/เอกสาร/ช่องทางสมัครตาม DATA-CONTRACT",
+        "ทุกค่ามี URL, หัวข้อหรือหน้า PDF, วันที่เข้าถึง, รอบที่ใช้ และสรุปข้อกำหนด; บันทึก conflicts กับ unknown แยกต่างหาก",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/uibe/admission.md พร้อมรายการค่าที่ควรเปลี่ยนจาก catalog; ไม่แก้ไฟล์ catalog หรือฐานข้อมูล"
+      ],
+      "criteria": [
+        "ครบ field checklist ทุกช่องด้วย verified/unknown/conflict/not_applicable; ห้ามเว้นโดยไม่อธิบาย",
+        "deadline/ภาษา/ค่าใช้จ่ายแต่ละค่ามีหลักฐานตรงปีและตรงเส้นทาง; ไม่แปลงปีเก่าเป็นปีใหม่",
+        "โปรแกรมหลายสาขาไม่มีการเหมาค่า HSK/GPA/tuition เป็นเกณฑ์เดียว",
+        "ชื่อไทยเป็นคำแปลได้แต่แยกจาก official title; ไม่มีข้อมูลสมมติและไม่แก้ product"
+      ],
+      "risk": "ข้อมูลปีหรือสาขาผิดทำให้นักเรียนสมัครผิด; จำกัดหนึ่งเส้นทางและให้ Vxx ตรวจหลักฐานซ้ำ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R09A.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R09A.md"
+    },
+    {
+      "id": "R09B",
+      "title": "ตรวจทุน: University of International Business and Economics",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "เล็ก",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/uibe/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R09B.md"
+      ],
+      "context": "programId=uibe-international-business; universityId=uibe; seed URL=https://sie.uibe.edu.cn/en/Prgr/BacDegPro/OfEn/d56a3c4fd73446e9803fb0e0b1345f4a.htm; ประเด็นเฉพาะ: International Business ภาษาอังกฤษ; หน้าทั่วไปไม่ยืนยันรอบปี 2027; ขอบเขตทุน: ยังไม่มีทุนยืนยันสำหรับ International Business ภาษาอังกฤษ: ตรวจ eligibility ของโปรแกรมก่อนบันทึก. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านทุนใน record uibe-international-business; ใช้ seed URL และ source ของทุนใน catalog เป็นจุดเริ่ม ตรวจ ยังไม่มีทุนยืนยันสำหรับ International Business ภาษาอังกฤษ: ตรวจ eligibility ของโปรแกรมก่อนบันทึก",
+        "ตรวจว่าทุนใช้กับปริญญาตรีชาวไทยและภาษา/เส้นทางนี้จริง; แยกเงื่อนไขรับเข้าเรียนกับเงื่อนไขให้ทุน",
+        "บันทึก coverage/จำนวน/หน่วย/ระยะสนับสนุน/ต่ออายุ/อายุ/วุฒิ/ผลสอบ/การถือทุนซ้อน/ช่องทาง/วันปิดแต่ละปี",
+        "ถ้าไม่มีทุนยืนยัน ให้ส่งบันทึกหน้าทางการที่ค้นแล้วและ not_found_in_checked_sources; ไม่อ้างว่าไม่มีทุนใดในมหาวิทยาลัย",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/uibe/scholarships.md ตาม DATA-CONTRACT พร้อมข้อขัดแย้งและค่าที่เสนอแก้"
+      ],
+      "criteria": [
+        "ทุนเดิมทุกรายการมี confirmed/needs_review/not_applicable พร้อมเหตุผลและ URL",
+        "เงินรายเดือน/ปี/รวมโครงการและสกุลเงินชัดเจน; ไม่บอกว่าทุนรับประกันได้รับ",
+        "วันปิดทุนแยกจาก admission และมีปี/เขตเวลาหรือระบุ unknown",
+        "กรณีไม่พบมี search trail และผู้ตรวจรับสามารถทำซ้ำได้"
+      ],
+      "risk": "ทุนใช้ไม่ได้กับโปรแกรม/คนไทยทำให้เข้าใจค่าใช้จ่ายผิด; ส่งหลักฐาน applicability ไม่อาศัยชื่อทุนอย่างเดียว",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R09B.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R09B.md"
+    },
+    {
+      "id": "R10A",
+      "title": "ตรวจการรับสมัคร: Shandong University of Finance and Economics",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/sdufe/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R10A.md"
+      ],
+      "context": "programId=sdufe-international-trade; universityId=sdufe; seed URL=https://sie.sdufe.edu.cn/info/1209/79441.htm; ประเด็นเฉพาะ: International Economics and Trade; ราคา bundle ค่าเรียน+หอห้ามลงเป็น tuition ล้วน; เงื่อนไขขั้นต่ำผู้เรียน; ขอบเขตทุน: English-taught Undergraduate Special Scholarship; ตรวจต่ออายุและ CSCA เพื่อทุน. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านเฉพาะ record sdufe-international-trade; เปิด https://sie.sdufe.edu.cn/info/1209/79441.htm และตามประกาศปริญญาตรีสำหรับชาวต่างชาติของสาขาหรือเส้นทางเดียวกัน",
+        "ตรวจรอบ 2027 จากหลักฐานจริง; ถ้ายังไม่พบให้เก็บหลักฐาน 2026 แยกและทำ 2027=not_announced หรือ not_found ตามสิ่งที่ยืนยันได้",
+        "ทำ evidence ledger ของชื่อ/เมือง/ภาษา/ระยะเวลา/วุฒิ/สัญชาติ/อายุ/เกณฑ์ภาษา/CSCA/ค่าใช้จ่าย/วันสมัคร/เอกสาร/ช่องทางสมัครตาม DATA-CONTRACT",
+        "ทุกค่ามี URL, หัวข้อหรือหน้า PDF, วันที่เข้าถึง, รอบที่ใช้ และสรุปข้อกำหนด; บันทึก conflicts กับ unknown แยกต่างหาก",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/sdufe/admission.md พร้อมรายการค่าที่ควรเปลี่ยนจาก catalog; ไม่แก้ไฟล์ catalog หรือฐานข้อมูล"
+      ],
+      "criteria": [
+        "ครบ field checklist ทุกช่องด้วย verified/unknown/conflict/not_applicable; ห้ามเว้นโดยไม่อธิบาย",
+        "deadline/ภาษา/ค่าใช้จ่ายแต่ละค่ามีหลักฐานตรงปีและตรงเส้นทาง; ไม่แปลงปีเก่าเป็นปีใหม่",
+        "โปรแกรมหลายสาขาไม่มีการเหมาค่า HSK/GPA/tuition เป็นเกณฑ์เดียว",
+        "ชื่อไทยเป็นคำแปลได้แต่แยกจาก official title; ไม่มีข้อมูลสมมติและไม่แก้ product"
+      ],
+      "risk": "ข้อมูลปีหรือสาขาผิดทำให้นักเรียนสมัครผิด; จำกัดหนึ่งเส้นทางและให้ Vxx ตรวจหลักฐานซ้ำ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R10A.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R10A.md"
+    },
+    {
+      "id": "R10B",
+      "title": "ตรวจทุน: Shandong University of Finance and Economics",
+      "type": "research",
+      "deps": [
+        "B01"
+      ],
+      "priority": "P0",
+      "size": "เล็ก",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/lib/catalog.ts"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/sdufe/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R10B.md"
+      ],
+      "context": "programId=sdufe-international-trade; universityId=sdufe; seed URL=https://sie.sdufe.edu.cn/info/1209/79441.htm; ประเด็นเฉพาะ: International Economics and Trade; ราคา bundle ค่าเรียน+หอห้ามลงเป็น tuition ล้วน; เงื่อนไขขั้นต่ำผู้เรียน; ขอบเขตทุน: English-taught Undergraduate Special Scholarship; ตรวจต่ออายุและ CSCA เพื่อทุน. URL นี้เป็นจุดเริ่มจากข้อมูลเดิม ยังไม่ได้ยืนยันความสดในงานวางแผนนี้",
+      "steps": [
+        "อ่านทุนใน record sdufe-international-trade; ใช้ seed URL และ source ของทุนใน catalog เป็นจุดเริ่ม ตรวจ English-taught Undergraduate Special Scholarship; ตรวจต่ออายุและ CSCA เพื่อทุน",
+        "ตรวจว่าทุนใช้กับปริญญาตรีชาวไทยและภาษา/เส้นทางนี้จริง; แยกเงื่อนไขรับเข้าเรียนกับเงื่อนไขให้ทุน",
+        "บันทึก coverage/จำนวน/หน่วย/ระยะสนับสนุน/ต่ออายุ/อายุ/วุฒิ/ผลสอบ/การถือทุนซ้อน/ช่องทาง/วันปิดแต่ละปี",
+        "ถ้าไม่มีทุนยืนยัน ให้ส่งบันทึกหน้าทางการที่ค้นแล้วและ not_found_in_checked_sources; ไม่อ้างว่าไม่มีทุนใดในมหาวิทยาลัย",
+        "ส่ง study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/sdufe/scholarships.md ตาม DATA-CONTRACT พร้อมข้อขัดแย้งและค่าที่เสนอแก้"
+      ],
+      "criteria": [
+        "ทุนเดิมทุกรายการมี confirmed/needs_review/not_applicable พร้อมเหตุผลและ URL",
+        "เงินรายเดือน/ปี/รวมโครงการและสกุลเงินชัดเจน; ไม่บอกว่าทุนรับประกันได้รับ",
+        "วันปิดทุนแยกจาก admission และมีปี/เขตเวลาหรือระบุ unknown",
+        "กรณีไม่พบมี search trail และผู้ตรวจรับสามารถทำซ้ำได้"
+      ],
+      "risk": "ทุนใช้ไม่ได้กับโปรแกรม/คนไทยทำให้เข้าใจค่าใช้จ่ายผิด; ส่งหลักฐาน applicability ไม่อาศัยชื่อทุนอย่างเดียว",
+      "checks": [
+        "git diff --check",
+        "ตรวจ evidence checklist ใน study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md ทีละ field และเปิด URL สำคัญซ้ำ (manual; ไม่ต้อง build)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/R10B.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/R10B.md"
+    },
+    {
+      "id": "V01",
+      "title": "ตรวจทานหลักฐานคู่ pku + fudan",
+      "type": "review",
+      "deps": [
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/pku/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/pku/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/fudan/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/fudan/scholarships.md"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V01.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/V01.md"
+      ],
+      "steps": [
+        "ใช้ผู้ตรวจคนละ execution กับผู้วิจัย; เปิดต้นฉบับ critical fields ทุก field ที่จะ publish ไม่ใช่ตรวจแต่รายงาน",
+        "เทียบปี/สาขา/ประเภททุน/ไทย/เงิน/ภาษา/วันปิด; ตรวจว่าคำแปลไม่เพิ่มเงื่อนไข",
+        "ตัดสินราย field เป็น accepted/unknown/conflict/rejected พร้อมเหตุผล; ความไม่พบไม่ใช่ failure ของงานหากรายงานครบ",
+        "ส่ง correction กลับ R งานเดิมกรณีผิด; reviewer ห้ามแก้ evidence ของคนอื่นเงียบ ๆ"
+      ],
+      "criteria": [
+        "ทุก critical field มี verdict และ source locator",
+        "field ไม่ผ่านจะไม่เป็น verified ใน D02; รายงานเก็บค่าต้นฉบับและค่าที่เสนอแก้",
+        "ไม่มี unresolved ข้อขัดแย้งที่ถูกยกระดับเป็น confirmed",
+        "ระบุ review date และชื่อ/ID ผู้ตรวจ"
+      ],
+      "risk": "review อ่านเฉพาะข้อสรุปทำให้ข้อผิดพลาดเดิมผ่านซ้ำ; ต้องเทียบต้นฉบับ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ checklist ของ DATA-CONTRACT และเทียบ verdict กับหลักฐานทีละ field (manual)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/V01.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/V01.md"
+    },
+    {
+      "id": "V02",
+      "title": "ตรวจทานหลักฐานคู่ sjtu + zju",
+      "type": "review",
+      "deps": [
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/sjtu/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/sjtu/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/zju/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/zju/scholarships.md"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V02.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/V02.md"
+      ],
+      "steps": [
+        "ใช้ผู้ตรวจคนละ execution กับผู้วิจัย; เปิดต้นฉบับ critical fields ทุก field ที่จะ publish ไม่ใช่ตรวจแต่รายงาน",
+        "เทียบปี/สาขา/ประเภททุน/ไทย/เงิน/ภาษา/วันปิด; ตรวจว่าคำแปลไม่เพิ่มเงื่อนไข",
+        "ตัดสินราย field เป็น accepted/unknown/conflict/rejected พร้อมเหตุผล; ความไม่พบไม่ใช่ failure ของงานหากรายงานครบ",
+        "ส่ง correction กลับ R งานเดิมกรณีผิด; reviewer ห้ามแก้ evidence ของคนอื่นเงียบ ๆ"
+      ],
+      "criteria": [
+        "ทุก critical field มี verdict และ source locator",
+        "field ไม่ผ่านจะไม่เป็น verified ใน D02; รายงานเก็บค่าต้นฉบับและค่าที่เสนอแก้",
+        "ไม่มี unresolved ข้อขัดแย้งที่ถูกยกระดับเป็น confirmed",
+        "ระบุ review date และชื่อ/ID ผู้ตรวจ"
+      ],
+      "risk": "review อ่านเฉพาะข้อสรุปทำให้ข้อผิดพลาดเดิมผ่านซ้ำ; ต้องเทียบต้นฉบับ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ checklist ของ DATA-CONTRACT และเทียบ verdict กับหลักฐานทีละ field (manual)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/V02.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/V02.md"
+    },
+    {
+      "id": "V03",
+      "title": "ตรวจทานหลักฐานคู่ xmu + tongji",
+      "type": "review",
+      "deps": [
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/xmu/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/xmu/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/tongji/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/tongji/scholarships.md"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V03.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/V03.md"
+      ],
+      "steps": [
+        "ใช้ผู้ตรวจคนละ execution กับผู้วิจัย; เปิดต้นฉบับ critical fields ทุก field ที่จะ publish ไม่ใช่ตรวจแต่รายงาน",
+        "เทียบปี/สาขา/ประเภททุน/ไทย/เงิน/ภาษา/วันปิด; ตรวจว่าคำแปลไม่เพิ่มเงื่อนไข",
+        "ตัดสินราย field เป็น accepted/unknown/conflict/rejected พร้อมเหตุผล; ความไม่พบไม่ใช่ failure ของงานหากรายงานครบ",
+        "ส่ง correction กลับ R งานเดิมกรณีผิด; reviewer ห้ามแก้ evidence ของคนอื่นเงียบ ๆ"
+      ],
+      "criteria": [
+        "ทุก critical field มี verdict และ source locator",
+        "field ไม่ผ่านจะไม่เป็น verified ใน D02; รายงานเก็บค่าต้นฉบับและค่าที่เสนอแก้",
+        "ไม่มี unresolved ข้อขัดแย้งที่ถูกยกระดับเป็น confirmed",
+        "ระบุ review date และชื่อ/ID ผู้ตรวจ"
+      ],
+      "risk": "review อ่านเฉพาะข้อสรุปทำให้ข้อผิดพลาดเดิมผ่านซ้ำ; ต้องเทียบต้นฉบับ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ checklist ของ DATA-CONTRACT และเทียบ verdict กับหลักฐานทีละ field (manual)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/V03.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/V03.md"
+    },
+    {
+      "id": "V04",
+      "title": "ตรวจทานหลักฐานคู่ ecnu + blcu",
+      "type": "review",
+      "deps": [
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/ecnu/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/ecnu/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/blcu/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/blcu/scholarships.md"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V04.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/V04.md"
+      ],
+      "steps": [
+        "ใช้ผู้ตรวจคนละ execution กับผู้วิจัย; เปิดต้นฉบับ critical fields ทุก field ที่จะ publish ไม่ใช่ตรวจแต่รายงาน",
+        "เทียบปี/สาขา/ประเภททุน/ไทย/เงิน/ภาษา/วันปิด; ตรวจว่าคำแปลไม่เพิ่มเงื่อนไข",
+        "ตัดสินราย field เป็น accepted/unknown/conflict/rejected พร้อมเหตุผล; ความไม่พบไม่ใช่ failure ของงานหากรายงานครบ",
+        "ส่ง correction กลับ R งานเดิมกรณีผิด; reviewer ห้ามแก้ evidence ของคนอื่นเงียบ ๆ"
+      ],
+      "criteria": [
+        "ทุก critical field มี verdict และ source locator",
+        "field ไม่ผ่านจะไม่เป็น verified ใน D02; รายงานเก็บค่าต้นฉบับและค่าที่เสนอแก้",
+        "ไม่มี unresolved ข้อขัดแย้งที่ถูกยกระดับเป็น confirmed",
+        "ระบุ review date และชื่อ/ID ผู้ตรวจ"
+      ],
+      "risk": "review อ่านเฉพาะข้อสรุปทำให้ข้อผิดพลาดเดิมผ่านซ้ำ; ต้องเทียบต้นฉบับ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ checklist ของ DATA-CONTRACT และเทียบ verdict กับหลักฐานทีละ field (manual)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V05",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/V04.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/V04.md"
+    },
+    {
+      "id": "V05",
+      "title": "ตรวจทานหลักฐานคู่ uibe + sdufe",
+      "type": "review",
+      "deps": [
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/uibe/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/uibe/scholarships.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/sdufe/admission.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/evidence/sdufe/scholarships.md"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V05.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/V05.md"
+      ],
+      "steps": [
+        "ใช้ผู้ตรวจคนละ execution กับผู้วิจัย; เปิดต้นฉบับ critical fields ทุก field ที่จะ publish ไม่ใช่ตรวจแต่รายงาน",
+        "เทียบปี/สาขา/ประเภททุน/ไทย/เงิน/ภาษา/วันปิด; ตรวจว่าคำแปลไม่เพิ่มเงื่อนไข",
+        "ตัดสินราย field เป็น accepted/unknown/conflict/rejected พร้อมเหตุผล; ความไม่พบไม่ใช่ failure ของงานหากรายงานครบ",
+        "ส่ง correction กลับ R งานเดิมกรณีผิด; reviewer ห้ามแก้ evidence ของคนอื่นเงียบ ๆ"
+      ],
+      "criteria": [
+        "ทุก critical field มี verdict และ source locator",
+        "field ไม่ผ่านจะไม่เป็น verified ใน D02; รายงานเก็บค่าต้นฉบับและค่าที่เสนอแก้",
+        "ไม่มี unresolved ข้อขัดแย้งที่ถูกยกระดับเป็น confirmed",
+        "ระบุ review date และชื่อ/ID ผู้ตรวจ"
+      ],
+      "risk": "review อ่านเฉพาะข้อสรุปทำให้ข้อผิดพลาดเดิมผ่านซ้ำ; ต้องเทียบต้นฉบับ",
+      "checks": [
+        "git diff --check",
+        "ตรวจ checklist ของ DATA-CONTRACT และเทียบ verdict กับหลักฐานทีละ field (manual)"
+      ],
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "D01",
+        "S01",
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/V05.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/V05.md"
+    },
+    {
+      "id": "D01",
+      "title": "เพิ่ม provenance และรอบสมัครแบบเข้ากับข้อมูลเดิม",
+      "type": "coding",
+      "deps": [
+        "B01",
+        "B02"
+      ],
+      "read": [
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md"
+      ],
+      "write": [
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/web/src/lib/provenance.ts",
+        "study-abroad-os/web/src/lib/provenance.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/D01.md"
+      ],
+      "steps": [
+        "เพิ่ม schema optional สำหรับ provenance ราย field และรอบปี/เดือน/รอบย่อย โดยไม่เปลี่ยน ID เดิม",
+        "เพิ่ม scholarship applicability/provenance และ unknown reason ตาม contract",
+        "parse records เก่าให้ทำงานเดิมได้; round ที่ไม่ยืนยันห้ามคำนวณเป็น open",
+        "เพิ่ม schema tests ของ malformed dates, ข้อขัดแย้ง, ไม่มี source และ record เก่า"
+      ],
+      "criteria": [
+        "catalog เดิมทั้ง 10 parse ได้",
+        "verified critical value ไม่มี citation ถูก reject; unknown ยังคง null/empty ตาม adapter",
+        "round สมัครเรียนกับ round ทุนแยกกันและเลขปีไม่ substring match",
+        "ไม่แยกเป็น ORM หรือ normalized tables ใหม่โดยไม่จำเป็น"
+      ],
+      "risk": "schema ใหม่ทำให้ข้อมูลเก่าอ่านไม่ได้; optional fields + regression fixtures",
+      "checks": [
+        "npm test",
+        "npm run lint",
+        "npm run build"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "parallel": [
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "S01",
+        "S02",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/D01.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/D01.md"
+    },
+    {
+      "id": "S01",
+      "title": "ทำ source ID ให้คงที่และรักษาประวัติ",
+      "type": "coding",
+      "deps": [
+        "B03"
+      ],
+      "read": [
+        "study-abroad-os/web/src/lib/catalog.ts",
+        "study-abroad-os/web/scripts/migrate.ts",
+        "study-abroad-os/web/scripts/seed.ts",
+        "study-abroad-os/web/db/schema.sql"
+      ],
+      "write": [
+        "study-abroad-os/web/src/lib/catalog.ts",
+        "study-abroad-os/web/src/lib/source-registry.ts",
+        "study-abroad-os/web/src/lib/source-registry.test.ts",
+        "study-abroad-os/web/scripts/seed.ts",
+        "study-abroad-os/web/src/lib/seed.ts",
+        "study-abroad-os/web/test/integration/source-registry.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/S01.md"
+      ],
+      "steps": [
+        "เปลี่ยนการสร้าง ID ตามลำดับ array ให้เป็น identity ที่คงที่ตาม canonical URL; export เดิมยังใช้ได้",
+        "ตรวจ URL normalization แบบไม่ตัด query ที่มีความหมาย",
+        "สำหรับ row เก่า lookup ด้วย URL และคง existing ID; ไม่ย้าย source_version ไป URL ใหม่",
+        "ทดสอบ reorder/add/remove URL และ duplicate URL ใน DB ทิ้งได้"
+      ],
+      "criteria": [
+        "เรียง catalog ใหม่ไม่เปลี่ยนการจับคู่ source history",
+        "URL ซ้ำไม่เกิด unique violation; source เดิมไม่ถูกเปลี่ยนเป็น URL คนละแหล่ง",
+        "ไม่มี delete history และไม่มี copy ทับ bytea",
+        "มี fixture แสดง source-01 เดิมยังอ้างประวัติเดิมหลัง seed ซ้ำ"
+      ],
+      "risk": "ID ตามตำแหน่งเดิมเสี่ยงประวัติสลับมหาวิทยาลัย; ใช้ URL identity และคง legacy mapping",
+      "checks": [
+        "npm test",
+        "npm run test:integration",
+        "npm run lint"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "parallel": [
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/S01.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/S01.md"
+    },
+    {
+      "id": "D02",
+      "title": "รวมข้อมูลที่ผ่าน review เข้า catalog ชุดแรก",
+      "type": "coding",
+      "deps": [
+        "D01",
+        "S01",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "V05"
+      ],
+      "read": [
+        "study-abroad-os/web/src/lib/catalog.ts",
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/DATA-CONTRACT.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V01.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V02.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V03.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V04.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V05.md"
+      ],
+      "write": [
+        "study-abroad-os/web/src/lib/catalog.ts",
+        "study-abroad-os/web/src/lib/catalog.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/catalog-diff.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/D02.md"
+      ],
+      "steps": [
+        "เทียบ verdict กับ record เดิมทีละมหาวิทยาลัย; เปลี่ยนเฉพาะค่าที่ผ่าน review และเก็บ unresolved เป็น unknown",
+        "คง 10 program IDs และ universityIds; รอบใหม่เป็นข้อมูลมีหลักฐาน ไม่เพิ่ม all-program coverage",
+        "แนบ field provenance ตาม D01 และตั้ง verifiedAt เฉพาะที่มีผู้ตรวจรับ",
+        "ทดสอบ catalog/provenance/schema และส่ง before-after manifest สำหรับ A02 สร้าง draft; การ deploy seed จะไม่ update row เดิมตาม B03"
+      ],
+      "criteria": [
+        "ทุกค่าที่เปลี่ยน trace กลับ Vxx และ URL ได้",
+        "ข้อมูล 2026 ไม่ถูกติดป้าย 2027 โดยไม่มีประกาศ",
+        "10 IDs เดิมครบ ไม่ทำ shortlist/application FK แตก",
+        "catalog-diff แยกรายการ publish-ready กับ needs-review และบอก production ยังไม่ได้ถูกแก้"
+      ],
+      "risk": "catalog ใน Git กับ DB ไม่ตรง; ส่ง manifest ให้เข้าคิว publication ไม่ใช้ seed overwrite",
+      "checks": [
+        "npm test",
+        "npm run lint",
+        "npm run build"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "parallel": [
+        "S02",
+        "S03",
+        "A01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/D02.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/D02.md"
+    },
+    {
+      "id": "S02",
+      "title": "จำกัดการดาวน์โหลดและแยก error ของแต่ละแหล่ง",
+      "type": "coding",
+      "deps": [
+        "S01",
+        "B02"
+      ],
+      "read": [
+        "study-abroad-os/web/src/lib/sources.ts",
+        "study-abroad-os/web/src/lib/source-registry.ts",
+        "study-abroad-os/web/src/app/api/cron/sources/route.ts"
+      ],
+      "write": [
+        "study-abroad-os/web/src/lib/source-fetch.ts",
+        "study-abroad-os/web/src/lib/source-fetch.test.ts",
+        "study-abroad-os/web/src/lib/sources.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/S02.md"
+      ],
+      "steps": [
+        "แยก fetch helper สำหรับใช้ fake responses ใน test",
+        "อ่าน response เป็น stream และยกเลิกทันทีเมื่อเกิน 4 MiB แม้ไม่มี content-length; จำกัด timeout และ redirect",
+        "บันทึก HTTP status ล่าสุดของ error, content type ที่รับ และ failure reason แบบไม่รวม secret",
+        "ไม่แทน latest good snapshot ด้วย timeout/error HTML; จำกัด accepted HTML/PDF; บันทึกหน้าที่ต้องตรวจแทนพยายาม bypass bot protection"
+      ],
+      "criteria": [
+        "tests ครอบคลุม no-content-length oversize, 404, 429, timeout, unexpected MIME และ success",
+        "source หนึ่งล้มเหลวไม่ทำให้ source อื่นหยุด; ถ้า DB ล้มเหลวทั้งชุดส่ง service failure",
+        "bytes read ไม่เกิน budget อย่างไม่มีขอบเขต",
+        "ไม่ได้ claim ว่า hash เปลี่ยนแปลว่ารับสมัครเปลี่ยนแน่นอน"
+      ],
+      "risk": "arrayBuffer เดิมอ่านทั้งไฟล์ก่อนตรวจขนาด; stream cap ลด memory spike และรักษา snapshot ดีล่าสุด",
+      "checks": [
+        "npm test",
+        "npm run lint"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "D02",
+        "S03",
+        "A01",
+        "A02",
+        "A03",
+        "E01",
+        "E02",
+        "E03",
+        "P01",
+        "P02",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/S02.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/S02.md"
+    },
+    {
+      "id": "S03",
+      "title": "เพิ่มตารางคิวตรวจทานและสถานะรัน",
+      "type": "coding",
+      "deps": [
+        "D01",
+        "S01",
+        "B02"
+      ],
+      "read": [
+        "study-abroad-os/web/db/schema.sql",
+        "study-abroad-os/web/scripts/migrate.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md"
+      ],
+      "write": [
+        "study-abroad-os/web/db/schema.sql",
+        "study-abroad-os/web/src/lib/review-contract.ts",
+        "study-abroad-os/web/src/lib/review-contract.test.ts",
+        "study-abroad-os/web/test/integration/review-schema.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/S03.md"
+      ],
+      "steps": [
+        "เพิ่ม additive tables source_check_run และ review_item พร้อม source_id/hash/program_id/base_revision/status/payload/reviewer/time",
+        "เพิ่ม uniqueness ของหนึ่ง event source+hash+program; lifecycle pending -> draft -> approved/rejected; approved terminal",
+        "เก็บ before/after payload และ baseline revision เพื่อป้องกัน concurrent publish",
+        "ทดสอบ migrate สองครั้งบน DB ทิ้งได้ โดยเก็บ programs/source_version เดิม"
+      ],
+      "criteria": [
+        "duplicate events ไม่เกิดหลายคิว",
+        "เพิ่มตารางไม่แก้ ID หรือ body ของ source_version เดิม",
+        "state contract ตรวจ enum/invalid transitions ได้",
+        "มี migration repeatability evidence และวิธี roll forward; ไม่มี down migration ลบข้อมูล"
+      ],
+      "risk": "schema event ไม่คงที่ทำให้ publish ซ้ำ; unique key และ immutable baseline",
+      "checks": [
+        "npm test",
+        "npm run test:integration",
+        "npm run lint"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "D02",
+        "S02",
+        "E01",
+        "E02",
+        "E03",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/S03.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/S03.md"
+    },
+    {
+      "id": "S04",
+      "title": "เชื่อมการตรวจรายวันกับคิวแบบไม่เผยแพร่อัตโนมัติ",
+      "type": "coding",
+      "deps": [
+        "S02",
+        "S03",
+        "D02"
+      ],
+      "read": [
+        "study-abroad-os/web/src/lib/sources.ts",
+        "study-abroad-os/web/src/lib/review-contract.ts",
+        "study-abroad-os/web/src/app/api/cron/sources/route.ts",
+        "study-abroad-os/web/vercel.json"
+      ],
+      "write": [
+        "study-abroad-os/web/src/lib/sources.ts",
+        "study-abroad-os/web/src/app/api/cron/sources/route.ts",
+        "study-abroad-os/web/test/integration/source-sync.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/S04.md"
+      ],
+      "steps": [
+        "sync จาก active registry พร้อม identity ของ S01; เก็บ run summary success/error count กับเวลาจบ",
+        "source hash เปลี่ยนสร้าง pending item ต่อ affected program; same hash ไม่สร้างใหม่; first fetch ติดป้าย baseline",
+        "ใช้ DB lease/advisory lock กัน run ซ้อนและ time budget พร้อม deferred list ก่อนหมด 300s",
+        "errors ไม่ลบ last-known-good data; ทุกการ fetch ห้ามเขียน program.data"
+      ],
+      "criteria": [
+        "fixture changed/same/error/first-fetch ได้ queue และ summary ตรง contract",
+        "run ซ้ำและพร้อมกันไม่สร้าง duplicate snapshot/queue",
+        "ไม่มี secret=503, bad token=401; test ใช้ค่าเทียม",
+        "ไม่มีการแก้ deadline/ทุนอัตโนมัติ; cron schedule เดิมคงอยู่และระบุเป็น daily polling"
+      ],
+      "risk": "ความเปลี่ยนของ HTML อาจเป็น navigation; admin ต้องอ่าน diff ก่อน update",
+      "checks": [
+        "npm test",
+        "npm run test:integration",
+        "npm run lint"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "A01",
+        "A02",
+        "A03",
+        "E01",
+        "E02",
+        "E03",
+        "P01",
+        "P02",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/S04.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/S04.md"
+    },
+    {
+      "id": "A01",
+      "title": "ทำ API อ่านคิวและ snapshot สำหรับผู้ดูแล",
+      "type": "coding",
+      "deps": [
+        "S03"
+      ],
+      "read": [
+        "study-abroad-os/web/src/lib/auth.ts",
+        "study-abroad-os/web/src/app/api/workspace/route.ts",
+        "study-abroad-os/web/db/schema.sql",
+        "study-abroad-os/web/src/lib/review-contract.ts"
+      ],
+      "write": [
+        "study-abroad-os/web/src/lib/admin.ts",
+        "study-abroad-os/web/src/app/api/admin/reviews/route.ts",
+        "study-abroad-os/web/src/app/api/admin/sources/[id]/route.ts",
+        "study-abroad-os/web/test/integration/admin-read.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/A01.md"
+      ],
+      "steps": [
+        "reuse session กับ admin_user เดิมเป็น server guard; ไม่มี role grant endpoint",
+        "อ่านคิวแบบจำกัดจำนวนพร้อม filter pending/error และรายละเอียด before/after",
+        "แสดง snapshot text/source link; ส่งไฟล์ raw เป็น attachment ไม่ render HTML ต้นทางเป็น active markup",
+        "ทดสอบ anonymous=401/member=403/admin=200 และ missing item=404"
+      ],
+      "criteria": [
+        "non-admin อ่านคิว/raw snapshot ไม่ได้",
+        "ไม่มี PII/secret ใน list result",
+        "pagination มี limit และ sort คงที่",
+        "reuse existing auth ไม่มีระบบสมาชิกชุดใหม่"
+      ],
+      "risk": "snapshot HTML อาจ execute ใน origin; render escaped text หรือ attachment",
+      "checks": [
+        "npm test",
+        "npm run test:integration",
+        "npm run lint"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "D02",
+        "S02",
+        "S04",
+        "E01",
+        "E02",
+        "E03",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/A01.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/A01.md"
+    },
+    {
+      "id": "A02",
+      "title": "ทำ API เตรียม draft จากหลักฐานที่ตรวจแล้ว",
+      "type": "coding",
+      "deps": [
+        "A01",
+        "D02"
+      ],
+      "read": [
+        "study-abroad-os/web/src/lib/admin.ts",
+        "study-abroad-os/web/src/lib/review-contract.ts",
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/catalog-diff.md"
+      ],
+      "write": [
+        "study-abroad-os/web/src/app/api/admin/reviews/route.ts",
+        "study-abroad-os/web/src/app/api/admin/reviews/[id]/route.ts",
+        "study-abroad-os/web/test/integration/admin-draft.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/A02.md"
+      ],
+      "steps": [
+        "เพิ่ม create/update draft โดยเก็บ base revision ก่อนแก้ และ reference evidence",
+        "รองรับ draft จาก source change และ manual correction ตาม manifest D02",
+        "ตรวจ programSchema และ critical field evidence server-side; disallow mutation ของ approved item",
+        "ตอบ 400 malformed,403 permission,409 stale draft; ไม่เขียน program จนอนุมัติ"
+      ],
+      "criteria": [
+        "draft ไม่ปรากฏใน public workspace",
+        "ข้อมูลที่ไม่มีหลักฐานไม่ถูกทำ verified",
+        "แก้ draft พร้อมกันตรวจ version conflict",
+        "draft จากข้อมูลชุดใหม่ใช้ ID เดิมและเห็น before-after ครบ"
+      ],
+      "risk": "draft เผยแพร่ก่อนตรวจรับ; แยก write store และ status gate",
+      "checks": [
+        "npm test",
+        "npm run test:integration",
+        "npm run lint"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "S02",
+        "S04",
+        "E01",
+        "E02",
+        "E03",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/A02.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/A02.md"
+    },
+    {
+      "id": "A03",
+      "title": "ทำ atomic publish และปิดช่อง bypass ของ admin เดิม",
+      "type": "coding",
+      "deps": [
+        "A02",
+        "B03"
+      ],
+      "read": [
+        "study-abroad-os/web/src/app/api/workspace/route.ts",
+        "study-abroad-os/web/db/schema.sql",
+        "study-abroad-os/web/src/lib/review-contract.ts",
+        "study-abroad-os/web/src/lib/admin.ts"
+      ],
+      "write": [
+        "study-abroad-os/web/src/app/api/admin/reviews/[id]/publish/route.ts",
+        "study-abroad-os/web/src/app/api/workspace/route.ts",
+        "study-abroad-os/web/test/integration/admin-publish.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/A03.md"
+      ],
+      "steps": [
+        "publish ใน transaction: lock item/program, ตรวจ expected base revision, validate evidence, เขียน program_revision และ program แล้ว mark approved",
+        "ห้ามเผยแพร่ item เดิมซ้ำ; กรณี conflict ตอบ 409 พร้อมให้ re-review",
+        "แก้ action program เดิมให้สร้าง draft หรือปฏิเสธการ publish ตรงตาม contract เพื่อไม่มี bypass",
+        "ทดสอบ actor audit และ rollback เมื่อ revision write ล้มเหลว"
+      ],
+      "criteria": [
+        "unauth/member publish ไม่ได้; admin publish ที่ validated เท่านั้น",
+        "approve ซ้ำไม่เพิ่ม revision ซ้ำ",
+        "concurrent edit ไม่ถูกทับเงียบ",
+        "ถ้า transaction ล้มเหลวทั้ง program/revision/status คงเดิม"
+      ],
+      "risk": "มี publication endpoint ใหม่แต่ action program เดิม bypass; ทดสอบทั้งสองทาง",
+      "checks": [
+        "npm test",
+        "npm run test:integration",
+        "npm run lint"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "parallel": [
+        "S02",
+        "S04",
+        "E01",
+        "E02",
+        "E03",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/A03.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/A03.md"
+    },
+    {
+      "id": "A04",
+      "title": "เพิ่มหน้าคิวผู้ดูแลและก่อนหลังการแก้ข้อมูล",
+      "type": "coding",
+      "deps": [
+        "A03",
+        "S04"
+      ],
+      "read": [
+        "study-abroad-os/web/src/app/page.tsx",
+        "study-abroad-os/web/src/app/globals.css",
+        "study-abroad-os/web/src/app/api/admin/reviews/route.ts",
+        "study-abroad-os/web/src/app/api/admin/reviews/[id]/route.ts",
+        "study-abroad-os/web/src/app/api/admin/reviews/[id]/publish/route.ts"
+      ],
+      "write": [
+        "study-abroad-os/web/src/app/admin/page.tsx",
+        "study-abroad-os/web/src/app/admin/admin.css",
+        "study-abroad-os/web/src/app/page.tsx",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/A04.md"
+      ],
+      "steps": [
+        "เพิ่มหน้า /admin อ่าน API guard; โชว์ pending/error, last run, URL, fetched time และ reviewer time แยก",
+        "detail ให้เปิดแหล่งต้นฉบับ เทียบ before/after และแก้ draft ตาม schema; approved record read-only",
+        "ใส่ approve/reject พร้อมเหตุผลและ conflict/error/loading/empty states; การ fetch สำเร็จไม่ยก verifiedAt",
+        "เพิ่มลิงก์ผู้ดูแลเฉพาะ workspace.admin; ทดสอบ non-admin direct route กับ mobile width"
+      ],
+      "criteria": [
+        "ผู้ดูแลทำ draft -> review -> publish ได้ใน staging",
+        "source changed แต่ไม่ approve ยังไม่เปลี่ยนข้อมูล public",
+        "แสดง diff ต่อ field ไม่ให้ raw HTML execute",
+        "ข้อความ stale/conflict อ่านเข้าใจและ keyboard ใช้งานได้"
+      ],
+      "risk": "UI อนุมัติโดยไม่เห็น round/source; วางข้อมูลเหล่านี้ก่อนปุ่มยืนยัน",
+      "checks": [
+        "npm run lint",
+        "npm run build",
+        "manual staging UI: admin/non-admin/empty/error/conflict, desktop 1280x800 และ mobile 390x844"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "E01",
+        "E02",
+        "E03",
+        "P01",
+        "P02",
+        "Q01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/A04.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/A04.md"
+    },
+    {
+      "id": "E01",
+      "title": "แก้การเทียบปีและอายุผลสอบให้มีขอบเขตชัด",
+      "type": "coding",
+      "deps": [
+        "D02"
+      ],
+      "read": [
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/web/src/lib/domain.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md"
+      ],
+      "write": [
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/web/src/lib/eligibility-dates.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/E01.md"
+      ],
+      "steps": [
+        "แทน intake.includes ด้วย exact normalized year/month/round matching; missing year=unknown",
+        "แยก date-only deadline จาก exact datetime; ใช้ timezone ของหลักฐาน",
+        "validity คิดตาม reference date ที่ประกาศกำหนด; ถ้าไม่ทราบวันอ้างอิงห้าม pass ที่สื่อว่าครอบคลุมวันสมัคร",
+        "เพิ่ม tests วันเปลี่ยนปี leap day ผลสอบอนาคต วันหมดอายุ ปีว่าง และ 2026 เทียบ 2027"
+      ],
+      "criteria": [
+        "ช่องว่างหรือ 202 substring ไม่ผ่านเป็น match",
+        "ผลสอบยังใช้ได้วันนี้แต่หมดก่อนวันที่กำหนดเป็น gap/unknown ตามหลักฐาน",
+        "ทุก outcome อธิบายวันที่และ round ที่ใช้",
+        "ไม่เปลี่ยน unknown ของ record เก่าเป็น pass โดยเดา"
+      ],
+      "risk": "เกณฑ์ถูกแต่เทียบวันผิดทำให้ pass ผิด; explicit reference date และ boundary fixtures",
+      "checks": [
+        "npm test",
+        "npm run lint"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "S02",
+        "S03",
+        "S04",
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/E01.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/E01.md"
+    },
+    {
+      "id": "E02",
+      "title": "ผูกภาษาและวุฒิกับกฎที่มีหลักฐาน",
+      "type": "coding",
+      "deps": [
+        "E01"
+      ],
+      "read": [
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/web/src/lib/provenance.ts",
+        "study-abroad-os/web/src/lib/catalog.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md"
+      ],
+      "write": [
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/web/src/lib/eligibility-requirements.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/E02.md"
+      ],
+      "steps": [
+        "อ่าน verified rules ของ D01 และแยก publication-year applicability",
+        "ตรวจ HSK ระดับ/คะแนน IELTS รวม/รายทักษะกับกรณียกเว้น; ระดับ HSK สูงกว่าไม่เทียบคะแนนต่างระดับเอง",
+        "ตรวจ qualification เฉพาะ rule ที่ยืนยัน; other/foundation/unknown ไม่ auto-pass และไม่แปลง GPA scale เอง",
+        "แยก unfilled, insufficient score, unknown university criterion พร้อม field evidence"
+      ],
+      "criteria": [
+        "ครบ fixtures absent/below/equal/above threshold และ exception unknown",
+        "rule ปีเก่าไม่ให้ pass สำหรับปีใหม่",
+        "qualifications รองรับ evidence ที่มี; กรณีไม่มี rule ส่ง needs-review",
+        "overall preliminary pass ได้เฉพาะ required criteria ที่รู้ครบ; ไม่รับรอง admission"
+      ],
+      "risk": "วุฒิและข้อยกเว้นไม่ใช่แค่ตัวเลข; อย่า encode กฎที่ไม่มีหลักฐาน",
+      "checks": [
+        "npm test",
+        "npm run lint"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "S02",
+        "S03",
+        "S04",
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/E02.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/E02.md"
+    },
+    {
+      "id": "E03",
+      "title": "เพิ่มรายละเอียด CSCA ตามกฎโปรแกรม",
+      "type": "coding",
+      "deps": [
+        "E02"
+      ],
+      "read": [
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/web/src/lib/catalog.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md"
+      ],
+      "write": [
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/web/src/lib/eligibility-csca.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/E03.md"
+      ],
+      "steps": [
+        "เพิ่ม optional CSCA subjects/language/examDate/score fields ใน profile แบบรับ legacy csca=taken ได้",
+        "ประเมินกฎ required กับ scholarship แยก; ไม่ hardcode score minimum ที่ไม่ประกาศ",
+        "profile taken แต่ไม่มีรายวิชาส่ง unknown; ขาดวิชาที่ประกาศ required ส่ง gap; แยก unknown กับ exempt",
+        "ทดสอบ parse legacy profiles และ programs ไม่มี CSCA rule"
+      ],
+      "criteria": [
+        "csca=taken เดิมไม่ auto-pass",
+        "ทุนต้องใช้ CSCA ไม่ทำให้ admission ทุนส่วนตัวถูก fail โดยไม่เกี่ยวข้อง",
+        "rules และ observed score มี source/date/applicability",
+        "ไม่มีบังคับกรอกข้อมูลใหม่ทั้งหมดเพื่อเปิดโปรไฟล์เก่า"
+      ],
+      "risk": "ให้ผลผิดเพราะคำว่า taken ไม่บอกวิชา; แสดง missing evidence",
+      "checks": [
+        "npm test",
+        "npm run lint"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "S02",
+        "S03",
+        "S04",
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/E03.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/E03.md"
+    },
+    {
+      "id": "E04",
+      "title": "แสดงผล eligibility และ freshness ที่ตรงกับหลักฐาน",
+      "type": "coding",
+      "deps": [
+        "E03",
+        "A04"
+      ],
+      "read": [
+        "study-abroad-os/web/src/app/page.tsx",
+        "study-abroad-os/web/src/app/globals.css",
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/web/src/app/api/workspace/route.ts"
+      ],
+      "write": [
+        "study-abroad-os/web/src/app/page.tsx",
+        "study-abroad-os/web/src/app/globals.css",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/E04.md"
+      ],
+      "steps": [
+        "เพิ่ม optional CSCA inputs ตาม E03 และคง form fields เดิม",
+        "แสดง unknown/gap/preliminary checks พร้อมเหตุผลและ source ต่อ field; ตรวจรุ่นข้อมูลและ round ที่ใช้",
+        "แยก fetchedAt กับ verifiedAt เท่าที่ API มี; ค่าไม่มีห้ามแสดงเป็นวันนี้",
+        "แก้ label ปิดรอบ 2026 ที่ hardcode ให้ derive จาก record และแสดง service error อย่างชัดเจนเมื่อ catalog fallback"
+      ],
+      "criteria": [
+        "ผู้ใช้ระบุได้ว่าติดเงื่อนไขหรือยังไม่มีข้อมูล",
+        "ปีไม่ตรงแสดงคำเตือนก่อนคะแนน pass",
+        "ข้อมูล partial ไม่ถูกติดป้ายตรวจครบเพราะ HTTP สำเร็จ",
+        "UI mobile ไม่ล้นและ input optional ไม่ทำ profile เก่าหาย"
+      ],
+      "risk": "ป้ายผ่านหรือสดเกินจริงทำให้ตัดสินใจผิด; เทียบ UI กับ engine fixtures",
+      "checks": [
+        "npm run lint",
+        "npm run build",
+        "manual local UI ด้วย fixtures unknown/gap/legacy/year mismatch ที่ไม่ใช้ข้อมูลนักเรียนจริง"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "P01",
+        "P02",
+        "Q01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/E04.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/E04.md"
+    },
+    {
+      "id": "P01",
+      "title": "แก้ปีเป้าหมายและการอัปเดตสถานะใบสมัคร",
+      "type": "coding",
+      "deps": [
+        "A03",
+        "E03"
+      ],
+      "read": [
+        "study-abroad-os/web/src/app/api/workspace/route.ts",
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/web/db/schema.sql"
+      ],
+      "write": [
+        "study-abroad-os/web/src/app/api/workspace/route.ts",
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/web/test/integration/application-state.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/P01.md"
+      ],
+      "steps": [
+        "start รับ targetIntake ที่ validate หรือใช้ profile ของ session ตาม contract ไม่ hardcode 2027",
+        "คงหนึ่ง application ต่อ user/program สำหรับรอบนี้; เมื่อมีอยู่แล้ว return existing ID และไม่ทับ notes/tasks",
+        "เพิ่ม mutation สถานะ preparing/submitted/offer/closed โดย server validate; intake confirmation ไม่แปลว่ามหาวิทยาลัยเปิดรอบนั้น",
+        "แยก invalid JSON=400 กับ backend failure=503 พร้อมทดสอบ ownership user A/B"
+      ],
+      "criteria": [
+        "start ซ้ำไม่สร้างซ้ำหรือเปลี่ยนปีใบสมัครเก่า",
+        "user อื่นแก้ status/intake ไม่ได้",
+        "ข้อมูล targetIntake ว่าง/ไม่ถูกแบบตอบ 400",
+        "schema และ API ไม่เพิ่ม multi-intake uniqueness โดยไม่มี requirement"
+      ],
+      "risk": "เปลี่ยนปีใบสมัครเดิมทำให้ checklist สับสน; return existing และ require explicit update",
+      "checks": [
+        "npm test",
+        "npm run test:integration",
+        "npm run lint"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "S02",
+        "S04",
+        "A04",
+        "E04",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/P01.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/P01.md"
+    },
+    {
+      "id": "P02",
+      "title": "ป้องกันการบันทึกทับกันของแผนสมัคร",
+      "type": "coding",
+      "deps": [
+        "P01"
+      ],
+      "read": [
+        "study-abroad-os/web/src/app/api/workspace/route.ts",
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/web/db/schema.sql"
+      ],
+      "write": [
+        "study-abroad-os/web/src/app/api/workspace/route.ts",
+        "study-abroad-os/web/src/lib/domain.ts",
+        "study-abroad-os/web/db/schema.sql",
+        "study-abroad-os/web/test/integration/application-concurrency.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/P02.md"
+      ],
+      "steps": [
+        "เพิ่ม application version แบบ additive พร้อม default ให้ row เก่า",
+        "ให้ application update ใช้ expectedVersion และตอบ 409 เมื่อ stale; response คืน version ใหม่",
+        "ใช้ targeted updates หรือ merge contract ที่กำหนด ไม่ปล่อย whole-object last write wins",
+        "ทดสอบสองแท็บแก้ notes/tasks/status และ mixed old-client request"
+      ],
+      "criteria": [
+        "สอง update version เดียวมีได้หนึ่ง success อีกหนึ่ง conflict",
+        "server ไม่เปลี่ยน notes เมื่อ update checkbox เท่านั้น",
+        "legacy GET คืน version ที่ใช้ได้; legacy mutation ที่ไม่มี version ต้องมี error อธิบายชัด",
+        "ไม่มีข้อมูลเดิมหายเมื่อ migration ซ้ำ"
+      ],
+      "risk": "request ช้ากว่าอาจทับ note ใหม่; optimistic version gate และ UI recovery ใน P03",
+      "checks": [
+        "npm test",
+        "npm run test:integration",
+        "npm run lint"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "S02",
+        "S04",
+        "A04",
+        "E04",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/P02.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/P02.md"
+    },
+    {
+      "id": "P03",
+      "title": "เพิ่มสถานะใบสมัครและบันทึก notes อย่างทนต่อความผิดพลาด",
+      "type": "coding",
+      "deps": [
+        "P02",
+        "E04"
+      ],
+      "read": [
+        "study-abroad-os/web/src/app/page.tsx",
+        "study-abroad-os/web/src/app/globals.css",
+        "study-abroad-os/web/src/app/api/workspace/route.ts",
+        "study-abroad-os/web/src/lib/domain.ts"
+      ],
+      "write": [
+        "study-abroad-os/web/src/app/page.tsx",
+        "study-abroad-os/web/src/app/globals.css",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/P03.md"
+      ],
+      "steps": [
+        "เพิ่มตัวเลือก intake ตอนเริ่มและ status selector; ส่ง expectedVersion ทุก mutation",
+        "เก็บ notes draft แยกจาก workspace reload พร้อม save state/error/retry; ถ้า conflict รักษาข้อความ draft",
+        "แยก due ที่ผู้ใช้ตั้งเองจาก official deadline; ไม่ใช้ทุน deadline เป็น admission deadline",
+        "ทดสอบ notes + checkbox เร็ว ๆ, slow network, reload หลังบันทึก และเปลี่ยนหน้าเมื่อมี draft"
+      ],
+      "criteria": [
+        "note ไม่หายเมื่อ request อื่นเสร็จหรือบันทึก fail",
+        "status/intake/progress/date แสดงหลัง reload ตรง server",
+        "conflict เห็นชัดและมีทางโหลดค่าล่าสุดโดยไม่ทิ้ง draft เงียบ ๆ",
+        "mobile keyboard ใช้งาน date/status/note ได้"
+      ],
+      "risk": "onBlur กับ reload เดิมมีความเสี่ยงต่อ draft; จำลองลำดับคำขอและการสลับหน้า",
+      "checks": [
+        "npm run lint",
+        "npm run build",
+        "manual staging cases notes+checkbox+slow/error/conflict; เก็บผลในรายงานงาน"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "Q01",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/P03.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/P03.md"
+    },
+    {
+      "id": "Q01",
+      "title": "ตรวจสิทธิ์และ flow ข้อมูลร่วมกันใน integration suite",
+      "type": "testing",
+      "deps": [
+        "S04",
+        "A03",
+        "E03",
+        "P02"
+      ],
+      "read": [
+        "study-abroad-os/web/test/README.md",
+        "study-abroad-os/web/src/app/api/workspace/route.ts",
+        "study-abroad-os/web/src/app/api/admin/reviews/[id]/publish/route.ts",
+        "study-abroad-os/web/src/app/api/cron/sources/route.ts"
+      ],
+      "write": [
+        "study-abroad-os/web/test/integration/release-flow.test.ts",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/Q01.md"
+      ],
+      "steps": [
+        "ใช้ DB ทิ้งได้ fixture users A/B/admin และ token เทียม; แยก session requests ให้ชัด",
+        "ทดสอบ source changed -> draft -> review -> publish -> workspace -> eligibility และ application persistence",
+        "negative matrix: anonymous/member/admin, malformed body, bad origin, wrong owner, stale versions, rejected review",
+        "inject failure ระหว่าง transaction และ replay request แล้วตรวจ row counts/revisions"
+      ],
+      "criteria": [
+        "ไม่มี cross-user read/write หรือ non-admin publish",
+        "publishing failure ไม่เปลี่ยน published facts ครึ่งทาง",
+        "cron error ไม่เปลี่ยน catalog",
+        "ชุดทดสอบรันซ้ำได้และ cleanup เฉพาะ test namespace"
+      ],
+      "risk": "unit tests เดิมไม่พิสูจน์ DB ownership/atomicity; ใช้ real disposable PostgreSQL",
+      "checks": [
+        "npm test",
+        "npm run test:integration",
+        "npm run lint"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "parallel": [
+        "A04",
+        "E04",
+        "P03",
+        "Q03"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/Q01.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/Q01.md"
+    },
+    {
+      "id": "Q02",
+      "title": "ทดสอบเส้นทางนักเรียนและผู้ดูแลบน browser",
+      "type": "testing",
+      "deps": [
+        "Q01",
+        "A04",
+        "E04",
+        "P03"
+      ],
+      "read": [
+        "study-abroad-os/web/src/app/page.tsx",
+        "study-abroad-os/web/src/app/admin/page.tsx",
+        "study-abroad-os/web/test/README.md",
+        "study-abroad-os/web/package.json"
+      ],
+      "write": [
+        "study-abroad-os/web/package.json",
+        "study-abroad-os/web/package-lock.json",
+        "study-abroad-os/web/playwright.config.ts",
+        "study-abroad-os/web/test/e2e/student.spec.ts",
+        "study-abroad-os/web/test/e2e/admin.spec.ts",
+        "study-abroad-os/web/test/README.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/Q02.md"
+      ],
+      "steps": [
+        "เพิ่ม browser test runner เฉพาะ dev dependencies และ test:e2e; local/staging fixture server เท่านั้น",
+        "นักเรียน: login -> profile -> search -> details -> eligibility -> save -> plan -> task/status/note -> reload",
+        "admin: source queue -> draft -> source link -> approve -> student sees change; non-admin direct navigation forbidden",
+        "ตรวจ 1280x800 และ 390x844 screenshots, visible overflow, dialog focus/Escape, console errors และ failure/conflict views"
+      ],
+      "criteria": [
+        "flow สำคัญผ่านสอง viewport โดยไม่ใช้ production accounts",
+        "reload ยืนยัน persistence ด้วย assertion ไม่ใช้ screenshot อย่างเดียว",
+        "test fixtures มี unknown/closed/changed/error cases",
+        "ผลมี commit/env/browser/version; artifact ไม่มี credentials"
+      ],
+      "risk": "UI ผ่านแต่ persistence fail; assert API-backed state หลัง reload",
+      "checks": [
+        "npm test",
+        "npm run test:integration",
+        "npm run lint",
+        "npm run build",
+        "npm run test:e2e"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "parallel": [
+        "Q03"
+      ],
+      "status": "PLANNED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/Q02.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/Q02.md"
+    },
+    {
+      "id": "Q03",
+      "title": "จัดสคริปต์ usability test สำหรับนักเรียนไทย",
+      "type": "planning",
+      "deps": [
+        "B01"
+      ],
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/CURRENT-STATE.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/contracts/release-contract.md",
+        "study-abroad-os/web/src/app/page.tsx"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/usability/protocol.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/usability/scorecard.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/Q03.md"
+      ],
+      "steps": [
+        "ออกแบบ 7 งาน search/fund/profile/eligibility/save/plan/source link ด้วยข้อมูลสังเคราะห์",
+        "ให้ผู้ใช้แยก unknown กับไม่ผ่าน และ deadline ทุนกับสมัครเรียนได้โดยไม่สอนก่อน",
+        "กำหนด 5 ผู้ทดลอง ผู้ใช้เป้าหมายชาวไทย พร้อมวิธีเชิญที่ให้เจ้าของโครงการดำเนินการเอง",
+        "กำหนดเกณฑ์เสนอ: อย่างน้อย 4/5 ทำ core flow จบโดยไม่มีคนกดแทน; ไม่มีความเข้าใจผิด critical ที่ยังแก้ไม่ได้"
+      ],
+      "criteria": [
+        "มี task script, observer prompts, success/failure scoring และ bug template",
+        "บันทึก consent และ anonymous participant IDs; ไม่เก็บ passport/คะแนนจริง",
+        "มีวิธีแยก bug/content issue/new feature",
+        "ไม่มีการอ้างว่าทดสอบกับคนแล้วในงานวางแผน"
+      ],
+      "risk": "การชี้นำทำให้คะแนนสูงเกินจริง; สังเกตงานก่อนอธิบาย",
+      "checks": [
+        "git diff --check",
+        "dry-run script กับ persona จำลองหนึ่งรอบ โดยติดป้ายว่า simulation ไม่ใช่ผลผู้ใช้จริง"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [
+        "B02",
+        "B03",
+        "R01A",
+        "R01B",
+        "R02A",
+        "R02B",
+        "R03A",
+        "R03B",
+        "R04A",
+        "R04B",
+        "R05A",
+        "R05B",
+        "R06A",
+        "R06B",
+        "R07A",
+        "R07B",
+        "R08A",
+        "R08B",
+        "R09A",
+        "R09B",
+        "R10A",
+        "R10B",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "D01",
+        "S01",
+        "D02",
+        "S02",
+        "S03",
+        "S04",
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "P01",
+        "P02",
+        "P03",
+        "Q01",
+        "Q02"
+      ],
+      "status": "ACCEPTED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/Q03.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/Q03.md"
+    },
+    {
+      "id": "Q04",
+      "title": "ดำเนิน usability test กับผู้ทดลองจริงห้าคน",
+      "type": "usability",
+      "deps": [
+        "Q02",
+        "Q03"
+      ],
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/usability/protocol.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/usability/scorecard.md"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/usability/results.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/usability/issues.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/Q04.md"
+      ],
+      "steps": [
+        "รอเจ้าของโครงการจัดผู้ทดลองและยืนยัน staging candidate; ไม่ส่งอีเมลเชิญหรือข้อความเอง",
+        "ให้ผู้ทดลองทำตาม protocol โดยผู้สังเกตจด anonymized ID/งาน/ผล/จุดติด",
+        "สรุป issue แบบ reproducible steps, expected/actual, severity, route, screenshot ที่ไม่มีข้อมูลส่วนตัว",
+        "ส่ง verdict ผ่าน/ไม่ผ่าน/ยังไม่ครบ; ถ้าพบ blocker ให้ coordinator เปิดใบงานแก้หนึ่งปัญหาต่อ Agent แล้วทดสอบซ้ำก่อน Q05"
+      ],
+      "criteria": [
+        "มีผลจริง 5 คนและหลักฐานแต่ละงาน ไม่เอา simulation มานับ",
+        "อย่างน้อย 4/5 ทำ flow จบ และไม่มี critical misunderstanding ที่ค้างเพื่อให้ผ่าน",
+        "หากผู้ทดลองยังไม่มีให้ BLOCKED พร้อมจำนวนที่ขาด",
+        "feature requests แยก backlog ไม่ขยาย scope อัตโนมัติ"
+      ],
+      "risk": "ต้องอาศัยคนจริง; ห้ามปลอมผลเพื่อปิดงาน",
+      "checks": [
+        "git diff --check",
+        "manual: cross-check 5 anonymous scorecards กับ aggregate และ issue verdict"
+      ],
+      "priority": "P1",
+      "size": "กลาง",
+      "parallel": [],
+      "status": "BLOCKED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/Q04.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/Q04.md"
+    },
+    {
+      "id": "Q05",
+      "title": "ตรวจรับ candidate แบบอิสระ",
+      "type": "review",
+      "deps": [
+        "Q04"
+      ],
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V01.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V02.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V03.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V04.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V05.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/usability/results.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/usability/issues.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/Q01.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/Q02.md"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/release-review.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/Q05.md"
+      ],
+      "steps": [
+        "reviewer ตรวจ diff ของ candidate commit เทียบ baseline และ trace ทุก changed critical value ไป evidence",
+        "ตรวจ no-regression ของ auth/search/shortlist/plan และผล integration/e2e ล่าสุดที่ตรง candidate",
+        "ตรวจ issue จาก usability ทุก blocker มี bounded fix task/หลักฐาน retest; ห้ามรวมแก้ทุกปัญหาในใบงาน review นี้",
+        "ส่ง go/no-go พร้อม residual unknown รายมหาวิทยาลัยและ rollback conditions"
+      ],
+      "criteria": [
+        "ไม่มี P0/P1 correctness/auth/data-loss blocker ค้าง",
+        "all 10 programs มี review verdict; unresolved fields แสดง unknown ได้อย่างตรงจริง",
+        "ผล tests และ usability เป็นของ candidate ที่จะปล่อย",
+        "รายการ P2 เหลือมี owner/next action ไม่ปิดเงียบ"
+      ],
+      "risk": "ผล tests เก่าบนคนละ commit ทำให้ตัดสินปล่อยผิด; pin candidate SHA",
+      "checks": [
+        "git diff --check",
+        "ตรวจ SHA ของรายงาน test, research import และ release candidate ให้ตรงกัน"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "parallel": [],
+      "status": "BLOCKED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/Q05.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/Q05.md"
+    },
+    {
+      "id": "L01",
+      "title": "เตรียม runbook และ rehearsal ก่อน deploy",
+      "type": "deployment-preparation",
+      "deps": [
+        "Q05",
+        "B03"
+      ],
+      "read": [
+        "study-abroad-os/web/package.json",
+        "study-abroad-os/web/scripts/migrate.ts",
+        "study-abroad-os/web/db/schema.sql",
+        "study-abroad-os/web/vercel.json",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/release-review.md"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/release/RUNBOOK.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/release/rehearsal.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/L01.md"
+      ],
+      "steps": [
+        "release owner ตรวจ environment names เท่านั้น: staging แยก DB จาก production; ไม่มี secret ในเอกสารหรือ prompt",
+        "rehearse additive migrations/seed บน disposable DB ที่มี legacy fixtures; ทำสองครั้งและตรวจ row/history counts",
+        "บันทึก backup/restore verification และ last-good deploy ID ผ่าน owner ที่มีสิทธิ์; migration ต้องเสร็จก่อน deploy เพราะ B03",
+        "ระบุขั้นตอน staging publish/review, production migration/deploy, cron history check, smoke และ rollback trigger"
+      ],
+      "criteria": [
+        "runbook มีคำสั่งที่รันได้จริงจาก candidate พร้อม expected outcome และ halt points",
+        "rollback frontend ไม่สมมติว่า rollback DB อัตโนมัติ; ไม่ลบ schema ใหม่",
+        "ตรวจ restore ได้จริงใน test environment; ถ้าขาดสิทธิ์ production ระบุยังไม่ตรวจ ไม่ให้ worker ขอ secret",
+        "go-live ห้ามผ่านหาก backup/owner/staging isolation ยังไม่ยืนยัน"
+      ],
+      "risk": "deploy สำเร็จแต่ schema ไม่พร้อมหรือกู้ข้อมูลไม่ได้; rehearsed additive rollout",
+      "checks": [
+        "npm test",
+        "npm run test:integration",
+        "npm run lint",
+        "npm run build",
+        "npm run test:e2e",
+        "runbook rehearsal บน isolated test DB โดย release owner"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "parallel": [],
+      "status": "BLOCKED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/L01.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/L01.md"
+    },
+    {
+      "id": "L02",
+      "title": "ปล่อย candidate และตรวจข้อมูลจริงโดย release owner",
+      "type": "deployment",
+      "deps": [
+        "L01"
+      ],
+      "read": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/release/RUNBOOK.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/release/rehearsal.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/release-review.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/catalog-diff.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V01.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V02.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V03.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V04.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reviews/V05.md"
+      ],
+      "write": [
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/release/result.md",
+        "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/L02.md"
+      ],
+      "steps": [
+        "ให้ผู้รับผิดชอบ release ที่ได้รับมอบหมายทำ production actions ผ่าน session ที่มีสิทธิ์; Agent เล็กได้เฉพาะผลที่ redact แล้ว",
+        "ตรวจ backup/migration/candidate SHA แล้ว deploy ตาม runbook; ไม่นับการจัดทำแผนนี้เป็นคำสั่ง deploy",
+        "สร้าง/review/publish draft จาก D02 manifest ผ่าน admin ทีละรายการตาม verdict; seed จะไม่ update DB เดิม",
+        "ตรวจ HTTP/anonymous API/catalog10/session/shortlist/plan ด้วย controlled test account; ตรวจ actual cron run history ไม่อนุมานจาก vercel.json",
+        "บันทึก release result และเงื่อนไข rollback; ถ้าไม่มีสิทธิ์หรือเกิด blocker ให้หยุดเฉพาะ release"
+      ],
+      "criteria": [
+        "production เสิร์ฟ candidate SHA และข้อมูลที่ผ่าน approval",
+        "มี actual run evidence ของ source checker รวมเวลา/error count; schedule config อย่างเดียวไม่พอ",
+        "public critical fields ตรง approval manifest และ unknown ไม่ถูกซ่อน",
+        "ไม่มี secret/account test password ใน result; ไม่มีงานทดสอบที่แอบสมัครมหาวิทยาลัยจริง"
+      ],
+      "risk": "งานนี้ใช้ production access จึงมอบ release owner เท่านั้น ไม่ dispatch ให้ worker โมเดลเล็ก",
+      "checks": [
+        "อ่านและปฏิบัติตาม RUNBOOK ที่ตรวจใน L01 เท่านั้น",
+        "GET / และ /api/workspace แบบไม่ส่ง credential ใน log; manual controlled-session smoke"
+      ],
+      "priority": "P0",
+      "size": "กลาง",
+      "parallel": [],
+      "status": "BLOCKED",
+      "taskFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/tasks/L02.md",
+      "reportFile": "study-abroad-os/docs/exec-plans/active/china-10-agent-plan/reports/L02.md"
+    }
+  ]
+}

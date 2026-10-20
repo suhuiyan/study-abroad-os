@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "snapshotDate": "2026-09-27",
+  "purpose": "Pending pilot candidates, not verified international admissions",
+  "database": "discovery/data/discovery.sqlite3",
+  "region": "甘肃省",
+  "expectedLevel": "本科",
+  "revalidateBeforeDispatch": true,
+  "candidates": [
+    {"moeCode": "4162010735", "nameZh": "甘肃中医药大学", "officialHomepage": null},
+    {"moeCode": "4162010736", "nameZh": "西北师范大学", "officialHomepage": null},
+    {"moeCode": "4162010738", "nameZh": "陇东学院", "officialHomepage": null},
+    {"moeCode": "4162010742", "nameZh": "西北民族大学", "officialHomepage": null},
+    {"moeCode": "4162011406", "nameZh": "甘肃政法大学", "officialHomepage": null},
+    {"moeCode": "4162011561", "nameZh": "甘肃民族师范学院", "officialHomepage": null},
+    {"moeCode": "4162011805", "nameZh": "甘肃医学院", "officialHomepage": null},
+    {"moeCode": "4162011806", "nameZh": "陇南师范学院", "officialHomepage": null},
+    {"moeCode": "4162012539", "nameZh": "酒泉职业技术大学", "officialHomepage": null},
+    {"moeCode": "4162012834", "nameZh": "甘肃警察学院", "officialHomepage": null}
+  ],
+  "reserve": {"moeCode": "4162012835", "nameZh": "甘肃林业职业技术大学", "officialHomepage": null}
+}

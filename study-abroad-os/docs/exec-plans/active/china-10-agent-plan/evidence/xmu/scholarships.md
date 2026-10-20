@@ -1,0 +1,87 @@
+# R05B Scholarship Evidence: Xiamen University
+
+**Record:** `xmu-chinese-humanities` (`universityId=xmu`)
+**Research retrieved:** 2026-09-23 14:06 Asia/Shanghai (06:06 UTC).
+**Evidence contract:** `contracts/release-contract.md` v1.0 (2026-09-23); checklist: `DATA-CONTRACT.md` proposed-v1. This is a research proposal, not reviewer approval. “Confirmed” below means the cited official source supports the stated cycle/scope; do not set production `verifiedAt` or `reviewerId` from this report.
+
+## Scope and applicability
+
+The catalog has one scholarship entry for this record: **Xiamen University New International Students Scholarship**. XMU’s 2026 notice expressly includes bachelor’s programs and links its Chinese-medium international undergraduate program directory; the 2026 undergraduate guide says selected newly admitted undergraduate students may receive tuition waivers. This supports applicability to the record’s Chinese-medium humanities/business route at the university-wide program-category level. It does not establish a separate quota for this route or guarantee an award. A specific major must still be selected because tuition and admission requirements vary.
+
+Thai nationality is not named specifically in the scholarship notice. The scholarship requires applicants to meet the relevant program’s admission rules. The official 2026 undergraduate guide defines eligible international applicants as non-Chinese citizens with a valid regular passport (with extra citizenship review for certain Chinese-origin cases). Therefore Thai nationals appear within the broad applicant group if XMU recognizes them as non-Chinese international applicants and they meet admission and scholarship criteria; this is an inference from the official general rule, not an explicit Thai-specific guarantee.
+
+## Field ledger: 2026 entry
+
+Evidence references E1–E7 are official XMU or official government/provider pages. All were retrieved 2026-09-23 (Asia/Shanghai). Values are for 2026 only.
+
+| fieldPath | proposed value / original text | status; scope and locator |
+|---|---|---|
+| `scholarship.name` | Xiamen University New International Students Scholarship / 厦门大学国际学生新生奖学金 | confirmed; XMU 2026 scholarship method, [E1], title/introduction; English counterpart [E2]. |
+| `scholarship.provider` | Xiamen University | confirmed; [E1], title and introduction. |
+| `scholarship.cycle` | 2026 undergraduate entry; scholarship application period 2025-12-01 through 2026-04-10 | confirmed; [E1], “申请时间”; [E2], “Application Period”. |
+| `scholarship.degree` | Bachelor’s degree, as well as other degree levels under separate quota rows | confirmed for Bachelor’s; [E1], “招生专业/奖学金名额和内容”; [E2], “Academic Programs/Scholarships Quota and Coverage”. |
+| `scholarship.program` | Applicants to XMU’s Chinese-medium bachelor’s program directory, subject to the selected program’s admission requirements; Chinese Language major is separately directed to OEC for more information | confirmed at category level; exact selection from grouped `xmu-chinese-humanities` is required; [E1], “招生专业”; [E2], “Academic Programs”; [E3], 2026 major directory. |
+| `scholarship.teachingLanguage` | Chinese-medium undergraduate route is within the named eligible directory; no scholarship-specific additional language threshold is stated | confirmed at route-category level; scholarship [E1]/[E2]. Any extra award-only threshold: unknown (`not_found_in_checked_sources`). Admission language rules remain applicable under [E4]. |
+| `scholarship.applicantGroup` | International applicants who meet the relevant program admission criteria; Thai-specific eligibility is not named. Thai applicant applicability is supported only conditionally by the general non-Chinese international applicant rule. | broad group confirmed; Thai-specific rule unknown (`not_found_in_checked_sources`); [E1] “申请人资格”; [E4] “基本资格/国籍认定”. Do not represent as an exclusive Thai award or country quota. |
+| `scholarship.education` | Bachelor applicants: high-school diploma or above; must also meet all admission requirements for the selected program | confirmed; [E1], “申请人资格”; [E4], admission “基本资格”. No minimum GPA/score threshold in scholarship notice. |
+| `scholarship.age` | Chinese notice: undergraduate age **不超过25周岁** (not over 25), measured by September 1 of entry year. English page: “under the age of 25.” | **conflict** at exactly age 25 between official language versions; [E1] section II(2), [E2] section II(2). Keep unresolved for review; no silent normalization. General admission age 18–30 by 2026-09-01 is a separate requirement [E4]. |
+| `scholarship.languageTests` | No separate scholarship-only HSK/IELTS/CSCA threshold found; applicant must meet admission requirements. For 2026 Chinese-medium humanities/social science/economics/management/law/art tracks, admission guide says HSK 5 ≥210 or Chinese-medium high-school certificate; its CSCA requirements are admission requirements. Chinese Language/OEC HSK conditions need its separate notice. | no extra scholarship threshold: unknown (`not_found_in_checked_sources`); admission rules confirmed separately in [E4], “语言水平要求/CSCA”. Route-specific major selection required. |
+| `scholarship.coverage` | Undergraduate Second-class: tuition fee only; no undergraduate monthly stipend is listed. No accommodation or insurance coverage is stated in the 2026 award table. | confirmed for tuition-only/no listed stipend; accommodation and insurance coverage unknown (`not_found_in_checked_sources`); [E1], “奖学金名额和内容”; [E2], “Scholarships Quota and Coverage”. Do not imply costs are covered beyond tuition. |
+| `scholarship.amount` | No fixed cash amount. Value equals tuition actually waived for the student’s selected major, billed in RMB per academic year. 2026 guide rate: Humanities CNY 24,000/year; Economics/Management/Law and listed other categories CNY 26,000/year. | tuition-only coverage confirmed; per-award monetary value depends on major and final approved rate; [E4], “留学费用”. No total award value is asserted because major, later-year rates and renewal are not guaranteed. |
+| `scholarship.duration` | Bachelor award period: 4 or 5 academic years, corresponding to program duration | confirmed; [E1], “奖学金期限”; [E2], “Duration of Scholarships”. Exact period requires major. |
+| `scholarship.renewal` | Annual review; those passing may continue/renew for the next year; those failing may have award suspended or cancelled. | confirmed; [E1], annual-review note; [E2], section IV. Renewal is conditional, not guaranteed. |
+| `scholarship.quota` | Five undergraduate awards (second-class, tuition-only), university-wide in this notice | confirmed for 2026, not route-specific; [E1], quota table; [E2], table V. No humanities/business quota or Thai quota stated. |
+| `scholarship.applicationRoute` | Apply for admission through XMU’s online application system and upload the scholarship form in Chinese or English, signed by the applicant. The award is considered only after admission to XMU; scholarship application has its own form. | confirmed; [E1], “申请程序”; [E2], “Application Procedures”. Do not confuse award selection timing with the admission decision process. |
+| `scholarship.deadline` | 2026-04-10, calendar date in China; XMU undergraduate guide states Beijing Time applies to its online-system degree applications. No exact cutoff hour found. | confirmed; [E1], section VI; [E2], section VI. Scholarship deadline, not the later self-funded admission deadline. |
+| `admission.deadline` | 2026 self-funded admission deadline: 2026-05-10. Scholarship application deadline remains 2026-04-10. The same admission guide lists a separate 2026-02-15 deadline for Chinese Government Scholarship Type B. | confirmed as separate cycle-specific dates; [E4], “申请时间”. Do not store 2026-05-10 as the New International Students Scholarship deadline. For scholarship consideration the complete admission and scholarship application must be submitted within the scholarship period; source says awards are considered only after admission. |
+| `scholarship.selection` | Competitive merit selection among qualified and admitted applicants; reviewers consider academic/professional background, academic results, language, academic ability, research achievements and supervisor opinion; final approval is by university/selection authority. Result expected mid-July. | confirmed; [E1], “遴选程序及结果公布”; [E2], “Selection and Notification”. No award is guaranteed by applying or receiving admission. |
+| `scholarship.combination` | Whether this specific XMU award may be held together with another scholarship is not stated in the 2026 award method checked. | unknown (`not_found_in_checked_sources`); [E1] “其他” and [E2] notice do not specify a combination rule. Do not import restrictions from a different award. Ask XMU for a binding answer if an applicant has another award. |
+| `scholarship.applicationMaterials` | Signed XMU scholarship application form uploaded in Chinese or English; complete admission application and supporting documents remain required. No paper scholarship application needs mailing. | confirmed; [E1], “申请程序”; [E2], “Application Procedures”. Admission checklist is in [E4]. |
+
+### Admission requirements kept separate from scholarship conditions
+
+For 2026 entry only, the undergraduate guide requires non-Chinese citizenship and a valid regular passport; age 18–30 by 2026-09-01 (under-18 applicants submit guardian guarantee); high-school diploma/current graduating student with university eligibility and satisfactory record. For Chinese-medium humanities/social sciences, economics, management, law and arts, it states HSK 5 at least 210 or a certificate that Chinese was the high-school teaching language; Chinese Language/OEC applicants are referred to the college for separate HSK requirements. The guide requires a CSCA report: Professional Chinese and Mathematics for Chinese-medium programs, with the stated Chinese Language/HSK4 exception; no score minimum is stated in the guide. The scholarship adds a separate high-school-or-above credential and age condition (with the source-language conflict above), plus competitive selection after admission. Scholarship eligibility does not waive admission requirements or the financial-support guarantee/document requirements.
+
+## 2027 cycle
+
+**General 2027 XMU New International Students Scholarship: unknown, `unknownReason=not_found_in_checked_sources`.** No official 2027 award method, dates, quota, coverage, age rule, Thai eligibility rule or combination rule was found as of 2026-09-23. Do not carry over 2026 conditions.
+
+Search trail: checked XMU’s English scholarship page (currently titled “Xiamen University New International Students Scholarships for 2026”); Chinese scholarship method (2026 method); XMU English and Chinese admissions notice indexes; Chinese international admissions homepage and 2026 undergraduate guide; official 2026 Chinese-medium undergraduate directory; and official-site searches for `2027 New International Students Scholarship`, `2027年国际学生新生奖学金`, and `2027 Xiamen University undergraduate scholarship`. No general 2027 scholarship result was found. The Chinese notice index does list a 2026–2027 XMU New International Students Scholarship special nomination plan for Malaysian Chinese independent-school principal recommendations. That is a restricted special stream and does **not** establish general 2027 eligibility, availability or terms for Thai applicants or this route [E6]. Absence in checked pages/search is not proof that no later notice exists.
+
+For the **admission cycle**, the checked official 2026 undergraduate guide gives a 2026 self-funded deadline of 2026-05-10 and does not set a 2027 admission deadline. 2027 admission dates and associated entry requirements remain unknown and separate from the scholarship cycle.
+
+## Existing catalog entry and proposed values
+
+Catalog seed record: `web/src/lib/catalog.ts`, `xmu-chinese-humanities`; award name and source URL align with the 2026 XMU scholarship notice. Proposed updates for a later reviewed catalog change:
+
+- Keep the award as `confirmed` for the 2026 Chinese-medium bachelor’s category at XMU; state that selected major must be in the official directory and meet admission rules. Do not claim Thai-specific provision is explicitly stated or that every Thai applicant qualifies.
+- Preserve tuition-only coverage and the five-place undergraduate-wide quota for 2026. No undergraduate stipend, housing or insurance payment should be inferred from postgraduate award rows.
+- Change the catalog age phrasing “under 25” to a review-needed field: Chinese notice says not over 25, English says under 25. Record the source conflict and let the independent reviewer resolve the age-25 boundary.
+- Keep the 2026 scholarship deadline 2026-04-10 distinct from the self-funded admission deadline 2026-05-10 and CSC Type B deadline 2026-02-15.
+- Make the 4/5-year support term and annual review explicit; amount is a major-dependent tuition waiver, not a fixed cash grant or guaranteed four/five-year total.
+- Set general 2027 scholarship/admission fields to unknown pending a new official cycle notice.
+
+## Additional XMU awards seen (not in this catalog record)
+
+XMU’s official 2026 undergraduate guide also lists Fujian Provincial Government Scholarship (undergraduate amount RMB 30,000 per person for one academic year, with annual review and possible reapplication) and says Xiamen Tan Kah Kee Scholarship is suspended. It separately describes Chinese Government Scholarship routes and the International Chinese Language Teachers Scholarship for the Chinese Language (Education) undergraduate program. These are distinct awards with different applicant, program, route and/or deadline rules; they are not included as confirmed awards for this grouped humanities/business record. Their presence means this report does not claim the named XMU scholarship is XMU’s only scholarship. See [E4], scholarship section.
+
+## Sources and locators
+
+| Ref | Official source | Publication date / locator |
+|---|---|---|
+| E1 | [厦门大学2026年“国际学生新生奖学金”申请办法](https://admissions.xmu.edu.cn/cn/Scholarships/smdxjxj.htm) | Notice index publication date 2025-12-27; retrieved 2026-09-23 14:06 Asia/Shanghai. Sections II–VIII: eligibility, program directory, support duration, quota/coverage, application dates/procedure and selection. Chinese source says bachelor age 不超过25周岁. |
+| E2 | [Xiamen University New International Students Scholarships for 2026](https://admissions.xmu.edu.cn/Scholarships/Xiamen_University_Scholarships.htm) | English XMU page; retrieved 2026-09-23 14:06 Asia/Shanghai. Sections II–VIII. Age reads “under the age of 25”; sections IV–VII give 4/5-year duration, annual review, five tuition-only undergraduate awards, 2025-12-01 to 2026-04-10, post-admission selection and online route. |
+| E3 | [2026 XMU Chinese-medium international undergraduate directory](https://admissions.xmu.edu.cn/cn/Majors/CN_BA.htm) | Official directory linked by scholarship method; list of eligible Chinese-medium Bachelor programs and selected majors. Page title indicates 2026. |
+| E4 | [厦门大学2026年国际学生（本科）招生简章](https://admissions.xmu.edu.cn/cn/info/1019/2036.htm) | Published 2025-10-31. Sections I–IV and IX: international applicant definition, age, education/language, deadlines, CSCA, documents/costs and separate awards. |
+| E5 | [Official English Notice index](https://admissions.xmu.edu.cn/Notice/Notice.htm) | Retrieved 2026-09-23; lists “Xiamen University New International Students Scholarships for 2026” (published 2025-12-27); no general 2027 scholarship notice seen. |
+| E6 | [Official Chinese Notice index](https://admissions.xmu.edu.cn/cn/xwzx/notice.htm) | Retrieved 2026-09-23; lists the 2026 scholarship method and a separate 2026–2027 Malaysian Chinese independent-school nomination plan; no general 2027 scholarship method seen. |
+| E7 | [XMU international admissions homepage](https://admissions.xmu.edu.cn/cn/) | Retrieved 2026-09-23; current official notice feed checked for 2027 cycle publication. |
+| E8 | [Application for Xiamen University New International Students Scholarship](https://admissions.xmu.edu.cn/cn/info/1136/1998.htm) | Official scholarship application form linked from E1; form upload/signature instructions stated in E1. |
+
+## Conflicts and unresolved facts
+
+- Official Chinese and English versions conflict for the scholarship age threshold only at exactly 25. Keep `status=conflict`, evidence from both E1 and E2, and request reviewer resolution. Chinese wording is not silently treated as overriding the English scholarship page because the conflict materially affects eligibility.
+- Thai-specific award eligibility and country quota are not stated. General applicability is an inference from the non-Chinese international applicant rule, not an express Thai provision.
+- The 2026 university-wide quota of five is not a quota for this grouped route. Exact selected major, actual annual tuition and therefore monetary waiver require major selection.
+- Housing, insurance, living allowance for undergraduates, concurrent-award rules, award-only language/test thresholds, exact cutoff hour and general 2027 terms were not found in the checked 2026 award notice; retain unknowns.
+- The old catalog says scholarship candidates must be under 25. This matches the English text but not the Chinese “not over 25”; do not publish that as settled.

@@ -1,0 +1,146 @@
+flowchart TD
+  B01["B01: ล็อกข้อกำหนดข้อมูลและขอบเขตรอบส่งมอบ"]
+  B02["B02: เตรียม test harness บนฐานข้อมูลทิ้งได้"]
+  B03["B03: แยก seed ออกจาก build และป้องกันทับข้อมูลที่ตรวจแล้ว"]
+  R01A["R01A: ตรวจการรับสมัคร: Peking University"]
+  R01B["R01B: ตรวจทุน: Peking University"]
+  R02A["R02A: ตรวจการรับสมัคร: Fudan University"]
+  R02B["R02B: ตรวจทุน: Fudan University"]
+  R03A["R03A: ตรวจการรับสมัคร: Shanghai Jiao Tong University"]
+  R03B["R03B: ตรวจทุน: Shanghai Jiao Tong University"]
+  R04A["R04A: ตรวจการรับสมัคร: Zhejiang University"]
+  R04B["R04B: ตรวจทุน: Zhejiang University"]
+  R05A["R05A: ตรวจการรับสมัคร: Xiamen University"]
+  R05B["R05B: ตรวจทุน: Xiamen University"]
+  R06A["R06A: ตรวจการรับสมัคร: Tongji University"]
+  R06B["R06B: ตรวจทุน: Tongji University"]
+  R07A["R07A: ตรวจการรับสมัคร: East China Normal University"]
+  R07B["R07B: ตรวจทุน: East China Normal University"]
+  R08A["R08A: ตรวจการรับสมัคร: Beijing Language and Culture University"]
+  R08B["R08B: ตรวจทุน: Beijing Language and Culture University"]
+  R09A["R09A: ตรวจการรับสมัคร: University of International Business and Economics"]
+  R09B["R09B: ตรวจทุน: University of International Business and Economics"]
+  R10A["R10A: ตรวจการรับสมัคร: Shandong University of Finance and Economics"]
+  R10B["R10B: ตรวจทุน: Shandong University of Finance and Economics"]
+  V01["V01: ตรวจทานหลักฐานคู่ pku + fudan"]
+  V02["V02: ตรวจทานหลักฐานคู่ sjtu + zju"]
+  V03["V03: ตรวจทานหลักฐานคู่ xmu + tongji"]
+  V04["V04: ตรวจทานหลักฐานคู่ ecnu + blcu"]
+  V05["V05: ตรวจทานหลักฐานคู่ uibe + sdufe"]
+  D01["D01: เพิ่ม provenance และรอบสมัครแบบเข้ากับข้อมูลเดิม"]
+  S01["S01: ทำ source ID ให้คงที่และรักษาประวัติ"]
+  D02["D02: รวมข้อมูลที่ผ่าน review เข้า catalog ชุดแรก"]
+  S02["S02: จำกัดการดาวน์โหลดและแยก error ของแต่ละแหล่ง"]
+  S03["S03: เพิ่มตารางคิวตรวจทานและสถานะรัน"]
+  S04["S04: เชื่อมการตรวจรายวันกับคิวแบบไม่เผยแพร่อัตโนมัติ"]
+  A01["A01: ทำ API อ่านคิวและ snapshot สำหรับผู้ดูแล"]
+  A02["A02: ทำ API เตรียม draft จากหลักฐานที่ตรวจแล้ว"]
+  A03["A03: ทำ atomic publish และปิดช่อง bypass ของ admin เดิม"]
+  A04["A04: เพิ่มหน้าคิวผู้ดูแลและก่อนหลังการแก้ข้อมูล"]
+  E01["E01: แก้การเทียบปีและอายุผลสอบให้มีขอบเขตชัด"]
+  E02["E02: ผูกภาษาและวุฒิกับกฎที่มีหลักฐาน"]
+  E03["E03: เพิ่มรายละเอียด CSCA ตามกฎโปรแกรม"]
+  E04["E04: แสดงผล eligibility และ freshness ที่ตรงกับหลักฐาน"]
+  P01["P01: แก้ปีเป้าหมายและการอัปเดตสถานะใบสมัคร"]
+  P02["P02: ป้องกันการบันทึกทับกันของแผนสมัคร"]
+  P03["P03: เพิ่มสถานะใบสมัครและบันทึก notes อย่างทนต่อความผิดพลาด"]
+  Q01["Q01: ตรวจสิทธิ์และ flow ข้อมูลร่วมกันใน integration suite"]
+  Q02["Q02: ทดสอบเส้นทางนักเรียนและผู้ดูแลบน browser"]
+  Q03["Q03: จัดสคริปต์ usability test สำหรับนักเรียนไทย"]
+  Q04["Q04: ดำเนิน usability test กับผู้ทดลองจริงห้าคน"]
+  Q05["Q05: ตรวจรับ candidate แบบอิสระ"]
+  L01["L01: เตรียม runbook และ rehearsal ก่อน deploy"]
+  L02["L02: ปล่อย candidate และตรวจข้อมูลจริงโดย release owner"]
+  B01 --> B02
+  B02 --> B03
+  B01 --> R01A
+  B01 --> R01B
+  B01 --> R02A
+  B01 --> R02B
+  B01 --> R03A
+  B01 --> R03B
+  B01 --> R04A
+  B01 --> R04B
+  B01 --> R05A
+  B01 --> R05B
+  B01 --> R06A
+  B01 --> R06B
+  B01 --> R07A
+  B01 --> R07B
+  B01 --> R08A
+  B01 --> R08B
+  B01 --> R09A
+  B01 --> R09B
+  B01 --> R10A
+  B01 --> R10B
+  R01A --> V01
+  R01B --> V01
+  R02A --> V01
+  R02B --> V01
+  R03A --> V02
+  R03B --> V02
+  R04A --> V02
+  R04B --> V02
+  R05A --> V03
+  R05B --> V03
+  R06A --> V03
+  R06B --> V03
+  R07A --> V04
+  R07B --> V04
+  R08A --> V04
+  R08B --> V04
+  R09A --> V05
+  R09B --> V05
+  R10A --> V05
+  R10B --> V05
+  B01 --> D01
+  B02 --> D01
+  B03 --> S01
+  D01 --> D02
+  S01 --> D02
+  V01 --> D02
+  V02 --> D02
+  V03 --> D02
+  V04 --> D02
+  V05 --> D02
+  S01 --> S02
+  B02 --> S02
+  D01 --> S03
+  S01 --> S03
+  B02 --> S03
+  S02 --> S04
+  S03 --> S04
+  D02 --> S04
+  S03 --> A01
+  A01 --> A02
+  D02 --> A02
+  A02 --> A03
+  B03 --> A03
+  A03 --> A04
+  S04 --> A04
+  D02 --> E01
+  E01 --> E02
+  E02 --> E03
+  E03 --> E04
+  A04 --> E04
+  A03 --> P01
+  E03 --> P01
+  P01 --> P02
+  P02 --> P03
+  E04 --> P03
+  S04 --> Q01
+  A03 --> Q01
+  E03 --> Q01
+  P02 --> Q01
+  Q01 --> Q02
+  A04 --> Q02
+  E04 --> Q02
+  P03 --> Q02
+  B01 --> Q03
+  Q02 --> Q04
+  Q03 --> Q04
+  Q04 --> Q05
+  Q05 --> L01
+  B03 --> L01
+  L01 --> L02
+

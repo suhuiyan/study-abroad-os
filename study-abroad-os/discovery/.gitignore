@@ -17,5 +17,7 @@ __pycache__/
 # The structured results reference them by content_sha256 and capture_path.
 *.html
 *.htm
+# ...except the register UI served by server.py (our own code)
+!index.html
 *.pdf
 *.png
